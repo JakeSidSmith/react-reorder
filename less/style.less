@@ -16,10 +16,16 @@ html, body {
   color: @BaseFontColor;
 }
 
-p {
+p, small {
   float: left;
+  width: 100%;
   padding: 12px;
   margin: 0;
+}
+
+small {
+  padding-top: 0;
+  font-size: @BaseFontSize - 2px;
 }
 
 .app {

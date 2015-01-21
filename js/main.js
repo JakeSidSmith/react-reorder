@@ -43,7 +43,8 @@ window.define(function (require) {
         return (
           <div className='app'>
 
-            <p>Lock horizontal</p>
+            <p><strong>Lock horizontal</strong></p>
+            <small>This example has a hold time of 500 milliseconds before dragging begins, allowing for other events like clicking / tapping to be attached</small>
 
             <Reorderable
             itemKey='name'
@@ -55,23 +56,25 @@ window.define(function (require) {
             listClass='my-list'
             itemClass='list-item'/>
 
-            <p>Lock vertical</p>
+            <p><strong>Lock vertical</strong></p>
+            <small>This example has a hold time of 250 milliseconds</small>
 
             <Reorderable
             itemKey='name'
             lock='vertical'
-            holdTime='500'
+            holdTime='250'
             list={this.state.arr}
             template={ListItem}
             callback={this.callback}
             listClass='my-list-2'
             itemClass='list-item'/>
 
-            <p>No lock (grid)</p>
+            <p><strong>No lock (grid)</strong></p>
+            <small>This example has a hold time of 0 milliseconds</small>
 
             <Reorderable
             itemKey='name'
-            holdTime='500'
+            holdTime='0'
             list={this.state.arr}
             template={ListItem}
             callback={this.callback}
