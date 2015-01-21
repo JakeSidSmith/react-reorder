@@ -9,5 +9,15 @@
 </head>
 <body>
 
+  <div id="loading" class="loading">
+    <p>Loading...</p>
+    <p><small>Please enable javascript</small></p>
+    <script charset="utf-8" type="text/javascript">
+    (function () {
+      document.getElementById('loading').getElementsByTagName('p')[1].setAttribute('style', 'display:none;');
+    })();
+    </script>
+  </div>
+
 </body>
 </html>
