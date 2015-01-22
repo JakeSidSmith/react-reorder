@@ -25,6 +25,9 @@ window.define(function (require) {
       callback: function (list) {
         this.setState({arr: list});
       },
+      itemClicked: function (event, item) {
+        this.setState({clickedItem: item});
+      },
 
       // ----
 
@@ -46,6 +49,8 @@ window.define(function (require) {
             <p><strong>Lock horizontal</strong></p>
             <small>This example has a hold time of 500 milliseconds before dragging begins, allowing for other events like clicking / tapping to be attached</small>
 
+            <p>Clicked item: {this.state.clickedItem ? this.state.clickedItem.name : undefined}</p>
+
             <Reorderable
             itemKey='name'
             lock='horizontal'
@@ -54,7 +59,8 @@ window.define(function (require) {
             template={ListItem}
             callback={this.callback}
             listClass='my-list'
-            itemClass='list-item'/>
+            itemClass='list-item'
+            itemClicked={this.itemClicked}/>
 
             <p><strong>Lock vertical</strong></p>
             <small>This example has a hold time of 250 milliseconds</small>
