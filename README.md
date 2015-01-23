@@ -18,8 +18,6 @@ __[Demo](http://jakesidsmith.github.io/react-reorderable/)__
 
 * React (tested in v0.12.2)
 
-* JSXTransformer
-
 * requirejs / commonjs / browserify (__Optional, but recommended*__)
 
 \* Has only been tested with requirejs & browserify
