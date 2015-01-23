@@ -8,7 +8,7 @@ React Reorderable is a React component that allows the user to drag-and-drop ite
 
 It fully supports touch devices and auto-scrolls when a component is being dragged (check out the demo, link below).
 
-It also allows the user to set a hold time (duration before drag begins) allowing additional events like scrolling and clicking to be applied.
+It also allows the user to set a hold time (duration before drag begins) allowing additional events like clicking / tapping to be applied.
 
 Although this project is very new, it has been thoroughly tested in all modern browsers (see supported browsers).
 
