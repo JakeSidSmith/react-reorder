@@ -5,7 +5,7 @@
 window.define(function (require) {
 
   var React = require('react');
-  var Reorderable = React.createFactory(require('jsx!reorderable'));
+  var Reorderable = React.createFactory(require('reorderable'));
 
   var ListItem = React.createFactory(
     React.createClass({
