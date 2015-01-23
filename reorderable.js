@@ -21,6 +21,15 @@
           event.clientY = event.touches[0].clientY;
         }
       },
+      startDrag: function (dragOffset, draggedStyle) {
+        this.setState({
+          dragOffset: dragOffset,
+          draggedStyle: draggedStyle,
+          originalPosition: draggedStyle,
+          held: true,
+          moved: false
+        });
+      },
       itemDown: function (item, index, event) {
         event.preventDefault();
         this.handleTouchEvents(event);
@@ -28,16 +37,23 @@
         var target = event.currentTarget;
         var rect = target.getBoundingClientRect();
 
+        this.setState({
+          held: false,
+          moved: false
+        });
+
         var dragOffset = {
           top: event.clientY - rect.top,
           left: event.clientX - rect.left
         };
 
-        var dragged = {
-          target: target,
-          item: item,
-          index: index
-        };
+        this.setState({
+          dragged: {
+            target: target,
+            item: item,
+            index: index
+          }
+        });
 
         var draggedStyle = {
           position: 'fixed',
@@ -52,10 +68,10 @@
 
         if (holdTime) {
           this.holdTimeout = setTimeout(function () {
-            self.startDrag(dragged, dragOffset, draggedStyle);
+            self.startDrag(dragOffset, draggedStyle);
           }, holdTime);
         } else {
-          self.startDrag(dragged, dragOffset, draggedStyle);
+          self.startDrag(dragOffset, draggedStyle);
         }
       },
       listDown: function (event) {
@@ -70,7 +86,13 @@
           scrollLeft: self.getDOMNode().scrollLeft
         };
 
-        this.setState({downPos: downPos, pointer: {clientY: downPos.clientY, clientX: downPos.clientX}});
+        this.setState({
+          downPos: downPos,
+          pointer: {
+            clientY: downPos.clientY,
+            clientX: downPos.clientX
+          }
+        });
 
         // Mouse events
         window.addEventListener('mouseup', this.onMouseUp); // Mouse up
@@ -80,26 +102,26 @@
         window.addEventListener('touchend', this.onMouseUp); // Touch up
         window.addEventListener('touchmove', this.onMouseMove); // Touch move
       },
-      startDrag: function (dragged, dragOffset, draggedStyle) {
-        this.setState({
-          dragged: dragged,
-          dragOffset: dragOffset,
-          draggedStyle: draggedStyle,
-          originalPosition: draggedStyle
-        });
-      },
-      onMouseUp: function () {
+      onMouseUp: function (event) {
+        if (typeof this.props.itemClicked === 'function' && !this.state.held && !this.state.moved && this.state.dragged) {
+          this.props.itemClicked(event, this.state.dragged.item, this.state.dragged.index);
+        }
+
         this.setState({
           dragged: undefined,
           draggedStyle: undefined,
           dragOffset: undefined,
           originalPosition: undefined,
-          downPos: undefined
+          downPos: undefined,
+          held: false,
+          moved: false
         });
 
         clearTimeout(this.holdTimeout);
-        clearInterval(this.scrollInterval);
-        this.scrollInterval = undefined;
+        clearInterval(this.scrollIntervalY);
+        this.scrollIntervalY = undefined;
+        clearInterval(this.scrollIntervalX);
+        this.scrollIntervalX = undefined;
 
         // Mouse events
         window.removeEventListener('mouseup', this.onMouseUp); // Mouse up
@@ -108,21 +130,71 @@
         window.removeEventListener('touchend', this.onMouseUp); // Touch up
         window.removeEventListener('touchmove', this.onMouseMove); // Touch move
 
-        if (this.props.callback) {
+        if (typeof this.props.callback === 'function') {
           this.props.callback(this.state.list);
         }
       },
-      dragScroll: function () {
+      getScrollArea: function (value) {
+        return Math.max(Math.min(value / 4, this.constants.SCROLL_AREA), this.constants.SCROLL_AREA / 5);
+      },
+      dragScrollY: function () {
         var element = this.getDOMNode();
         var rect = element.getBoundingClientRect();
+        var scrollArea = this.getScrollArea(rect.height);
 
         var distanceInArea;
-        if (this.state.pointer.clientY < rect.top + this.constants.SCROLL_AREA) {
-          distanceInArea = Math.min((rect.top + this.constants.SCROLL_AREA) - this.state.pointer.clientY, this.constants.SCROLL_AREA * 2);
+        if (this.state.pointer.clientY < rect.top + scrollArea) {
+          distanceInArea = Math.min((rect.top + scrollArea) - this.state.pointer.clientY, scrollArea * 2);
           element.scrollTop -= distanceInArea / this.constants.SCROLL_MULTIPLIER;
-        } else if (this.state.pointer.clientY > rect.bottom - this.constants.SCROLL_AREA) {
-          distanceInArea = Math.min(this.state.pointer.clientY - (rect.bottom - this.constants.SCROLL_AREA), this.constants.SCROLL_AREA * 2);
+        } else if (this.state.pointer.clientY > rect.bottom - scrollArea) {
+          distanceInArea = Math.min(this.state.pointer.clientY - (rect.bottom - scrollArea), scrollArea * 2);
           element.scrollTop += distanceInArea / this.constants.SCROLL_MULTIPLIER;
+        }
+      },
+      dragScrollX: function () {
+        var element = this.getDOMNode();
+        var rect = element.getBoundingClientRect();
+        var scrollArea = this.getScrollArea(rect.width);
+
+        var distanceInArea;
+        if (this.state.pointer.clientX < rect.left + scrollArea) {
+          distanceInArea = Math.min((rect.left + scrollArea) - this.state.pointer.clientX, scrollArea * 2);
+          element.scrollLeft -= distanceInArea / this.constants.SCROLL_MULTIPLIER;
+        } else if (this.state.pointer.clientX > rect.right - scrollArea) {
+          distanceInArea = Math.min(this.state.pointer.clientX - (rect.right - scrollArea), scrollArea * 2);
+          element.scrollLeft += distanceInArea / this.constants.SCROLL_MULTIPLIER;
+        }
+      },
+      handleDragScrollY: function (event) {
+        var rect = this.getDOMNode().getBoundingClientRect();
+
+        if (!this.scrollIntervalY && this.props.lock !== 'vertical') {
+          if (event.clientY < rect.top + this.constants.SCROLL_AREA) {
+            this.scrollIntervalY = setInterval(this.dragScrollY, this.constants.SCROLL_RATE);
+          } else if (event.clientY > rect.bottom - this.constants.SCROLL_AREA) {
+            this.scrollIntervalY = setInterval(this.dragScrollY, this.constants.SCROLL_RATE);
+          }
+        } else {
+          if (event.clientY <= rect.bottom - this.constants.SCROLL_AREA && event.clientY >= rect.top + this.constants.SCROLL_AREA) {
+            clearInterval(this.scrollIntervalY);
+            this.scrollIntervalY = undefined;
+          }
+        }
+      },
+      handleDragScrollX: function (event) {
+        var rect = this.getDOMNode().getBoundingClientRect();
+
+        if (!this.scrollIntervalX && this.props.lock !== 'horizontal') {
+          if (event.clientX < rect.left + this.constants.SCROLL_AREA) {
+            this.scrollIntervalX = setInterval(this.dragScrollX, this.constants.SCROLL_RATE);
+          } else if (event.clientX > rect.right - this.constants.SCROLL_AREA) {
+            this.scrollIntervalX = setInterval(this.dragScrollX, this.constants.SCROLL_RATE);
+          }
+        } else {
+          if (event.clientX <= rect.right - this.constants.SCROLL_AREA && event.clientX >= rect.left + this.constants.SCROLL_AREA) {
+            clearInterval(this.scrollIntervalX);
+            this.scrollIntervalX = undefined;
+          }
         }
       },
       onMouseMove: function (event) {
@@ -134,7 +206,7 @@
 
         this.setState({pointer: pointer});
 
-        if (this.state.dragged) {
+        if (this.state.held && this.state.dragged) {
           this.setDraggedPosition(event);
 
           var listElements = this.nodesToArray(this.getDOMNode().childNodes);
@@ -148,24 +220,14 @@
             this.setState({list: this.state.list});
           }
 
-          var rect = this.getDOMNode().getBoundingClientRect();
-          if (!this.scrollInterval) {
-            if (event.clientY < rect.top + this.constants.SCROLL_AREA) {
-              this.scrollInterval = setInterval(this.dragScroll, this.constants.SCROLL_RATE);
-            } else if (event.clientY > rect.bottom - this.constants.SCROLL_AREA) {
-              this.scrollInterval = setInterval(this.dragScroll, this.constants.SCROLL_RATE);
-            }
-          } else {
-            if (event.clientY <= rect.bottom - this.constants.SCROLL_AREA && event.clientY >= rect.top + this.constants.SCROLL_AREA) {
-              clearInterval(this.scrollInterval);
-              this.scrollInterval = undefined;
-            }
-          }
+          this.handleDragScrollY(event);
+          this.handleDragScrollX(event);
         } else {
           if (this.state.downPos) {
             // Cancel hold if mouse has moved
             if (this.xHasMoved(event) || this.yHasMoved(event)) {
               clearTimeout(this.holdTimeout);
+              this.setState({moved: true});
             }
 
             // Implement touch scrolling since we event.preventDefault
@@ -253,19 +315,19 @@
       // ---- View methods
 
       getDraggedStyle: function (item) {
-        if (this.state.dragged && this.state.dragged.item === item) {
+        if (this.state.held && this.state.dragged && this.state.dragged.item === item) {
           return this.state.draggedStyle;
         }
         return undefined;
       },
       getDraggedClass: function (item) {
-        if (this.state.dragged && this.state.dragged.item === item) {
+        if (this.state.held && this.state.dragged && this.state.dragged.item === item) {
           return 'dragged';
         }
         return undefined;
       },
       getPlaceholderClass: function (item) {
-        if (this.state.dragged && this.state.dragged.item === item) {
+        if (this.state.held && this.state.dragged && this.state.dragged.item === item) {
           return 'placeholder';
         }
         return undefined;
@@ -275,8 +337,10 @@
 
       componentWillUnmount: function () {
         clearTimeout(this.holdTimeout);
-        clearInterval(this.scrollInterval);
-        this.scrollInterval = undefined;
+        clearInterval(this.scrollIntervalY);
+        this.scrollIntervalY = undefined;
+        clearInterval(this.scrollIntervalX);
+        this.scrollIntervalX = undefined;
       },
       getInitialState: function () {
         // Updates list when props changed
@@ -306,7 +370,7 @@
         });
 
         var targetClone = function () {
-          if (self.state.dragged) {
+          if (self.state.held && self.state.dragged) {
             var itemKey = self.state.dragged.item[self.props.itemKey] || self.state.dragged.item;
             var itemClass = [self.props.itemClass, self.getDraggedClass(self.state.dragged.item)].join(' ');
             return (
