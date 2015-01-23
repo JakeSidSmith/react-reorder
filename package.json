@@ -4,6 +4,7 @@
   "description": "Drag & drop, touch enabled, reorderable / sortable list, React component",
   "author": "Jake 'Sid' Smith",
   "license": "MIT",
+  "main": "reorderable.js",
   "bugs": "https://github.com/JakeSidSmith/react-reorderable/issues",
   "repository": {
     "type": "git",
