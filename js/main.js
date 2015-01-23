@@ -10,12 +10,12 @@ window.define(function (require) {
   var ListItem = React.createFactory(
     React.createClass({
       render: function () {
-        return (
-          <div className='inner'
-          style={{color: this.props.item.color}}>
-          {this.props.item.name}
-          </div>
-        );
+        return React.createElement('div', {
+          className: 'inner',
+          style: {
+            color: this.props.item.color
+          }
+        }, this.props.item.name);
       }
     })
   );
@@ -43,56 +43,54 @@ window.define(function (require) {
         };
       },
       render: function () {
-        return (
-          <div className='app'>
+        return React.createElement('div', {className: 'app'},
 
-            <p><strong>Lock horizontal</strong></p>
-            <small>This example has a hold time of 500 milliseconds before dragging begins, allowing for other events like clicking / tapping to be attached</small>
+          React.createElement('p', null, React.createElement('strong', null, 'Lock horizontal')),
+          React.createElement('small', null, 'This example has a hold time of 500 milliseconds before dragging begins, allowing for other events like clicking / tapping to be attached'),
 
-            <p>Clicked item: {this.state.clickedItem ? this.state.clickedItem.name : undefined}</p>
+          React.createElement('p', null, 'Clicked item: ', this.state.clickedItem ? this.state.clickedItem.name : undefined),
 
-            <Reorderable
-            itemKey='name'
-            lock='horizontal'
-            holdTime='500'
-            list={this.state.arr}
-            template={ListItem}
-            callback={this.callback}
-            listClass='my-list'
-            itemClass='list-item'
-            itemClicked={this.itemClicked}/>
+          React.createElement(Reorderable, {
+            itemKey: 'name',
+            lock: 'horizontal',
+            holdTime: '500',
+            list: this.state.arr,
+            template: ListItem,
+            callback: this.callback,
+            listClass: 'my-list',
+            itemClass: 'list-item',
+            itemClicked: this.itemClicked}),
 
-            <p><strong>Lock vertical</strong></p>
-            <small>This example has a hold time of 250 milliseconds</small>
+          React.createElement('p', null, React.createElement('strong', null, 'Lock vertical')),
+          React.createElement('small', null, 'This example has a hold time of 250 milliseconds'),
 
-            <Reorderable
-            itemKey='name'
-            lock='vertical'
-            holdTime='250'
-            list={this.state.arr}
-            template={ListItem}
-            callback={this.callback}
-            listClass='my-list-2'
-            itemClass='list-item'/>
+          React.createElement(Reorderable, {
+            itemKey: 'name',
+            lock: 'vertical',
+            holdTime: '250',
+            list: this.state.arr,
+            template: ListItem,
+            callback: this.callback,
+            listClass: 'my-list-2',
+            itemClass: 'list-item'}),
 
-            <p><strong>No lock (grid)</strong></p>
-            <small>This example has a hold time of 0 milliseconds</small>
+          React.createElement('p', null, React.createElement('strong', null, 'No lock (grid)')),
+          React.createElement('small', null, 'This example has a hold time of 0 milliseconds'),
 
-            <Reorderable
-            itemKey='name'
-            holdTime='0'
-            list={this.state.arr}
-            template={ListItem}
-            callback={this.callback}
-            listClass='my-list-3'
-            itemClass='list-item'/>
+          React.createElement(Reorderable, {
+            itemKey: 'name',
+            holdTime: '0',
+            list: this.state.arr,
+            template: ListItem,
+            callback: this.callback,
+            listClass: 'my-list-3',
+            itemClass: 'list-item'})
 
-          </div>
         );
       }
     })
   );
 
-  React.render(<Main />, document.body);
+  React.render(React.createElement(Main), document.body);
 
 });
