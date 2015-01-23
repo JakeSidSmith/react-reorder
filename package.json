@@ -21,6 +21,6 @@
     "touch"
   ],
   "dependencies": {
-    "react-tools": "~0.12.1"
+    "react": "^0.12"
   }
 }
