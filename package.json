@@ -1,0 +1,26 @@
+{
+  "name": "react-reorderable",
+  "version": "0.0.0",
+  "description": "Drag & drop, touch enabled, reorderable / sortable list, React component",
+  "author": "Jake 'Sid' Smith",
+  "license": "MIT",
+  "bugs": "https://github.com/JakeSidSmith/react-reorderable/issues",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/JakeSidSmith/react-reorderable"
+  },
+  "keywords": [
+    "react",
+    "facebook",
+    "reorder",
+    "sort",
+    "reorderable",
+    "sortable",
+    "drag and drop",
+    "mobile",
+    "touch"
+  ],
+  "dependencies": {
+    "react-tools": "~0.12"
+  }
+}
