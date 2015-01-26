@@ -28,6 +28,9 @@ window.define(function (require) {
       itemClicked: function (event, item) {
         this.setState({clickedItem: item});
       },
+      disableToggled: function () {
+        this.setState({disableReorder: !this.state.disableReorder});
+      },
 
       // ----
 
@@ -64,6 +67,14 @@ window.define(function (require) {
           React.createElement('p', null, React.createElement('strong', null, 'Lock vertical')),
           React.createElement('small', null, 'This example has a hold time of 250 milliseconds'),
 
+          React.createElement('p', null, 'Disabled: ',
+            React.createElement('input', {
+              type: 'checkbox',
+              onChange: this.disableToggled,
+              value: this.state.disableReorder || false
+            })
+          ),
+
           React.createElement(Reorderable, {
             itemKey: 'name',
             lock: 'vertical',
@@ -72,7 +83,8 @@ window.define(function (require) {
             template: ListItem,
             callback: this.callback,
             listClass: 'my-list-2',
-            itemClass: 'list-item'}),
+            itemClass: 'list-item',
+            disableReorder: this.state.disableReorder}),
 
           React.createElement('p', null, React.createElement('strong', null, 'No lock (grid)')),
           React.createElement('small', null, 'This example has a hold time of 0 milliseconds'),
