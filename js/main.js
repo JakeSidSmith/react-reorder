@@ -5,7 +5,7 @@
 window.define(function (require) {
 
   var React = require('react');
-  var Reorderable = React.createFactory(require('reorderable'));
+  var Reorderable = React.createFactory(require('react-reorderable'));
 
   var ListItem = React.createFactory(
     React.createClass({
@@ -23,7 +23,6 @@ window.define(function (require) {
   var Main = React.createFactory(
     React.createClass({
       callback: function (event, item, index, newIndex, list) {
-        console.log(arguments);
         this.setState({arr: list});
       },
       itemClicked: function (event, item) {
