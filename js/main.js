@@ -84,6 +84,7 @@ window.define(function (require) {
             callback: this.callback,
             listClass: 'my-list-2',
             itemClass: 'list-item',
+            itemClicked: this.itemClicked,
             disableReorder: this.state.disableReorder}),
 
           React.createElement('p', null, React.createElement('strong', null, 'No lock (grid)')),
