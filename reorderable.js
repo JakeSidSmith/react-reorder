@@ -429,8 +429,11 @@
         clearInterval(this.afterScrollYInterval);
         clearInterval(this.afterScrollXInterval);
       },
-      getInitialState: function () {
+      componentWillReceiveProps: function (props) {
         // Updates list when props changed
+        this.setState({list: props.list});
+      },
+      getInitialState: function () {
         return {list: this.props.list || []};
       },
       render: function () {
