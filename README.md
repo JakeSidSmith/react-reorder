@@ -105,21 +105,21 @@ __[Demo](http://jakesidsmith.github.io/react-reorderable/)__
 
   1. The `callback` function that is called once a reorder has been performed
 
-  ```javascript
-  function callback(itemThatHasBeenMoved, itemsPreviousIndex, itemsNewIndex, reorderedArray) {
-    // ...
-  }
-  ```
+    ```javascript
+    function callback(itemThatHasBeenMoved, itemsPreviousIndex, itemsNewIndex, reorderedArray) {
+      // ...
+    }
+    ```
 
   2. The `itemClicked` function that is called when an item is clicked before any dragging begins
 
-  ```javascript
-  function itemClicked(event, itemThatHasBeenClicked, itemsIndex) {
-    // ...
-  }
-  ```
+    ```javascript
+    function itemClicked(event, itemThatHasBeenClicked, itemsIndex) {
+      // ...
+    }
+    ```
 
-  **Note: `event` will be the synthetic React event for either `mouseup` or `touchend`, and both contain `clientX` & `clientY` values (for ease of use)**
+    **Note: `event` will be the synthetic React event for either `mouseup` or `touchend`, and both contain `clientX` & `clientY` values (for ease of use)**
 
 ## Requirements
 
