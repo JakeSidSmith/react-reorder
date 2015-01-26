@@ -23,7 +23,6 @@ window.define(function (require) {
   var Main = React.createFactory(
     React.createClass({
       callback: function (event, item, index, newIndex, list) {
-        console.log(arguments);
         this.setState({arr: list});
       },
       itemClicked: function (event, item) {
