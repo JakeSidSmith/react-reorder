@@ -106,7 +106,7 @@ __[Demo](http://jakesidsmith.github.io/react-reorderable/)__
   1. The `callback` function that is called once a reorder has been performed
 
     ```javascript
-    function callback(itemThatHasBeenMoved, itemsPreviousIndex, itemsNewIndex, reorderedArray) {
+    function callback(event, itemThatHasBeenMoved, itemsPreviousIndex, itemsNewIndex, reorderedArray) {
       // ...
     }
     ```
