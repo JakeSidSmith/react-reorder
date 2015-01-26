@@ -1,7 +1,6 @@
 (function () {
   'use strict';
 
-
   var getReorderable = function (React) {
 
     var DEVELOPMENT = false;
@@ -460,18 +459,18 @@
             var itemKey = self.state.dragged.item[self.props.itemKey] || self.state.dragged.item;
             var itemClass = [self.props.itemClass, self.getDraggedClass(self.state.dragged.item)].join(' ');
             return React.createElement('div', {
-                key: itemKey,
-                className: itemClass,
-                style: self.getDraggedStyle(self.state.dragged.item)
+              key: itemKey,
+              className: itemClass,
+              style: self.getDraggedStyle(self.state.dragged.item)
             }, getPropsTemplate(self.state.dragged.item));
           }
           return undefined;
         };
 
         return React.createElement('div', {
-            className: this.props.listClass,
-            onMouseDown: self.listDown,
-            onTouchStart: self.listDown
+          className: this.props.listClass,
+          onMouseDown: self.listDown,
+          onTouchStart: self.listDown
         }, list, targetClone());
       }
     });
