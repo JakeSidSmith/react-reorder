@@ -70,7 +70,7 @@ __[Demo](http://jakesidsmith.github.io/react-reorderable/)__
       // Class to be applied to each list item's wrapper element
       itemClass='list-item',
       // A function to be called if a list item is clicked (before hold time is up)
-      itemClicked={this.itemClicked}>
+      itemClicked={this.itemClicked} />
     ```
 
   2. Using standard Javascript
