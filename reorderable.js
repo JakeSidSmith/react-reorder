@@ -4,12 +4,14 @@
 
   var getReorderable = function (React) {
 
+    var DEVELOPMENT = false;
+
     return React.createClass({
       nonCollisionElement: new RegExp('(^|\\s)(placeholder|dragged)($|\\s)', ''),
       constants: {
         HOLD_THRESHOLD: 20,
-        SCROLL_RATE: 1000 / 30,
-        SCROLL_DISTANCE: 5,
+        SCROLL_RATE: 1000 / 60,
+        SCROLL_DISTANCE: 1,
         SCROLL_AREA: 50,
         SCROLL_MULTIPLIER: 5
       },
@@ -75,6 +77,10 @@
       listDown: function (event) {
         event.preventDefault();
         this.handleTouchEvents(event);
+
+        clearInterval(this.afterScrollYInterval);
+        clearInterval(this.afterScrollXInterval);
+
         var self = this;
 
         var downPos = {
@@ -89,6 +95,10 @@
           pointer: {
             clientY: downPos.clientY,
             clientX: downPos.clientX
+          },
+          velocity: {
+            y: 0,
+            x: 0
           }
         });
 
@@ -99,6 +109,34 @@
         // Touch events
         window.addEventListener('touchend', this.onMouseUp); // Touch up
         window.addEventListener('touchmove', this.onMouseMove); // Touch move
+      },
+      afterScrollY: function () {
+        if (this.state.velocity && Math.abs(this.state.velocity.y) > 0.5) {
+          this.getDOMNode().scrollTop += this.state.velocity.y;
+        } else {
+          clearInterval(this.afterScrollYInterval);
+        }
+
+        this.setState({
+          velocity: {
+            y: this.state.velocity.y * 0.9,
+            x: this.state.velocity.x
+          }
+        });
+      },
+      afterScrollX: function () {
+        if (this.state.velocity && Math.abs(this.state.velocity.x) > 0.5) {
+          this.getDOMNode().scrollLeft += this.state.velocity.x;
+        } else {
+          clearInterval(this.afterScrollXInterval);
+        }
+
+        this.setState({
+          velocity: {
+            y: this.state.velocity.y,
+            x: this.state.velocity.x * 0.9
+          }
+        });
       },
       onMouseUp: function (event) {
         if (typeof this.props.itemClicked === 'function' && !this.state.held && !this.state.moved && this.state.dragged) {
@@ -114,6 +152,16 @@
           held: false,
           moved: false
         });
+
+        if (event.touches || DEVELOPMENT) {
+          if (this.state.velocity.y !== 0) {
+            this.afterScrollYInterval = setInterval(this.afterScrollY, this.constants.SCROLL_RATE);
+          }
+
+          if (this.state.velocity.x !== 0) {
+            this.afterScrollXInterval = setInterval(this.afterScrollX, this.constants.SCROLL_RATE);
+          }
+        }
 
         clearTimeout(this.holdTimeout);
         clearInterval(this.scrollIntervalY);
@@ -202,7 +250,13 @@
           clientX: event.clientX
         };
 
-        this.setState({pointer: pointer});
+        this.setState({
+          pointer: pointer,
+          velocity: {
+            y: this.state.pointer.clientY - event.clientY,
+            x: this.state.pointer.clientX - event.clientX
+          }
+        });
 
         if (this.state.held && this.state.dragged) {
           this.setDraggedPosition(event);
@@ -229,7 +283,7 @@
             }
 
             // Implement touch scrolling since we event.preventDefault
-            if (event.touches) {
+            if (event.touches || DEVELOPMENT) {
               this.handleTouchScrolling(event);
             }
           }
@@ -241,16 +295,45 @@
       yHasMoved: function (event) {
         return Math.abs(this.state.downPos.clientY - event.clientY) > this.constants.HOLD_THRESHOLD;
       },
+      elementHeightMinusBorders: function (element) {
+        var rect = element.getBoundingClientRect();
+        var computedStyle;
+
+        if (getComputedStyle) {
+          computedStyle = getComputedStyle(element);
+        } else {
+          computedStyle = element.currentStyle;
+        }
+
+        return rect.height -
+          parseInt(computedStyle.getPropertyValue('border-top-width') || computedStyle.borderTopWidth) -
+          parseInt(computedStyle.getPropertyValue('border-bottom-width') || computedStyle.borderBottomWidth);
+      },
+      elementWidthMinusBorders: function (element) {
+        var rect = element.getBoundingClientRect();
+        var computedStyle;
+
+        if (getComputedStyle) {
+          computedStyle = getComputedStyle(element);
+        } else {
+          computedStyle = element.currentStyle;
+        }
+
+        return rect.width -
+          parseInt(computedStyle.getPropertyValue('border-left-width') || computedStyle.borderLeftWidth) -
+          parseInt(computedStyle.getPropertyValue('border-right-width') || computedStyle.borderRightWidth);
+      },
       handleTouchScrolling: function (event) {
         var element = this.getDOMNode();
+
         // If scrollable vertically
-        if (element.scrollHeight > element.getBoundingClientRect().height) {
+        if (element.scrollHeight > this.elementHeightMinusBorders(element)) {
           // Handle scrolling
           element.scrollTop = this.state.downPos.scrollTop + this.state.downPos.clientY - event.clientY;
         }
 
         // If scrollable horizontally
-        if (element.scrollWidth > element.getBoundingClientRect().width) {
+        if (element.scrollWidth > this.elementWidthMinusBorders(element)) {
           // Handle scrolling
           element.scrollLeft = this.state.downPos.scrollLeft + this.state.downPos.clientX - event.clientX;
         }
@@ -335,10 +418,14 @@
 
       componentWillUnmount: function () {
         clearTimeout(this.holdTimeout);
+
         clearInterval(this.scrollIntervalY);
         this.scrollIntervalY = undefined;
         clearInterval(this.scrollIntervalX);
         this.scrollIntervalX = undefined;
+
+        clearInterval(this.afterScrollYInterval);
+        clearInterval(this.afterScrollXInterval);
       },
       getInitialState: function () {
         // Updates list when props changed
@@ -373,7 +460,7 @@
                 key: itemKey,
                 className: itemClass,
                 style: self.getDraggedStyle(self.state.dragged.item)
-            }, getPropsTemplate(self.state.dragged.item)); 
+            }, getPropsTemplate(self.state.dragged.item));
           }
           return undefined;
         };
