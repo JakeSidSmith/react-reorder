@@ -26,7 +26,9 @@ window.define(function (require) {
         this.setState({arr: list});
       },
       itemClicked: function (event, item) {
-        this.setState({clickedItem: item});
+        this.setState({
+          clickedItem: item === this.state.clickedItem ? undefined : item
+        });
       },
 
       // ----
