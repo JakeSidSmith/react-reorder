@@ -8,7 +8,7 @@ require.config({
   paths: {
     js: '../js',
     react: 'react/react.min',
-    reorderable: 'react-reorderable/reorderable'
+    'react-reorderable': 'react-reorderable/reorderable'
   }
 });
 
