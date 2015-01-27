@@ -56,7 +56,7 @@ window.define(function (require) {
           React.createElement('p', null, React.createElement('strong', null, 'Lock horizontal')),
           React.createElement('small', null, 'This example has a hold time of 500 milliseconds before dragging begins, allowing for other events like clicking / tapping to be attached'),
 
-          React.createElement('p', null, 'Clicked item: ', this.state.clickedItem ? this.state.clickedItem.name : undefined),
+          React.createElement('p', null, 'Selected item: ', this.state.clickedItem ? this.state.clickedItem.name : undefined),
 
           React.createElement(Reorderable, {
             itemKey: 'name',
@@ -81,7 +81,7 @@ window.define(function (require) {
               onChange: this.disableToggled,
               value: this.state.disableReorder || false
             }),
-            'Clicked item: ',
+            'Last item clicked: ',
             this.state.clickedItem2 ? this.state.clickedItem2.name : undefined
           ),
 
