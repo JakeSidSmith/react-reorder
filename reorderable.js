@@ -420,6 +420,15 @@
         }
         return undefined;
       },
+      getSelectedClass: function (item) {
+        if (typeof this.props.selected !== 'undefined') {
+          if (typeof this.props.selectedKey !== 'undefined') {
+            return this.props.selected[this.props.selectedKey] === item[this.props.selectedKey] ? 'selected' : undefined;
+          }
+          return this.props.selected === item ? 'selected' : undefined;
+        }
+        return undefined;
+      },
 
       // ---- Default methods
 
@@ -457,7 +466,7 @@
 
         var list = this.state.list.map(function (item, index) {
           var itemKey = item[self.props.itemKey] || item;
-          var itemClass = [self.props.itemClass, self.getPlaceholderClass(item)].join(' ');
+          var itemClass = [self.props.itemClass, self.getPlaceholderClass(item), self.getSelectedClass(item)].join(' ');
           return React.createElement('div', {
             key: itemKey,
             className: itemClass,
