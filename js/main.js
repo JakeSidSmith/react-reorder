@@ -26,7 +26,9 @@ window.define(function (require) {
         this.setState({arr: list});
       },
       itemClicked: function (event, item) {
-        this.setState({clickedItem: item});
+        this.setState({
+          clickedItem: item === this.state.clickedItem ? undefined : item
+        });
       },
       itemClicked2: function (event, item) {
         this.setState({clickedItem2: item});
@@ -65,7 +67,9 @@ window.define(function (require) {
             callback: this.callback,
             listClass: 'my-list',
             itemClass: 'list-item',
-            itemClicked: this.itemClicked}),
+            itemClicked: this.itemClicked,
+            selected: this.state.clickedItem,
+            selectedKey: 'name'}),
 
           React.createElement('p', null, React.createElement('strong', null, 'Lock vertical')),
           React.createElement('small', null, 'This example has a hold time of 250 milliseconds'),
