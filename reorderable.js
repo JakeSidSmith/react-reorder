@@ -21,13 +21,15 @@
         }
       },
       startDrag: function (dragOffset, draggedStyle) {
-        this.setState({
-          dragOffset: dragOffset,
-          draggedStyle: draggedStyle,
-          originalPosition: draggedStyle,
-          held: true,
-          moved: false
-        });
+        if (!this.props.disableReorder) {
+          this.setState({
+            dragOffset: dragOffset,
+            draggedStyle: draggedStyle,
+            originalPosition: draggedStyle,
+            held: true,
+            moved: false
+          });
+        }
       },
       itemDown: function (item, index, event) {
         event.preventDefault();
@@ -434,10 +436,14 @@
       },
       componentWillReceiveProps: function (props) {
         // Updates list when props changed
-        this.setState({list: props.list});
+        this.setState({
+          list: props.list
+        });
       },
       getInitialState: function () {
-        return {list: this.props.list || []};
+        return {
+          list: this.props.list || []
+        };
       },
       render: function () {
         var self = this;
