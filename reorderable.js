@@ -138,15 +138,28 @@
         });
       },
       onMouseUp: function (event) {
+        // Item clicked
         if (typeof this.props.itemClicked === 'function' && !this.state.held && !this.state.moved && this.state.dragged) {
           this.props.itemClicked(event, this.state.dragged.item, this.state.dragged.index);
         }
 
+        // Reorder callback
         if (this.state.held && this.state.dragged && typeof this.props.callback === 'function') {
           var listElements = this.nodesToArray(this.getDOMNode().childNodes);
           var newIndex = listElements.indexOf(this.state.dragged.target);
 
           this.props.callback(event, this.state.dragged.item, this.state.dragged.index, newIndex, this.state.list);
+        }
+
+        // Handle after-scroll
+        if ((event.touches || DEVELOPMENT) && !this.state.held) {
+          if (this.state.velocity.y !== 0 && this.props.lock !== 'vertical') {
+            this.afterScrollYInterval = setInterval(this.afterScrollY, this.constants.SCROLL_RATE);
+          }
+
+          if (this.state.velocity.x !== 0 && this.props.lock !== 'horizontal') {
+            this.afterScrollXInterval = setInterval(this.afterScrollX, this.constants.SCROLL_RATE);
+          }
         }
 
         this.setState({
@@ -158,16 +171,6 @@
           held: false,
           moved: false
         });
-
-        if (event.touches || DEVELOPMENT) {
-          if (this.state.velocity.y !== 0) {
-            this.afterScrollYInterval = setInterval(this.afterScrollY, this.constants.SCROLL_RATE);
-          }
-
-          if (this.state.velocity.x !== 0) {
-            this.afterScrollXInterval = setInterval(this.afterScrollX, this.constants.SCROLL_RATE);
-          }
-        }
 
         clearTimeout(this.holdTimeout);
         clearInterval(this.scrollIntervalY);
@@ -329,13 +332,13 @@
         var element = this.getDOMNode();
 
         // If scrollable vertically
-        if (element.scrollHeight > this.elementHeightMinusBorders(element)) {
+        if (this.props.lock !== 'vertical' && element.scrollHeight > this.elementHeightMinusBorders(element)) {
           // Handle scrolling
           element.scrollTop = this.state.downPos.scrollTop + this.state.downPos.clientY - event.clientY;
         }
 
         // If scrollable horizontally
-        if (element.scrollWidth > this.elementWidthMinusBorders(element)) {
+        if (this.props.lock !== 'horizontal' && element.scrollWidth > this.elementWidthMinusBorders(element)) {
           // Handle scrolling
           element.scrollLeft = this.state.downPos.scrollLeft + this.state.downPos.clientX - event.clientX;
         }
