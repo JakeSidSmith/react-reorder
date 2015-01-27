@@ -26,7 +26,15 @@ window.define(function (require) {
         this.setState({arr: list});
       },
       itemClicked: function (event, item) {
-        this.setState({clickedItem: item});
+        this.setState({
+          clickedItem: item === this.state.clickedItem ? undefined : item
+        });
+      },
+      itemClicked2: function (event, item) {
+        this.setState({clickedItem2: item});
+      },
+      disableToggled: function () {
+        this.setState({disableReorder: !this.state.disableReorder});
       },
 
       // ----
@@ -59,10 +67,23 @@ window.define(function (require) {
             callback: this.callback,
             listClass: 'my-list',
             itemClass: 'list-item',
-            itemClicked: this.itemClicked}),
+            itemClicked: this.itemClicked,
+            selected: this.state.clickedItem,
+            selectedKey: 'name'}),
 
           React.createElement('p', null, React.createElement('strong', null, 'Lock vertical')),
           React.createElement('small', null, 'This example has a hold time of 250 milliseconds'),
+
+          React.createElement('p', null,
+            'Reorder disabled: ',
+            React.createElement('input', {
+              type: 'checkbox',
+              onChange: this.disableToggled,
+              value: this.state.disableReorder || false
+            }),
+            'Clicked item: ',
+            this.state.clickedItem2 ? this.state.clickedItem2.name : undefined
+          ),
 
           React.createElement(Reorderable, {
             itemKey: 'name',
@@ -72,7 +93,9 @@ window.define(function (require) {
             template: ListItem,
             callback: this.callback,
             listClass: 'my-list-2',
-            itemClass: 'list-item'}),
+            itemClass: 'list-item',
+            itemClicked: this.itemClicked2,
+            disableReorder: this.state.disableReorder}),
 
           React.createElement('p', null, React.createElement('strong', null, 'No lock (grid)')),
           React.createElement('small', null, 'This example has a hold time of 0 milliseconds'),
