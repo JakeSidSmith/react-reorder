@@ -481,7 +481,7 @@
   };
 
   // Establish the root object, `window` in the browser, or `exports` on the server.
-  var root = this;
+  var root = this || window;
 
   // Export for commonjs / browserify
   if (typeof exports !== 'undefined') {
@@ -496,12 +496,10 @@
   }
 
   // Define for requirejs
-  /* jshint ignore:start */
-  if (typeof define === 'function' && define.amd) {
-    define(['react'], function(React) {
+  if (root && typeof root.define === 'function' && root.define.amd) {
+    root.define(['react'], function(React) {
       return getReorderable(React);
     });
   }
-  /* jshint ignore:end */
 
 })();
