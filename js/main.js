@@ -15,7 +15,7 @@ window.define(function (require) {
           style: {
             color: this.props.item.color
           }
-        }, this.props.item.name);
+        }, this.props.sharedProps ? this.props.sharedProps.prefix : undefined, this.props.item.name);
       }
     })
   );
@@ -36,6 +36,10 @@ window.define(function (require) {
       disableToggled: function () {
         this.setState({disableReorder: !this.state.disableReorder});
       },
+      prefixChanged: function (event) {
+        var target = event.currentTarget;
+        this.setState({prefix: target.value});
+      },
 
       // ----
 
@@ -47,7 +51,8 @@ window.define(function (require) {
         }
 
         return {
-          arr: list
+          arr: list,
+          prefix: 'Prefix'
         };
       },
       render: function () {
@@ -57,6 +62,15 @@ window.define(function (require) {
           React.createElement('small', null, 'This example has a hold time of 500 milliseconds before dragging begins, allowing for other events like clicking / tapping to be attached'),
 
           React.createElement('p', null, 'Selected item: ', this.state.clickedItem ? this.state.clickedItem.name : undefined),
+
+          React.createElement('p', null,
+            'Prefix (shared props): ',
+            React.createElement('input', {
+              type: 'text',
+              onChange: this.prefixChanged,
+              value: this.state.prefix
+            })
+          ),
 
           React.createElement(Reorderable, {
             itemKey: 'name',
@@ -69,7 +83,10 @@ window.define(function (require) {
             itemClass: 'list-item',
             itemClicked: this.itemClicked,
             selected: this.state.clickedItem,
-            selectedKey: 'name'}),
+            selectedKey: 'name',
+            sharedProps: {
+              prefix: [this.state.prefix, ': '].join('')
+            }}),
 
           React.createElement('p', null, React.createElement('strong', null, 'Lock vertical')),
           React.createElement('small', null, 'This example has a hold time of 250 milliseconds'),
