@@ -32,6 +32,15 @@
         }
       },
       itemDown: function (item, index, event) {
+        var dragDisabledForTarget = event.
+          target.
+          classList.
+          contains(this.props.disableDragClass);
+
+        if (dragDisabledForTarget) {
+          return false;
+        }
+
         event.preventDefault();
         this.handleTouchEvents(event);
         var self = this;
