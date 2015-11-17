@@ -16,13 +16,13 @@ __[Demo](http://jakesidsmith.github.io/react-reorderable/)__
 
 ## Installation
 
-1. Using npm
+* Using npm
   ```
   npm install react-reorder
   ```
     Add `--save` or `-S` to update your package.json
 
-1. Using bower
+* Using bower
   ```
   bower install react-reorderable
   ```
