@@ -3,8 +3,6 @@
 
   var getReorderComponent = function (React) {
 
-    var DEVELOPMENT = false;
-
     return React.createClass({
       nonCollisionElement: new RegExp('(^|\\s)(placeholder|dragged)($|\\s)', ''),
       constants: {
@@ -154,7 +152,7 @@
         }
 
         // Handle after-scroll
-        if ((event.touches || DEVELOPMENT) && !this.state.held) {
+        if (event.touches && !this.state.held) {
           if (this.state.velocity.y !== 0 && this.props.lock !== 'vertical') {
             this.afterScrollYInterval = setInterval(this.afterScrollY, this.constants.SCROLL_RATE);
           }
@@ -290,7 +288,7 @@
             }
 
             // Implement touch scrolling since we event.preventDefault
-            if (event.touches || DEVELOPMENT) {
+            if (event.touches) {
               this.handleTouchScrolling(event);
             }
           }
