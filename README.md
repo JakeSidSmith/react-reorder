@@ -1,10 +1,10 @@
-# React Reorderable
+# React Reorder
 
-__Drag & drop, touch enabled, reorderable / sortable list, React component__
+__Drag & drop, touch enabled, reorder / sortable list, React component__
 
 ## About
 
-React Reorderable is a React component that allows the user to drag-and-drop items in a list (horizontal / vertical) or a grid.
+React Reorder is a React component that allows the user to drag-and-drop items in a list (horizontal / vertical) or a grid.
 
 It fully supports touch devices and auto-scrolls when a component is being dragged (check out the demo, link below).
 
@@ -12,7 +12,7 @@ It also allows the user to set a hold time (duration before drag begins) allowin
 
 Although this project is very new, it has been thoroughly tested in all modern browsers (see supported browsers).
 
-__[Demo](http://jakesidsmith.github.io/react-reorderable/)__
+__[Demo](http://jakesidsmith.github.io/react-reorder/)__
 
 ## Installation
 
@@ -24,36 +24,36 @@ __[Demo](http://jakesidsmith.github.io/react-reorderable/)__
 
 * Using bower
   ```
-  bower install react-reorderable
+  bower install react-reorder
   ```
     Add `--save` or `-S` to update your bower.json
 
 ## Example
 
-1. If using requirejs: add `react-reorderable` to your `require.config`
+1. If using requirejs: add `react-reorder` to your `require.config`
 
   ```javascript
   paths:
     // <name> : <path/to/module>
-    'react-reorderable': 'react-reorderable/reorderable'
+    'react-reorder': 'react-reorder/reorder'
   }
   ```
 
-2. If using a module loader (requirejs / browserfiy / commonjs): require `react-reorderable` where it will be used in your project
+2. If using a module loader (requirejs / browserfiy / commonjs): require `react-reorder` where it will be used in your project
 
   ```javascript
-  var Reorderable = React.createFactory(require('react-reorderable'));
+  var Reorder = React.createFactory(require('react-reorder'));
   ```
 
   If using requirejs you'll probably want to wrap your module e.g.
 
   ```javascript
   define(function (require) {
-    // Require react-reorderable here
+    // Require react-reorder here
   });
   ```
 
-  **Note: For newer versions of React, the reorderable class should be wrapped with `React.createFactory`**
+  **Note: For newer versions of React, the reorder class should be wrapped with `React.createFactory`**
 
 3. Configuration
 
@@ -62,7 +62,7 @@ __[Demo](http://jakesidsmith.github.io/react-reorderable/)__
   1. Using JSX
 
     ```javascript
-    <Reorderable
+    <Reorder
       // The key of each object in your list to use as the element key
       itemKey='name',
       // Lock horizontal to have a vertical list
@@ -96,7 +96,7 @@ __[Demo](http://jakesidsmith.github.io/react-reorderable/)__
   2. Using standard Javascript
 
     ```javascript
-    React.createElement(Reorderable, {
+    React.createElement(Reorder, {
       // The key of each object in your list to use as the element key
       itemKey: 'name',
       // Lock horizontal to have a vertical list
