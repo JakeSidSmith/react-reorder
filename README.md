@@ -18,7 +18,7 @@ __[Demo](http://jakesidsmith.github.io/react-reorderable/)__
 
 1. Using npm
   ```
-    npm install react-reorder
+  npm install react-reorder
   ```
     Add `--save` or `-S` to update your package.json
 
