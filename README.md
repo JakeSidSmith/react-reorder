@@ -14,6 +14,20 @@ Although this project is very new, it has been thoroughly tested in all modern b
 
 __[Demo](http://jakesidsmith.github.io/react-reorderable/)__
 
+## Installation
+
+* Using npm
+  ```
+  npm install react-reorder
+  ```
+    Add `--save` or `-S` to update your package.json
+
+* Using bower
+  ```
+  bower install react-reorderable
+  ```
+    Add `--save` or `-S` to update your bower.json
+
 ## Example
 
 1. If using requirejs: add `react-reorderable` to your `require.config`
