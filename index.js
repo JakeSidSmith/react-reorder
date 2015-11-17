@@ -1,7 +1,7 @@
 (function () {
   'use strict';
 
-  var getReorderable = function (React) {
+  var getReorderComponent = function (React) {
 
     var DEVELOPMENT = false;
 
@@ -508,18 +508,18 @@
   if (typeof exports !== 'undefined') {
     var React = require('react');
     if (typeof module !== 'undefined' && module.exports) {
-      exports = module.exports = getReorderable(React);
+      exports = module.exports = getReorderComponent(React);
     }
-    exports.Reorderable = getReorderable(React);
+    exports.Reorder = getReorderComponent(React);
   } else if (typeof root !== 'undefined' && typeof root.React !== 'undefined') {
     // Add to root object
-    root.Reorderable = getReorderable(root.React);
+    root.Reorder = getReorderComponent(root.React);
   }
 
   // Define for requirejs
   if (root && typeof root.define === 'function' && root.define.amd) {
     root.define(['react'], function(React) {
-      return getReorderable(React);
+      return getReorderComponent(React);
     });
   }
 
