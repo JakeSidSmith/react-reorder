@@ -4,6 +4,7 @@
   var getReorderComponent = function (React) {
 
     return React.createClass({
+      displayName: 'Reorder',
       nonCollisionElement: new RegExp('(^|\\s)(placeholder|dragged)($|\\s)', ''),
       constants: {
         HOLD_THRESHOLD: 20,
