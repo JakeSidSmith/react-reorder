@@ -42,7 +42,7 @@ __[Demo](http://jakesidsmith.github.io/react-reorder/)__
 2. If using a module loader (requirejs / browserfiy / commonjs): require `react-reorder` where it will be used in your project
 
   ```javascript
-  var Reorder = React.createFactory(require('react-reorder'));
+  var Reorder = require('react-reorder');
   ```
 
   If using requirejs you'll probably want to wrap your module e.g.
@@ -52,8 +52,6 @@ __[Demo](http://jakesidsmith.github.io/react-reorder/)__
     // Require react-reorder here
   });
   ```
-
-  **Note: For newer versions of React, the reorder class should be wrapped with `React.createFactory`**
 
 3. Configuration
 
