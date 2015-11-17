@@ -5,6 +5,13 @@
   "author": "Jake 'Sid' Smith",
   "license": "MIT",
   "main": "index.js",
+  "scripts": {
+    "start": "http-server examples/ -c-1 -o",
+    "build-less": "lessc examples/src/less/index.less examples/build/css/index.css && echo 'Less compiled'",
+    "build-js": "browserify examples/src/js/index.js -o examples/build/js/index.js",
+    "build-dirs": "mkdir -p examples/build/css/ && mkdir -p examples/build/js/",
+    "build": "npm run build-dirs && npm run build-less && npm run build-js"
+  },
   "bugs": "https://github.com/JakeSidSmith/react-reorder/issues",
   "repository": {
     "type": "git",
@@ -23,5 +30,10 @@
   ],
   "dependencies": {
     "react": "<0.14"
+  },
+  "devDependencies": {
+    "browserify": "=12.0.1",
+    "http-server": "=0.8.5",
+    "less": "=2.5.3"
   }
 }
