@@ -65,6 +65,8 @@ __[Demo](http://jakesidsmith.github.io/react-reorderable/)__
       template={ListItem},
       // Function that is called once a reorder has been performed
       callback={this.callback},
+      // disables drag for a given css class (use on buttons/links inside reorderable items)
+      disableDragClass='no-drag',
       // Class to be applied to the outer list element
       listClass='my-list',
       // Class to be applied to each list item's wrapper element
