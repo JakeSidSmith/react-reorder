@@ -1,11 +1,10 @@
 (function () {
   'use strict';
 
-  var getReorderable = function (React) {
-
-    var DEVELOPMENT = false;
+  var getReorderComponent = function (React) {
 
     return React.createClass({
+      displayName: 'Reorder',
       nonCollisionElement: new RegExp('(^|\\s)(placeholder|dragged)($|\\s)', ''),
       constants: {
         HOLD_THRESHOLD: 20,
@@ -154,7 +153,7 @@
         }
 
         // Handle after-scroll
-        if ((event.touches || DEVELOPMENT) && !this.state.held) {
+        if (event.touches && !this.state.held) {
           if (this.state.velocity.y !== 0 && this.props.lock !== 'vertical') {
             this.afterScrollYInterval = setInterval(this.afterScrollY, this.constants.SCROLL_RATE);
           }
@@ -290,7 +289,7 @@
             }
 
             // Implement touch scrolling since we event.preventDefault
-            if (event.touches || DEVELOPMENT) {
+            if (event.touches) {
               this.handleTouchScrolling(event);
             }
           }
@@ -508,18 +507,18 @@
   if (typeof exports !== 'undefined') {
     var React = require('react');
     if (typeof module !== 'undefined' && module.exports) {
-      exports = module.exports = getReorderable(React);
+      exports = module.exports = getReorderComponent(React);
     }
-    exports.Reorderable = getReorderable(React);
+    exports.Reorder = getReorderComponent(React);
   } else if (typeof root !== 'undefined' && typeof root.React !== 'undefined') {
     // Add to root object
-    root.Reorderable = getReorderable(root.React);
+    root.Reorder = getReorderComponent(root.React);
   }
 
   // Define for requirejs
   if (root && typeof root.define === 'function' && root.define.amd) {
     root.define(['react'], function(React) {
-      return getReorderable(React);
+      return getReorderComponent(React);
     });
   }
 
