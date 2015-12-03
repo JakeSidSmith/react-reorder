@@ -345,7 +345,13 @@
         }
       },
       setDraggedPosition: function (event) {
-        var draggedStyle = this.state.draggedStyle;
+        var draggedStyle = {
+          position: this.state.draggedStyle.position,
+          top: this.state.draggedStyle.top,
+          left: this.state.draggedStyle.left,
+          width: this.state.draggedStyle.width,
+          height: this.state.draggedStyle.height
+        };
 
         if (this.props.lock === 'horizontal') {
           draggedStyle.top = event.clientY - this.state.dragOffset.top;
