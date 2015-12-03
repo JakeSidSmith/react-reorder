@@ -7,11 +7,14 @@
       displayName: 'Reorder',
       nonCollisionElement: new RegExp('(^|\\s)(placeholder|dragged)($|\\s)', ''),
       constants: {
-        HOLD_THRESHOLD: 20,
+        HOLD_THRESHOLD: 8,
         SCROLL_RATE: 1000 / 60,
         SCROLL_DISTANCE: 1,
         SCROLL_AREA: 50,
         SCROLL_MULTIPLIER: 5
+      },
+      preventDefault: function (event) {
+        event.preventDefault();
       },
       handleTouchEvents: function (event) {
         if (event.touches && event.touches.length) {
@@ -31,8 +34,8 @@
         }
       },
       itemDown: function (item, index, event) {
-        event.preventDefault();
         this.handleTouchEvents(event);
+
         var self = this;
         var target = event.currentTarget;
         var rect = target.getBoundingClientRect();
@@ -75,11 +78,7 @@
         }
       },
       listDown: function (event) {
-        event.preventDefault();
         this.handleTouchEvents(event);
-
-        clearInterval(this.afterScrollYInterval);
-        clearInterval(this.afterScrollXInterval);
 
         var self = this;
 
@@ -99,7 +98,8 @@
           velocity: {
             y: 0,
             x: 0
-          }
+          },
+          movedALittle: false
         });
 
         // Mouse events
@@ -109,36 +109,14 @@
         // Touch events
         window.addEventListener('touchend', this.onMouseUp); // Touch up
         window.addEventListener('touchmove', this.onMouseMove); // Touch move
-      },
-      afterScrollY: function () {
-        if (this.state.velocity && Math.abs(this.state.velocity.y) > 0.5) {
-          this.getDOMNode().scrollTop += this.state.velocity.y;
-        } else {
-          clearInterval(this.afterScrollYInterval);
-        }
 
-        this.setState({
-          velocity: {
-            y: this.state.velocity.y * 0.9,
-            x: this.state.velocity.x
-          }
-        });
-      },
-      afterScrollX: function () {
-        if (this.state.velocity && Math.abs(this.state.velocity.x) > 0.5) {
-          this.getDOMNode().scrollLeft += this.state.velocity.x;
-        } else {
-          clearInterval(this.afterScrollXInterval);
-        }
-
-        this.setState({
-          velocity: {
-            y: this.state.velocity.y,
-            x: this.state.velocity.x * 0.9
-          }
-        });
+        window.addEventListener('contextmenu', this.preventDefault);
       },
       onMouseUp: function (event) {
+        if (event.type.indexOf('touch') >= 0 && !this.state.movedALittle) {
+          event.preventDefault();
+        }
+
         // Item clicked
         if (typeof this.props.itemClicked === 'function' && !this.state.held && !this.state.moved && this.state.dragged) {
           this.props.itemClicked(event, this.state.dragged.item, this.state.dragged.index);
@@ -150,17 +128,6 @@
           var newIndex = listElements.indexOf(this.state.dragged.target);
 
           this.props.callback(event, this.state.dragged.item, this.state.dragged.index, newIndex, this.state.list);
-        }
-
-        // Handle after-scroll
-        if (event.touches && !this.state.held) {
-          if (this.state.velocity.y !== 0 && this.props.lock !== 'vertical') {
-            this.afterScrollYInterval = setInterval(this.afterScrollY, this.constants.SCROLL_RATE);
-          }
-
-          if (this.state.velocity.x !== 0 && this.props.lock !== 'horizontal') {
-            this.afterScrollXInterval = setInterval(this.afterScrollX, this.constants.SCROLL_RATE);
-          }
         }
 
         this.setState({
@@ -185,6 +152,8 @@
         // Touch events
         window.removeEventListener('touchend', this.onMouseUp); // Touch up
         window.removeEventListener('touchmove', this.onMouseMove); // Touch move
+
+        window.removeEventListener('contextmenu', this.preventDefault);
       },
       getScrollArea: function (value) {
         return Math.max(Math.min(value / 4, this.constants.SCROLL_AREA), this.constants.SCROLL_AREA / 5);
@@ -251,6 +220,7 @@
       },
       onMouseMove: function (event) {
         this.handleTouchEvents(event);
+
         var pointer = {
           clientY: event.clientY,
           clientX: event.clientX
@@ -261,10 +231,12 @@
           velocity: {
             y: this.state.pointer.clientY - event.clientY,
             x: this.state.pointer.clientX - event.clientX
-          }
+          },
+          movedALittle: true
         });
 
         if (this.state.held && this.state.dragged) {
+          event.preventDefault();
           this.setDraggedPosition(event);
 
           var listElements = this.nodesToArray(this.getDOMNode().childNodes);
@@ -286,11 +258,6 @@
             if (this.xHasMoved(event) || this.yHasMoved(event)) {
               clearTimeout(this.holdTimeout);
               this.setState({moved: true});
-            }
-
-            // Implement touch scrolling since we event.preventDefault
-            if (event.touches) {
-              this.handleTouchScrolling(event);
             }
           }
         }
@@ -328,21 +295,6 @@
         return rect.width -
           parseInt(computedStyle.getPropertyValue('border-left-width') || computedStyle.borderLeftWidth) -
           parseInt(computedStyle.getPropertyValue('border-right-width') || computedStyle.borderRightWidth);
-      },
-      handleTouchScrolling: function (event) {
-        var element = this.getDOMNode();
-
-        // If scrollable vertically
-        if (this.props.lock !== 'vertical' && element.scrollHeight > this.elementHeightMinusBorders(element)) {
-          // Handle scrolling
-          element.scrollTop = this.state.downPos.scrollTop + this.state.downPos.clientY - event.clientY;
-        }
-
-        // If scrollable horizontally
-        if (this.props.lock !== 'horizontal' && element.scrollWidth > this.elementWidthMinusBorders(element)) {
-          // Handle scrolling
-          element.scrollLeft = this.state.downPos.scrollLeft + this.state.downPos.clientX - event.clientX;
-        }
       },
       setDraggedPosition: function (event) {
         var draggedStyle = {
@@ -444,9 +396,6 @@
         this.scrollIntervalY = undefined;
         clearInterval(this.scrollIntervalX);
         this.scrollIntervalX = undefined;
-
-        clearInterval(this.afterScrollYInterval);
-        clearInterval(this.afterScrollXInterval);
       },
       componentWillReceiveProps: function (props) {
         // Updates list when props changed
