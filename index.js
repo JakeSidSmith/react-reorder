@@ -424,7 +424,7 @@
         var list = this.state.list.map(function (item, index) {
           var itemKey = item[self.props.itemKey] || item;
           var itemClass = [self.props.itemClass, self.getPlaceholderClass(item), self.getSelectedClass(item)].join(' ');
-          return React.createElement('div', {
+          return React.createElement('li', {
             key: itemKey,
             className: itemClass,
             onMouseDown: self.itemDown.bind(self, item, index),
@@ -436,7 +436,7 @@
           if (self.state.held && self.state.dragged) {
             var itemKey = self.state.dragged.item[self.props.itemKey] || self.state.dragged.item;
             var itemClass = [self.props.itemClass, self.getDraggedClass(self.state.dragged.item), self.getSelectedClass(self.state.dragged.item)].join(' ');
-            return React.createElement('div', {
+            return React.createElement('li', {
               key: itemKey,
               className: itemClass,
               style: self.getDraggedStyle(self.state.dragged.item)
@@ -445,7 +445,7 @@
           return undefined;
         };
 
-        return React.createElement('div', {
+        return React.createElement('ul', {
           className: this.props.listClass,
           onMouseDown: self.listDown,
           onTouchStart: self.listDown
