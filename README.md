@@ -146,9 +146,11 @@ __[Demo](http://jakesidsmith.github.io/react-reorder/)__
 
     **Note: `event` will be the synthetic React event for either `mouseup` or `touchend`, and both contain `clientX` & `clientY` values (for ease of use)**
 
-## Requirements
+## Compatibility / Requirements
 
-* React (tested in v0.12.2)
+* Version `2.x` tested and working with React `0.14`
+
+* Versions `1.x` tested and working with React `0.12` - `0.13`
 
 * requirejs / commonjs / browserify (__Optional, but recommended*__)
 
