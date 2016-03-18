@@ -1,7 +1,7 @@
 (function () {
   'use strict';
 
-  var getReorderComponent = function (React) {
+  var getReorderComponent = function (React, ReactDOM) {
 
     return React.createClass({
       displayName: 'Reorder',
@@ -85,8 +85,8 @@
         var downPos = {
           clientY: event.clientY,
           clientX: event.clientX,
-          scrollTop: self.getDOMNode().scrollTop,
-          scrollLeft: self.getDOMNode().scrollLeft
+          scrollTop: ReactDOM.findDOMNode(self).scrollTop,
+          scrollLeft: ReactDOM.findDOMNode(self).scrollLeft
         };
 
         this.setState({
@@ -124,7 +124,7 @@
 
         // Reorder callback
         if (this.state.held && this.state.dragged && typeof this.props.callback === 'function') {
-          var listElements = this.nodesToArray(this.getDOMNode().childNodes);
+          var listElements = this.nodesToArray(ReactDOM.findDOMNode(this).childNodes);
           var newIndex = listElements.indexOf(this.state.dragged.target);
 
           this.props.callback(event, this.state.dragged.item, this.state.dragged.index, newIndex, this.state.list);
@@ -159,7 +159,7 @@
         return Math.max(Math.min(value / 4, this.constants.SCROLL_AREA), this.constants.SCROLL_AREA / 5);
       },
       dragScrollY: function () {
-        var element = this.getDOMNode();
+        var element = ReactDOM.findDOMNode(this);
         var rect = element.getBoundingClientRect();
         var scrollArea = this.getScrollArea(rect.height);
 
@@ -173,7 +173,7 @@
         }
       },
       dragScrollX: function () {
-        var element = this.getDOMNode();
+        var element = ReactDOM.findDOMNode(this);
         var rect = element.getBoundingClientRect();
         var scrollArea = this.getScrollArea(rect.width);
 
@@ -187,7 +187,7 @@
         }
       },
       handleDragScrollY: function (event) {
-        var rect = this.getDOMNode().getBoundingClientRect();
+        var rect = ReactDOM.findDOMNode(this).getBoundingClientRect();
 
         if (!this.scrollIntervalY && this.props.lock !== 'vertical') {
           if (event.clientY < rect.top + this.constants.SCROLL_AREA) {
@@ -203,7 +203,7 @@
         }
       },
       handleDragScrollX: function (event) {
-        var rect = this.getDOMNode().getBoundingClientRect();
+        var rect = ReactDOM.findDOMNode(this).getBoundingClientRect();
 
         if (!this.scrollIntervalX && this.props.lock !== 'horizontal') {
           if (event.clientX < rect.left + this.constants.SCROLL_AREA) {
@@ -239,7 +239,7 @@
           event.preventDefault();
           this.setDraggedPosition(event);
 
-          var listElements = this.nodesToArray(this.getDOMNode().childNodes);
+          var listElements = this.nodesToArray(ReactDOM.findDOMNode(this).childNodes);
           var collision = this.findCollision(listElements, event);
 
           if (collision) {
@@ -461,19 +461,24 @@
   // Export for commonjs / browserify
   if (typeof exports !== 'undefined') {
     var React = require('react');
+    var ReactDOM = require('react-dom');
+
     if (typeof module !== 'undefined' && module.exports) {
-      exports = module.exports = getReorderComponent(React);
+      exports = module.exports = getReorderComponent(React, ReactDOM);
     }
-    exports.Reorder = getReorderComponent(React);
-  } else if (typeof root !== 'undefined' && typeof root.React !== 'undefined') {
+
+    exports.Reorder = getReorderComponent(React, ReactDOM);
+  } else if (typeof root !== 'undefined' &&
+    typeof root.React !== 'undefined' &&
+    typeof root.ReactDOM !== 'undefined') {
     // Add to root object
-    root.Reorder = getReorderComponent(root.React);
+    root.Reorder = getReorderComponent(root.React, root.ReactDOM);
   }
 
   // Define for requirejs
   if (root && typeof root.define === 'function' && root.define.amd) {
-    root.define(['react'], function(React) {
-      return getReorderComponent(React);
+    root.define(['react', 'react-dom'], function(React, ReactDOM) {
+      return getReorderComponent(React, ReactDOM);
     });
   }
 

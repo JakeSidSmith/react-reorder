@@ -1,6 +1,7 @@
 'use strict';
 
 var React = require('react');
+var ReactDOM = require('react-dom');
 var Reorder = require('../../../index');
 
 var ListItem = React.createClass({
@@ -123,4 +124,4 @@ var Main = React.createClass({
   }
 });
 
-React.render(React.createElement(Main), document.getElementById('app'));
+ReactDOM.render(React.createElement(Main), document.getElementById('app'));

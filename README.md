@@ -62,25 +62,25 @@ __[Demo](http://jakesidsmith.github.io/react-reorder/)__
     ```javascript
     <Reorder
       // The key of each object in your list to use as the element key
-      itemKey='name',
+      itemKey='name'
       // Lock horizontal to have a vertical list
-      lock='horizontal',
+      lock='horizontal'
       // The milliseconds to hold an item for before dragging begins
-      holdTime='500',
+      holdTime='500'
       // The list to display
       list={[
         {name: 'Item 1'},
         {name: 'Item 2'},
         {name: 'Item 3'}
-      ]},
+      ]}
       // A template to display for each list item
-      template={ListItem},
+      template={ListItem}
       // Function that is called once a reorder has been performed
-      callback={this.callback},
+      callback={this.callback}
       // Class to be applied to the outer list element
-      listClass='my-list',
+      listClass='my-list'
       // Class to be applied to each list item's wrapper element
-      itemClass='list-item',
+      itemClass='list-item'
       // A function to be called if a list item is clicked (before hold time is up)
       itemClicked={this.itemClicked}
       // The item to be selected (adds 'selected' class)
@@ -116,13 +116,14 @@ __[Demo](http://jakesidsmith.github.io/react-reorder/)__
       // Class to be applied to each list item's wrapper element
       itemClass: 'list-item',
       // A function to be called if a list item is clicked (before hold time is up)
-      itemClicked: this.itemClicked
+      itemClicked: this.itemClicked,
       // The item to be selected (adds 'selected' class)
-      selected: this.state.selected
+      selected: this.state.selected,
       // The key to compare from the selected item object with each item object
-      selectedKey: 'uuid'
+      selectedKey: 'uuid',
       // Allows reordering to be disabled
-      disableReorder: false})
+      disableReorder: false
+    })
     ```
 
 5. Callback functions
@@ -145,9 +146,11 @@ __[Demo](http://jakesidsmith.github.io/react-reorder/)__
 
     **Note: `event` will be the synthetic React event for either `mouseup` or `touchend`, and both contain `clientX` & `clientY` values (for ease of use)**
 
-## Requirements
+## Compatibility / Requirements
 
-* React (tested in v0.12.2)
+* Version `2.x` tested and working with React `0.14`
+
+* Versions `1.x` tested and working with React `0.12` - `0.13`
 
 * requirejs / commonjs / browserify (__Optional, but recommended*__)
 
