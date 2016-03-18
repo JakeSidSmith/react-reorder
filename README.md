@@ -116,13 +116,14 @@ __[Demo](http://jakesidsmith.github.io/react-reorder/)__
       // Class to be applied to each list item's wrapper element
       itemClass: 'list-item',
       // A function to be called if a list item is clicked (before hold time is up)
-      itemClicked: this.itemClicked
+      itemClicked: this.itemClicked,
       // The item to be selected (adds 'selected' class)
-      selected: this.state.selected
+      selected: this.state.selected,
       // The key to compare from the selected item object with each item object
-      selectedKey: 'uuid'
+      selectedKey: 'uuid',
       // Allows reordering to be disabled
-      disableReorder: false})
+      disableReorder: false
+    })
     ```
 
 5. Callback functions
