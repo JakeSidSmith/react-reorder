@@ -124,10 +124,12 @@
 
         // Reorder callback
         if (this.state.held && this.state.dragged && typeof this.props.callback === 'function') {
-          var listElements = this.nodesToArray(ReactDOM.findDOMNode(this).childNodes);
-          var newIndex = listElements.indexOf(this.state.dragged.target);
+          var newIndex = this.state.reorderIndex > this.state.dragged.index ? this.state.reorderIndex - 1 : this.state.reorderIndex;
 
-          this.props.callback(event, this.state.dragged.item, this.state.dragged.index, newIndex, this.state.list);
+          var newList = [].concat(this.state.list);
+          newList.splice(newIndex, 0, newList.splice(this.state.dragged.index, 1)[0]);
+
+          this.props.callback(event, this.state.dragged.item, this.state.dragged.index, newIndex, newList);
         }
 
         this.setState({
@@ -136,6 +138,7 @@
           dragOffset: undefined,
           originalPosition: undefined,
           downPos: undefined,
+          reorderIndex: undefined,
           held: false,
           moved: false
         });
@@ -243,11 +246,11 @@
           var collision = this.findCollision(listElements, event);
 
           if (collision) {
-            var previousIndex = listElements.indexOf(this.state.dragged.target);
             var newIndex = listElements.indexOf(collision);
 
-            this.state.list.splice(newIndex, 0, this.state.list.splice(previousIndex, 1)[0]);
-            this.setState({list: this.state.list});
+            this.setState({
+              reorderIndex: newIndex
+            });
           }
 
           this.handleDragScrollY(event);
@@ -417,33 +420,36 @@
 
         var list = this.state.list.map(function (item, index) {
           var itemKey = item[self.props.itemKey] || item;
-          var itemClass = [self.props.itemClass, self.getPlaceholderClass(item), self.getSelectedClass(item)].join(' ');
+          var itemClass = [self.props.itemClass, self.getDraggedClass(item), self.getSelectedClass(item)].join(' ');
+
           return React.createElement('div', {
             key: itemKey,
             className: itemClass,
             onMouseDown: self.itemDown.bind(self, item, index),
             onTouchStart: self.itemDown.bind(self, item, index),
+            style: self.getDraggedStyle(item)
           }, getPropsTemplate(item));
         });
 
-        var targetClone = function () {
-          if (self.state.held && self.state.dragged) {
-            var itemKey = self.state.dragged.item[self.props.itemKey] || self.state.dragged.item;
-            var itemClass = [self.props.itemClass, self.getDraggedClass(self.state.dragged.item), self.getSelectedClass(self.state.dragged.item)].join(' ');
-            return React.createElement('div', {
-              key: itemKey,
-              className: itemClass,
-              style: self.getDraggedStyle(self.state.dragged.item)
-            }, getPropsTemplate(self.state.dragged.item));
-          }
-          return undefined;
-        };
+        if (self.state.held && self.state.dragged) {
+          var itemKey = self.state.dragged.item[self.props.itemKey] || self.state.dragged.item;
+          var itemClass = [self.props.itemClass, 'placeholder', self.getSelectedClass(self.state.dragged.item)].join(' ');
+
+          list.splice(
+            typeof self.state.reorderIndex === 'undefined' ? self.state.dragged.index : self.state.reorderIndex,
+            0,
+            React.createElement('div', {
+             key: itemKey + 'placeholder',
+             className: itemClass
+           }, getPropsTemplate(self.state.dragged.item))
+          )
+        }
 
         return React.createElement('div', {
           className: this.props.listClass,
           onMouseDown: self.listDown,
           onTouchStart: self.listDown
-        }, list, targetClone());
+        }, list);
       }
     });
 
