@@ -124,7 +124,12 @@
 
         // Reorder callback
         if (this.state.held && this.state.dragged && typeof this.props.callback === 'function') {
-          var newIndex = this.state.reorderIndex > this.state.dragged.index ? this.state.reorderIndex - 1 : this.state.reorderIndex;
+          var newIndex;
+          if (typeof this.state.reorderIndex === 'undefined') {
+            newIndex = this.state.dragged.index;
+          } else {
+            newIndex = this.state.reorderIndex > this.state.dragged.index ? this.state.reorderIndex - 1 : this.state.reorderIndex;
+          }
 
           var newList = [].concat(this.state.list);
           newList.splice(newIndex, 0, newList.splice(this.state.dragged.index, 1)[0]);
