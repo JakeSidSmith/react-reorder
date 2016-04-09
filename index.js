@@ -394,7 +394,7 @@
       componentWillReceiveProps: function (props) {
         // Updates list when props changed
         this.setState({
-          list: props.list
+          list: props.list || []
         });
       },
       getInitialState: function () {
