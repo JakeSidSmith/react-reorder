@@ -363,28 +363,22 @@
         if (this.state.held && this.state.dragged && this.state.dragged.item === item) {
           return this.state.draggedStyle;
         }
-        return undefined;
+        return null;
       },
       getDraggedClass: function (item) {
         if (this.state.held && this.state.dragged && this.state.dragged.item === item) {
           return 'dragged';
         }
-        return undefined;
-      },
-      getPlaceholderClass: function (item) {
-        if (this.state.held && this.state.dragged && this.state.dragged.item === item) {
-          return 'placeholder';
-        }
-        return undefined;
+        return '';
       },
       getSelectedClass: function (item) {
         if (typeof this.props.selected !== 'undefined') {
           if (typeof this.props.selectedKey !== 'undefined') {
-            return this.props.selected[this.props.selectedKey] === item[this.props.selectedKey] ? 'selected' : undefined;
+            return this.props.selected[this.props.selectedKey] === item[this.props.selectedKey] ? 'selected' : '';
           }
-          return this.props.selected === item ? 'selected' : undefined;
+          return this.props.selected === item ? 'selected' : '';
         }
-        return undefined;
+        return '';
       },
 
       // ---- Default methods
