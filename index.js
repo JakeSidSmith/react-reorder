@@ -456,7 +456,8 @@
   };
 
   // Establish the root object, `window` in the browser, or `exports` on the server.
-  var root = this || window;
+  var wnd = typeof window !== 'undefined' ? window : undefined;
+  var root = this || wnd;
 
   // Export for commonjs / browserify
   if (typeof exports !== 'undefined') {
