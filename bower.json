@@ -1,6 +1,5 @@
 {
   "name": "react-reorder",
-  "version": "1.3.0",
   "description": "Drag & drop, touch enabled, reorderable / sortable list, React component",
   "homepage": "https://github.com/JakeSidSmith/react-reorder",
   "license": "MIT",
