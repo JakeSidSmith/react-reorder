@@ -455,31 +455,31 @@
 
   };
 
-  // Establish the root object, `window` in the browser, or `exports` on the server.
-  var root = this || window;
-
   // Export for commonjs / browserify
-  if (typeof exports !== 'undefined') {
+  if (typeof exports === 'object' && typeof module !== 'undefined') {
     var React = require('react');
     var ReactDOM = require('react-dom');
-
-    if (typeof module !== 'undefined' && module.exports) {
-      exports = module.exports = getReorderComponent(React, ReactDOM);
-    }
-
-    exports.Reorder = getReorderComponent(React, ReactDOM);
-  } else if (typeof root !== 'undefined' &&
-    typeof root.React !== 'undefined' &&
-    typeof root.ReactDOM !== 'undefined') {
-    // Add to root object
-    root.Reorder = getReorderComponent(root.React, root.ReactDOM);
-  }
-
-  // Define for requirejs
-  if (root && typeof root.define === 'function' && root.define.amd) {
-    root.define(['react', 'react-dom'], function(React, ReactDOM) {
+    module.exports = getReorderComponent(React, ReactDOM);
+  // Export for amd / require
+  } else if (typeof define === 'function' && define.amd) { // eslint-disable-line no-undef
+    define(['react', 'react-dom'], function (React, ReactDOM) { // eslint-disable-line no-undef
       return getReorderComponent(React, ReactDOM);
     });
+  // Export globally
+  } else {
+    var root;
+
+    if (typeof window !== 'undefined') {
+      root = window;
+    } else if (typeof global !== 'undefined') {
+      root = global;
+    } else if (typeof self !== 'undefined') {
+      root = self;
+    } else {
+      root = this;
+    }
+
+    root.Reorder = getReorderComponent(root.React, root.ReactDOM);
   }
 
 })();
