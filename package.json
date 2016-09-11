@@ -8,8 +8,8 @@
   "scripts": {
     "start": "http-server examples/ -c-1 -o",
     "build-less": "lessc examples/src/less/index.less examples/build/css/index.css && echo 'Less compiled'",
-    "build-js": "browserify examples/src/js/index.js -o examples/build/js/index.js",
-    "watch-js": "watchify examples/src/js/index.js -o examples/build/js/index.js -v",
+    "build-js": "browserify -t babelify examples/src/js/index.js -o examples/build/js/index.js",
+    "watch-js": "watchify -t babelify examples/src/js/index.js -o examples/build/js/index.js -v",
     "build-dirs": "mkdir -p examples/build/css/ && mkdir -p examples/build/js/",
     "build": "npm run build-dirs && npm run build-less && npm run build-js",
     "watch": "npm run watch-js"
@@ -32,6 +32,8 @@
   ],
   "dependencies": {},
   "devDependencies": {
+    "babel-preset-react": "=6.11.1",
+    "babelify": "=7.3.0",
     "browserify": "=12.0.1",
     "http-server": "=0.8.5",
     "less": "=2.5.3",
