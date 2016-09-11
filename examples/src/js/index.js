@@ -27,7 +27,7 @@ var Main = React.createClass({
   itemClicked2: function (event, item) {
     this.setState({clickedItem2: item});
   },
-  disableToggled: function () {
+  onDisableToggle: function () {
     this.setState({disableReorder: !this.state.disableReorder});
   },
   onPrefixChange: function (event) {
@@ -70,6 +70,7 @@ var Main = React.createClass({
         <p>
           Prefix (shared props): <input type="text" value={this.state.prefix} onChange={this.onPrefixChange} />
         </p>
+
         <Reorder
           itemKey="name"
           lock="horizontal"
@@ -86,81 +87,57 @@ var Main = React.createClass({
             prefix: [this.state.prefix, ': '].join('')
           }}
         />
+
+        <p>
+          <strong>
+            Lock vertical
+          </strong>
+        </p>
+        <small>
+          This example has a hold time of 250 milliseconds
+        </small>
+        <p>
+          {'Reorder disabled: '}
+          <input
+            type="checkbox"
+            value={this.state.disableReorder || false}
+            onChange={this.onDisableToggle}
+          />
+          Last item clicked: {this.state.clickedItem2 ? this.state.clickedItem2.name : undefined}
+        </p>
+
+        <Reorder
+          itemKey="name"
+          lock="vertical"
+          holdTime="250"
+          list={this.state.arr}
+          template={ListItem}
+          callback={this.callback}
+          listClass="my-list-2"
+          itemClass="list-item"
+          itemClicked={this.itemClicked2}
+          disableReorder={this.state.disableReorder}
+        />
+
+        <p>
+          <strong>
+            No lock (grid)
+          </strong>
+        </p>
+        <small>
+          This example has a hold time of 0 milliseconds
+        </small>
+
+        <Reorder
+          itemKey="name"
+          holdTime="0"
+          list={this.state.arr}
+          template={ListItem}
+          callback={this.callback}
+          listClass="my-list-3"
+          itemClass="list-item"
+        />
       </div>
-    );
-
-    return React.createElement('div', {className: 'app'},
-
-      React.createElement('p', null, React.createElement('strong', null, 'Lock horizontal')),
-      React.createElement('small', null, 'This example has a hold time of 500 milliseconds before dragging begins,' +
-        'allowing for other events like clicking / tapping to be attached'),
-
-      React.createElement('p', null,
-        'Selected item: ', this.state.clickedItem ? this.state.clickedItem.name : undefined),
-
-      React.createElement('p', null,
-        'Prefix (shared props): ',
-        React.createElement('input', {
-          type: 'text',
-          onChange: this.prefixChanged,
-          value: this.state.prefix
-        })
-      ),
-
-      React.createElement(Reorder, {
-        itemKey: 'name',
-        lock: 'horizontal',
-        holdTime: '500',
-        list: this.state.arr,
-        template: ListItem,
-        callback: this.callback,
-        listClass: 'my-list',
-        itemClass: 'list-item',
-        itemClicked: this.itemClicked,
-        selected: this.state.clickedItem,
-        selectedKey: 'name',
-        sharedProps: {
-          prefix: [this.state.prefix, ': '].join('')
-        }}),
-
-      React.createElement('p', null, React.createElement('strong', null, 'Lock vertical')),
-      React.createElement('small', null, 'This example has a hold time of 250 milliseconds'),
-
-      React.createElement('p', null,
-        'Reorder disabled: ',
-        React.createElement('input', {
-          type: 'checkbox',
-          onChange: this.disableToggled,
-          value: this.state.disableReorder || false
-        }),
-        'Last item clicked: ',
-        this.state.clickedItem2 ? this.state.clickedItem2.name : undefined
-      ),
-
-      React.createElement(Reorder, {
-        itemKey: 'name',
-        lock: 'vertical',
-        holdTime: '250',
-        list: this.state.arr,
-        template: ListItem,
-        callback: this.callback,
-        listClass: 'my-list-2',
-        itemClass: 'list-item',
-        itemClicked: this.itemClicked2,
-        disableReorder: this.state.disableReorder}),
-
-      React.createElement('p', null, React.createElement('strong', null, 'No lock (grid)')),
-      React.createElement('small', null, 'This example has a hold time of 0 milliseconds'),
-
-      React.createElement(Reorder, {
-        itemKey: 'name',
-        holdTime: '0',
-        list: this.state.arr,
-        template: ListItem,
-        callback: this.callback,
-        listClass: 'my-list-3',
-        itemClass: 'list-item'})
-
     );
   }
 });
