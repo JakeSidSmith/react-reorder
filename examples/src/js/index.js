@@ -30,7 +30,7 @@ var Main = React.createClass({
   disableToggled: function () {
     this.setState({disableReorder: !this.state.disableReorder});
   },
-  prefixChanged: function (event) {
+  onPrefixChange: function (event) {
     var target = event.currentTarget;
     this.setState({prefix: target.value});
   },
@@ -53,41 +53,41 @@ var Main = React.createClass({
     };
   },
   render: function () {
-    // return (
-    //   <div className="app">
-    //     <p>
-    //       <strong>
-    //         Lock horizontal
-    //       </strong>
-    //     </p>
-    //     <small>
-    //       This example has a hold time of 500 milliseconds before dragging begins,
-    //       allowing for other events like clicking / tapping to be attached
-    //     </small>
-    //     <p>
-    //       Selected item: {this.state.clickedItem ? this.state.clickedItem.name : undefined}
-    //     </p>
-    //     <p>
-    //       Prefix (shared props): <input type="text" value={this.state.prefix} onChange={this.prefixChanged} />
-    //     </p>
-    //     <Reorder
-    //       itemKey="name"
-    //       lock="horizontal"
-    //       holdTime="500"
-    //       list={this.state.arr}
-    //       template={ListItem}
-    //       callback={this.callback}
-    //       listClass="my-list"
-    //       itemClass="list-item"
-    //       itemClicked={this.itemClicked}
-    //       selected={this.state.clickedItem}
-    //       selectedKey="name"
-    //       sharedProps={{
-    //         prefix: [this.state.prefix, ': '].join('')
-    //       }}
-    //     />
-    //   </div>
-    // );
+    return (
+      <div className="app">
+        <p>
+          <strong>
+            Lock horizontal
+          </strong>
+        </p>
+        <small>
+          This example has a hold time of 500 milliseconds before dragging begins,
+          allowing for other events like clicking / tapping to be attached
+        </small>
+        <p>
+          Selected item: {this.state.clickedItem ? this.state.clickedItem.name : undefined}
+        </p>
+        <p>
+          Prefix (shared props): <input type="text" value={this.state.prefix} onChange={this.onPrefixChange} />
+        </p>
+        <Reorder
+          itemKey="name"
+          lock="horizontal"
+          holdTime="500"
+          list={this.state.arr}
+          template={ListItem}
+          callback={this.callback}
+          listClass="my-list"
+          itemClass="list-item"
+          itemClicked={this.itemClicked}
+          selected={this.state.clickedItem}
+          selectedKey="name"
+          sharedProps={{
+            prefix: [this.state.prefix, ': '].join('')
+          }}
+        />
+      </div>
+    );
 
     return React.createElement('div', {className: 'app'},
 
