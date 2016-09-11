@@ -4,7 +4,7 @@
   "description": "Drag & drop, touch enabled, reorderable / sortable list, React component",
   "author": "Jake 'Sid' Smith",
   "license": "MIT",
-  "main": "index.js",
+  "main": "lib/index.js",
   "scripts": {
     "start": "http-server examples/ -c-1 -o",
     "build-less": "lessc examples/src/less/index.less examples/build/css/index.css && echo 'Less compiled'",

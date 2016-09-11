@@ -2,7 +2,7 @@
 
 var React = require('react');
 var ReactDOM = require('react-dom');
-var Reorder = require('../../../index');
+var Reorder = require('../../../lib/index');
 
 var ListItem = React.createClass({
   render: function () {
