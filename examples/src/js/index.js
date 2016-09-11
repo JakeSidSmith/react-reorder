@@ -17,7 +17,7 @@ var ListItem = React.createClass({
 
 var Main = React.createClass({
   callback: function (event, item, index, newIndex, list) {
-    this.setState({arr: list});
+    this.setState({list: list});
   },
   itemClicked: function (event, item) {
     this.setState({
@@ -48,22 +48,26 @@ var Main = React.createClass({
     }
 
     return {
-      arr: list,
+      list: list,
       prefix: 'Prefix'
     };
   },
   render: function () {
     return (
       <div className="app">
+        <h1>
+          React Reorder
+        </h1>
+        <h2>
+          Examples
+        </h2>
+        <h3>
+          Lock horizontal
+        </h3>
         <p>
-          <strong>
-            Lock horizontal
-          </strong>
-        </p>
-        <small>
           This example has a hold time of 500 milliseconds before dragging begins,
           allowing for other events like clicking / tapping to be attached
-        </small>
+        </p>
         <p>
           Selected item: {this.state.clickedItem ? this.state.clickedItem.name : undefined}
         </p>
@@ -72,30 +76,33 @@ var Main = React.createClass({
         </p>
 
         <Reorder
-          itemKey="name"
+          component="ul"
+          className="my-list"
           lock="horizontal"
-          holdTime="500"
-          list={this.state.arr}
-          template={ListItem}
+          holdTime={500}
           callback={this.callback}
-          listClass="my-list"
-          itemClass="list-item"
-          itemClicked={this.itemClicked}
-          selected={this.state.clickedItem}
-          selectedKey="name"
-          sharedProps={{
-            prefix: [this.state.prefix, ': '].join('')
-          }}
-        />
+        >
+          {
+            this.state.list.map(function (item) {
+              return (
+                <li
+                  key={item.name}
+                  className="list-item"
+                  style={{color: item.color}}
+                >
+                  {this.state.prefix} {item.name}
+                </li>
+              );
+            }.bind(this))
+          }
+        </Reorder>
 
+        <h3>
+          Lock vertical
+        </h3>
         <p>
-          <strong>
-            Lock vertical
-          </strong>
-        </p>
-        <small>
           This example has a hold time of 250 milliseconds
-        </small>
+        </p>
         <p>
           {'Reorder disabled: '}
           <input
@@ -110,7 +117,7 @@ var Main = React.createClass({
           itemKey="name"
           lock="vertical"
           holdTime="250"
-          list={this.state.arr}
+          list={this.state.list}
           template={ListItem}
           callback={this.callback}
           listClass="my-list-2"
@@ -119,19 +126,17 @@ var Main = React.createClass({
           disableReorder={this.state.disableReorder}
         />
 
+        <h3>
+          No lock (grid)
+        </h3>
         <p>
-          <strong>
-            No lock (grid)
-          </strong>
-        </p>
-        <small>
           This example has a hold time of 0 milliseconds
-        </small>
+        </p>
 
         <Reorder
           itemKey="name"
           holdTime="0"
-          list={this.state.arr}
+          list={this.state.list}
           template={ListItem}
           callback={this.callback}
           listClass="my-list-3"
