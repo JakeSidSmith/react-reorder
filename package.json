@@ -41,8 +41,8 @@
     "eslintrc": "git+https://github.com/JakeSidSmith/eslintrc.git#v0.0.2",
     "http-server": "=0.8.5",
     "less": "=2.5.3",
-    "react": ">=0.14.7",
-    "react-dom": ">=0.14.7",
+    "react": "=15.3.1",
+    "react-dom": "=15.3.1",
     "watchify": "=3.6.1"
   },
   "engines": {
