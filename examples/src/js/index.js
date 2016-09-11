@@ -41,7 +41,10 @@ var Main = React.createClass({
     var list = [];
 
     for (var i = 0; i < 10; i += 1) {
-      list.push({name: ['Thing', i].join(' '), color: ['rgb(',(i + 1) * 25, ',', 250 - ((i + 1) * 25),',0)'].join('')});
+      list.push({
+        name: ['Thing', i].join(' '),
+        color: ['rgb(', (i + 1) * 25, ',', 250 - ((i + 1) * 25), ',0)'].join('')
+      });
     }
 
     return {
@@ -50,12 +53,50 @@ var Main = React.createClass({
     };
   },
   render: function () {
+    // return (
+    //   <div className="app">
+    //     <p>
+    //       <strong>
+    //         Lock horizontal
+    //       </strong>
+    //     </p>
+    //     <small>
+    //       This example has a hold time of 500 milliseconds before dragging begins,
+    //       allowing for other events like clicking / tapping to be attached
+    //     </small>
+    //     <p>
+    //       Selected item: {this.state.clickedItem ? this.state.clickedItem.name : undefined}
+    //     </p>
+    //     <p>
+    //       Prefix (shared props): <input type="text" value={this.state.prefix} onChange={this.prefixChanged} />
+    //     </p>
+    //     <Reorder
+    //       itemKey="name"
+    //       lock="horizontal"
+    //       holdTime="500"
+    //       list={this.state.arr}
+    //       template={ListItem}
+    //       callback={this.callback}
+    //       listClass="my-list"
+    //       itemClass="list-item"
+    //       itemClicked={this.itemClicked}
+    //       selected={this.state.clickedItem}
+    //       selectedKey="name"
+    //       sharedProps={{
+    //         prefix: [this.state.prefix, ': '].join('')
+    //       }}
+    //     />
+    //   </div>
+    // );
+
     return React.createElement('div', {className: 'app'},
 
       React.createElement('p', null, React.createElement('strong', null, 'Lock horizontal')),
-      React.createElement('small', null, 'This example has a hold time of 500 milliseconds before dragging begins, allowing for other events like clicking / tapping to be attached'),
+      React.createElement('small', null, 'This example has a hold time of 500 milliseconds before dragging begins,' +
+        'allowing for other events like clicking / tapping to be attached'),
 
-      React.createElement('p', null, 'Selected item: ', this.state.clickedItem ? this.state.clickedItem.name : undefined),
+      React.createElement('p', null,
+        'Selected item: ', this.state.clickedItem ? this.state.clickedItem.name : undefined),
 
       React.createElement('p', null,
         'Prefix (shared props): ',

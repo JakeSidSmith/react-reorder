@@ -14,7 +14,7 @@
     "build": "npm run build-dirs && npm run build-less && npm run build-js",
     "watch": "npm run watch-js",
     "lint-lib": "eslint -c node_modules/eslintrc/.eslintrc-es5 lib/index.js",
-    "lint-examples": "eslint -c node_modules/eslintrc/.eslintrc-es5-react lib/index.js",
+    "lint-examples": "eslint -c node_modules/eslintrc/.eslintrc-es5-react examples/src/js/",
     "test": "npm run lint-lib && npm run lint-examples"
   },
   "bugs": "https://github.com/JakeSidSmith/react-reorder/issues",
