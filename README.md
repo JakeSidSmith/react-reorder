@@ -1,4 +1,4 @@
-# React Reorder
+# React Reorder [![CircleCI](https://circleci.com/gh/JakeSidSmith/react-reorder.svg?style=svg)](https://circleci.com/gh/JakeSidSmith/react-reorder)
 
 __Drag & drop, touch enabled, reorder / sortable list, React component__
 
