@@ -91,6 +91,7 @@ var Main = React.createClass({
                   style={{color: item.color}}
                 >
                   {this.state.prefix} {item.name}
+                  <input type="text" />
                 </li>
               );
             }.bind(this))
