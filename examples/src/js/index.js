@@ -5,7 +5,19 @@
   require('./styles');
   var React = require('react');
   var ReactDOM = require('react-dom');
+  var ReactStyleSheets = require('react-style-sheets');
   var Reorder = require('../../../lib/index');
+
+  var classNames = ReactStyleSheets.createUniqueClassStyles({
+    app: {
+      position: 'relative',
+      width: '100%',
+      maxWidth: 768,
+      overflow: 'hidden',
+      margin: 'auto',
+      padding: 8
+    }
+  });
 
   var ListItem = React.createClass({
     render: function () {
@@ -57,7 +69,7 @@
     },
     render: function () {
       return (
-        <div className="app">
+        <div className={classNames.app}>
           <h1>
             React Reorder
           </h1>
