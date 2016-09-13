@@ -16,6 +16,59 @@
       overflow: 'hidden',
       margin: 'auto',
       padding: 8
+    },
+    placeholder: {
+      backgroundColor: '#CCC',
+      border: [2, 'solid', '#CCC']
+    },
+    dragged: {
+      backgroundColor: '#EEE',
+      transform: 'scale(0.98, 0.98)',
+      opacity: 0.7
+    },
+    selected: {
+      border: [2, 'solid', 'red']
+    },
+    myList: {
+      float: 'left',
+      width: '100%',
+      height: 'auto',
+      border: [1, 'solid', 'grey'],
+      padding: 8,
+      listStyle: 'none'
+    },
+    myList1: {
+      height: 200,
+      overflow: 'auto',
+      paddingBottom: 0
+    },
+    myList2: {
+      overflowX: 'auto',
+      overflowY: 'hidden',
+      height: 62,
+      whiteSpace: 'nowrap'
+    },
+    mylist3: {},
+    listItem: {
+      float: 'left',
+      width: '100%',
+      height: 'auto',
+      padding: 12,
+      border: [2, 'solid', 'lightblue'],
+      marginBottom: 8,
+      transformOrigin: '50% 50%'
+    },
+    listItem2: {
+      float: 'none',
+      width: 80,
+      marginBottom: 0,
+      whiteSpace: 'nowrap',
+      overflow: 'hidden',
+      display: 'inline-block'
+    },
+    listItem3: {
+      float: 'left',
+      width: '50%'
     }
   });
 
@@ -92,17 +145,19 @@
 
           <Reorder
             component="ul"
-            className="my-list"
+            className={[classNames.myList, classNames.myList1].join(' ')}
             lock="horizontal"
             holdTime={500}
             callback={this.callback}
+            placeholderClassName={classNames.placeholder}
+            draggedClassName={classNames.dragged}
           >
             {
               this.state.list.map(function (item) {
                 return (
                   <li
                     key={item.name}
-                    className="list-item"
+                    className={classNames.listItem}
                     style={{color: item.color}}
                   >
                     {this.state.prefix} {item.name}
@@ -130,6 +185,7 @@
           </p>
 
           <Reorder
+            className={[classNames.myList, classNames.myList2].join(' ')}
             itemKey="name"
             lock="vertical"
             holdTime="250"
@@ -150,6 +206,7 @@
           </p>
 
           <Reorder
+            className={[classNames.myList, classNames.myList3].join(' ')}
             itemKey="name"
             holdTime="0"
             list={this.state.list}

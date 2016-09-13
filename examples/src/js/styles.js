@@ -6,7 +6,10 @@
 
   ReactStyleSheets.setOptions({
     vendorPrefixes: {
-      userSelect: ['webkit', 'khtml', 'moz', 'ms', 'o']
+      userSelect: ['webkit', 'khtml', 'moz', 'ms', 'o'],
+      transform: ['webkit', 'moz', 'ms', 'o'],
+      transition: ['webkit', 'moz', 'ms', 'o'],
+      transformOrigin: ['webkit', 'moz', 'ms', 'o']
     }
   });
 
