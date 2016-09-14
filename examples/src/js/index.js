@@ -153,7 +153,6 @@
             className={[classNames.myList, classNames.myList1].join(' ')}
             lock="horizontal"
             holdTime={500}
-            callback={this.callback}
             placeholderClassName={classNames.placeholder}
             draggedClassName={classNames.dragged}
             onReorder={this.onReorder}
