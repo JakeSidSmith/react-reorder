@@ -84,31 +84,6 @@
   });
 
   var Main = React.createClass({
-    callback: function (event, item, index, newIndex, list) {
-      this.setState({list: list});
-    },
-
-    itemClicked: function (event, item) {
-      this.setState({
-        clickedItem: item === this.state.clickedItem ? undefined : item
-      });
-    },
-
-    itemClicked2: function (event, item) {
-      this.setState({clickedItem2: item});
-    },
-
-    onDisableToggle: function () {
-      this.setState({disableReorder: !this.state.disableReorder});
-    },
-
-    onPrefixChange: function (event) {
-      var target = event.currentTarget;
-      this.setState({prefix: target.value});
-    },
-
-    // ----
-
     getInitialState: function () {
       var list = [];
 
@@ -124,6 +99,35 @@
         prefix: 'Prefix'
       };
     },
+
+    onReorder: function (event, previousIndex, nextIndex) {
+      console.log(previousIndex, nextIndex);
+
+      var list = [].concat(this.state.list);
+      list.splice(nextIndex, 0, list.splice(previousIndex, 1)[0]);
+
+      console.log(list);
+
+      this.setState({
+        list: list
+      });
+    },
+
+    onDisableToggle: function () {
+      this.setState({
+        disableReorder: !this.state.disableReorder
+      });
+    },
+
+    onPrefixChange: function (event) {
+      var target = event.currentTarget;
+
+      this.setState({
+        prefix: target.value
+      });
+    },
+
+    // ----
 
     render: function () {
       return (
@@ -156,6 +160,7 @@
             callback={this.callback}
             placeholderClassName={classNames.placeholder}
             draggedClassName={classNames.dragged}
+            onReorder={this.onReorder}
           >
             {
               this.state.list.map(function (item) {
