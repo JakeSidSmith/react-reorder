@@ -19,7 +19,7 @@
     },
     placeholder: {
       backgroundColor: '#CCC',
-      border: [2, 'solid', '#CCC']
+      border: [1, 'solid', '#CCC']
     },
     dragged: {
       backgroundColor: '#EEE',
@@ -87,17 +87,21 @@
     callback: function (event, item, index, newIndex, list) {
       this.setState({list: list});
     },
+
     itemClicked: function (event, item) {
       this.setState({
         clickedItem: item === this.state.clickedItem ? undefined : item
       });
     },
+
     itemClicked2: function (event, item) {
       this.setState({clickedItem2: item});
     },
+
     onDisableToggle: function () {
       this.setState({disableReorder: !this.state.disableReorder});
     },
+
     onPrefixChange: function (event) {
       var target = event.currentTarget;
       this.setState({prefix: target.value});
@@ -120,6 +124,7 @@
         prefix: 'Prefix'
       };
     },
+
     render: function () {
       return (
         <div className={classNames.app}>
