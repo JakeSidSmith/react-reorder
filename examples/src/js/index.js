@@ -101,12 +101,8 @@
     },
 
     onReorder: function (event, previousIndex, nextIndex) {
-      console.log(previousIndex, nextIndex);
-
       var list = [].concat(this.state.list);
       list.splice(nextIndex, 0, list.splice(previousIndex, 1)[0]);
-
-      console.log(list);
 
       this.setState({
         list: list
