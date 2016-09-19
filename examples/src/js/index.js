@@ -17,21 +17,6 @@
       margin: 'auto',
       padding: 8
     },
-    placeholder: {
-      backgroundColor: '#CCC',
-      border: [1, 'solid', '#CCC']
-    },
-    customPlaceholder: {
-      height: 0
-    },
-    dragged: {
-      backgroundColor: '#EEE',
-      transform: 'scale(0.98, 0.98)',
-      opacity: 0.7
-    },
-    selected: {
-      border: [2, 'solid', 'red']
-    },
     myList: {
       float: 'left',
       width: '100%',
@@ -72,6 +57,21 @@
     listItem3: {
       float: 'left',
       width: '50%'
+    },
+    placeholder: {
+      backgroundColor: '#CCC',
+      border: [1, 'solid', '#CCC']
+    },
+    customPlaceholder: {
+      opacity: 0.2
+    },
+    dragged: {
+      backgroundColor: '#EEE',
+      transform: 'scale(0.98, 0.98)',
+      opacity: 0.8
+    },
+    selected: {
+      border: [2, 'solid', 'red']
     }
   });
 
