@@ -223,14 +223,24 @@
 
           <Reorder
             className={[classNames.myList, classNames.myList3].join(' ')}
-            itemKey="name"
-            holdTime="0"
-            list={this.state.list}
-            template={ListItem}
-            callback={this.callback}
-            listClass="my-list-3"
-            itemClass="list-item"
-          />
+            placeholderClassName={classNames.placeholder}
+            draggedClassName={classNames.dragged}
+            onReorder={this.onReorder}
+          >
+            {
+              this.state.list.map(function (item) {
+                return (
+                  <li
+                    key={item.name}
+                    className={[classNames.listItem, classNames.listItem3].join(' ')}
+                    style={{color: item.color}}
+                  >
+                    {item.name}
+                  </li>
+                );
+              }.bind(this))
+            }
+          </Reorder>
         </div>
       );
     }
