@@ -75,17 +75,6 @@
     }
   });
 
-  var ListItem = React.createClass({
-    render: function () {
-      return React.createElement('div', {
-        className: 'inner',
-        style: {
-          color: this.props.item.color
-        }
-      }, this.props.sharedProps ? this.props.sharedProps.prefix : undefined, this.props.item.name);
-    }
-  });
-
   var Main = React.createClass({
     getInitialState: function () {
       var list = [];
