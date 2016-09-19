@@ -52,7 +52,7 @@
     listItem: {
       float: 'left',
       width: '100%',
-      height: 'auto',
+      height: 46,
       padding: 12,
       border: [2, 'solid', 'lightblue'],
       marginBottom: 8,
@@ -156,6 +156,7 @@
             lock="horizontal"
             holdTime={500}
             onReorder={this.onReorder}
+            placeholder={<div className={classNames.listItem} />}
           >
             {
               this.state.list.map(function (item) {
