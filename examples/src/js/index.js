@@ -151,10 +151,10 @@
           <Reorder
             component="ul"
             className={[classNames.myList, classNames.myList1].join(' ')}
-            lock="horizontal"
-            holdTime={500}
             placeholderClassName={classNames.placeholder}
             draggedClassName={classNames.dragged}
+            lock="horizontal"
+            holdTime={500}
             onReorder={this.onReorder}
           >
             {
@@ -190,18 +190,29 @@
           </p>
 
           <Reorder
+            component="ul"
             className={[classNames.myList, classNames.myList2].join(' ')}
-            itemKey="name"
+            placeholderClassName={classNames.placeholder}
+            draggedClassName={classNames.dragged}
             lock="vertical"
-            holdTime="250"
-            list={this.state.list}
-            template={ListItem}
-            callback={this.callback}
-            listClass="my-list-2"
-            itemClass="list-item"
-            itemClicked={this.itemClicked2}
-            disableReorder={this.state.disableReorder}
-          />
+            holdTime={250}
+            onReorder={this.onReorder}
+            disabled={this.state.disableReorder}
+          >
+            {
+              this.state.list.map(function (item) {
+                return (
+                  <li
+                    key={item.name}
+                    className={[classNames.listItem, classNames.listItem2].join(' ')}
+                    style={{color: item.color}}
+                  >
+                    {item.name}
+                  </li>
+                );
+              }.bind(this))
+            }
+          </Reorder>
 
           <h3>
             No lock (grid)
