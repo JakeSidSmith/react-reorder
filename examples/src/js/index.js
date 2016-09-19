@@ -21,6 +21,9 @@
       backgroundColor: '#CCC',
       border: [1, 'solid', '#CCC']
     },
+    customPlaceholder: {
+      height: 0
+    },
     dragged: {
       backgroundColor: '#EEE',
       transform: 'scale(0.98, 0.98)',
@@ -156,7 +159,7 @@
             lock="horizontal"
             holdTime={500}
             onReorder={this.onReorder}
-            placeholder={<div className={classNames.listItem} />}
+            placeholder={<div className={[classNames.listItem, classNames.customPlaceholder].join(' ')} />}
           >
             {
               this.state.list.map(function (item) {
