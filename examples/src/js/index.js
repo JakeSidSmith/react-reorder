@@ -90,8 +90,7 @@
     },
 
     onReorder: function (event, previousIndex, nextIndex) {
-      // list.splice(nextIndex, 0, list.splice(previousIndex, 1)[0]);
-      var list = this.state.list.delete(previousIndex).splice(nextIndex, 0, this.state.list.get(previousIndex));
+      var list = Immutable.List(Reorder.reorderImmutable(this.state.list, previousIndex, nextIndex));
 
       this.setState({
         list: list
