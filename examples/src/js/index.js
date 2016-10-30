@@ -83,7 +83,7 @@
           return {
             name: ['Thing', value].join(' '),
             color: ['rgb(', (value + 1) * 25, ',', 250 - ((value + 1) * 25), ',0)'].join('')
-          }
+          };
         })),
         prefix: 'Prefix'
       };
