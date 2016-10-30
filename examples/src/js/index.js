@@ -6,6 +6,7 @@
   var React = require('react');
   var ReactDOM = require('react-dom');
   var ReactStyleSheets = require('react-style-sheets');
+  var Immutable = require('immutable');
   var Reorder = require('../../../lib/index');
 
   var classNames = ReactStyleSheets.createUniqueClassStyles({
@@ -77,24 +78,20 @@
 
   var Main = React.createClass({
     getInitialState: function () {
-      var list = [];
-
-      for (var i = 0; i < 10; i += 1) {
-        list.push({
-          name: ['Thing', i].join(' '),
-          color: ['rgb(', (i + 1) * 25, ',', 250 - ((i + 1) * 25), ',0)'].join('')
-        });
-      }
-
       return {
-        list: list,
+        list: Immutable.List(Immutable.Range(0, 10).map(function (value) {
+          return {
+            name: ['Thing', value].join(' '),
+            color: ['rgb(', (value + 1) * 25, ',', 250 - ((value + 1) * 25), ',0)'].join('')
+          }
+        })),
         prefix: 'Prefix'
       };
     },
 
     onReorder: function (event, previousIndex, nextIndex) {
-      var list = [].concat(this.state.list);
-      list.splice(nextIndex, 0, list.splice(previousIndex, 1)[0]);
+      // list.splice(nextIndex, 0, list.splice(previousIndex, 1)[0]);
+      var list = this.state.list.delete(previousIndex).splice(nextIndex, 0, this.state.list.get(previousIndex));
 
       this.setState({
         list: list
@@ -162,7 +159,7 @@
                     <input type="text" />
                   </li>
                 );
-              }.bind(this))
+              }.bind(this)).toArray()
             }
           </Reorder>
 
@@ -203,7 +200,7 @@
                     {item.name}
                   </li>
                 );
-              }.bind(this))
+              }.bind(this)).toArray()
             }
           </Reorder>
 
@@ -231,7 +228,7 @@
                     {item.name}
                   </li>
                 );
-              }.bind(this))
+              }.bind(this)).toArray()
             }
           </Reorder>
         </div>
