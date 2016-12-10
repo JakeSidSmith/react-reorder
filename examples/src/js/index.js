@@ -73,6 +73,17 @@
     },
     selected: {
       border: [2, 'solid', 'red']
+    },
+    contentHolder: {
+      display: 'table',
+      width: '100%'
+    },
+    itemName: {
+      display: 'table-cell'
+    },
+    input: {
+      display: 'table-cell',
+      width: '100%'
     }
   });
 
@@ -154,8 +165,12 @@
                     className={classNames.listItem}
                     style={{color: item.color}}
                   >
-                    {this.state.prefix} {item.name}
-                    <input type="text" defaultValue="Change me, I retain this state!" />
+                    <div className={classNames.contentHolder}>
+                      <span className={classNames.itemName}>
+                        {this.state.prefix} {item.name}
+                      </span>
+                      <input className={classNames.input} type="text" defaultValue="Change me, I retain this state!" />
+                    </div>
                   </li>
                 );
               }.bind(this)).toArray()
