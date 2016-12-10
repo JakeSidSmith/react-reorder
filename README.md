@@ -6,13 +6,9 @@ __Drag & drop, touch enabled, reorder / sortable list, React component__
 
 React Reorder is a React component that allows the user to drag-and-drop items in a list (horizontal / vertical) or a grid.
 
-It fully supports touch devices and auto-scrolls when a component is being dragged (check out the demo, link below).
+It fully supports touch devices and auto-scrolls when a component is being dragged (check out the [demo](http://jakesidsmith.github.io/react-reorder/)).
 
 It also allows the user to set a hold time (duration before drag begins) allowing additional events like clicking / tapping to be applied.
-
-Although this project is very new, it has been thoroughly tested in all modern browsers (see supported browsers).
-
-__[Demo](http://jakesidsmith.github.io/react-reorder/)__
 
 ## Installation
 
@@ -55,33 +51,33 @@ __[Demo](http://jakesidsmith.github.io/react-reorder/)__
 
 3. Configuration
 
-```javascript
-<Reorder
-  component="ul" // Tag name or Component to be used for the wrapping element
-  placeholderClassName="placeholder" // Class name to be applied to placeholder elements (optional)
-  draggedClassName="dragged" // Class name to be applied to dragged elements (optional)
-  lock="horizontal" // Lock the dragging direction (optional): vertical, horizontal
-  holdTime={500} // Default hold time before dragging begins (mouse & touch) (optional) defaults to 0
-  touchHoldTime={500} // Hold time before dragging begins on touch devices (optional) defaults to holdTime
-  mouseHoldTime={200} // Hold time before dragging begins with mouse (optional) defaults to holdTime
-  onReorder={this.onReorder} // Callback when an item is dropped (you will need this to update your state)
-  placeholder={
-    <div className="custom-placeholder" /> // Custom placeholder element (optional, defaults to child element)
-  }
->
-  {
-    this.state.list.map(function (item) {
-      return (
-        <li key={item.name}>{item.name}</li>
-      );
-    }).toArray() // Note this example is an ImmutableJS List so we must turn it into an array
-  }
-</Reorder>
-```
+  ```javascript
+  <Reorder
+    component="ul" // Tag name or Component to be used for the wrapping element
+    placeholderClassName="placeholder" // Class name to be applied to placeholder elements (optional)
+    draggedClassName="dragged" // Class name to be applied to dragged elements (optional)
+    lock="horizontal" // Lock the dragging direction (optional): vertical, horizontal
+    holdTime={500} // Default hold time before dragging begins (mouse & touch) (optional) defaults to 0
+    touchHoldTime={500} // Hold time before dragging begins on touch devices (optional) defaults to holdTime
+    mouseHoldTime={200} // Hold time before dragging begins with mouse (optional) defaults to holdTime
+    onReorder={this.onReorder} // Callback when an item is dropped (you will need this to update your state)
+    placeholder={
+      <div className="custom-placeholder" /> // Custom placeholder element (optional, defaults to child element)
+    }
+  >
+    {
+      this.state.list.map(function (item) {
+        return (
+          <li key={item.name}>{item.name}</li>
+        );
+      }).toArray() // Note this example is an ImmutableJS List so we must turn it into an array
+    }
+  </Reorder>
+  ```
 
 5. Callback functions
 
-  1. The `onReorder` function that is called once a reorder has been performed
+  * The `onReorder` function that is called once a reorder has been performed
 
     ```javascript
     function onReorder(event, fromIndex, toIndex) {
