@@ -155,7 +155,7 @@
                     style={{color: item.color}}
                   >
                     {this.state.prefix} {item.name}
-                    <input type="text" />
+                    <input type="text" defaultValue="Change me, I retain this state!" />
                   </li>
                 );
               }.bind(this)).toArray()
