@@ -55,98 +55,48 @@ __[Demo](http://jakesidsmith.github.io/react-reorder/)__
 
 3. Configuration
 
-  **Note: If your array is an array of primitives (e.g. strings) then `itemKey` is not required as the string itself will be used as the key, however item keys must be unique in any case**
-
-  1. Using JSX
-
-    ```javascript
-    <Reorder
-      // The key of each object in your list to use as the element key
-      itemKey='name'
-      // Lock horizontal to have a vertical list
-      lock='horizontal'
-      // The milliseconds to hold an item for before dragging begins
-      holdTime='500'
-      // The list to display
-      list={[
-        {name: 'Item 1'},
-        {name: 'Item 2'},
-        {name: 'Item 3'}
-      ]}
-      // A template to display for each list item
-      template={ListItem}
-      // Function that is called once a reorder has been performed
-      callback={this.callback}
-      // Class to be applied to the outer list element
-      listClass='my-list'
-      // Class to be applied to each list item's wrapper element
-      itemClass='list-item'
-      // A function to be called if a list item is clicked (before hold time is up)
-      itemClicked={this.itemClicked}
-      // The item to be selected (adds 'selected' class)
-      selected={this.state.selected}
-      // The key to compare from the selected item object with each item object
-      selectedKey='uuid'
-      // Allows reordering to be disabled
-      disableReorder={false}/>
-    ```
-
-  2. Using standard Javascript
-
-    ```javascript
-    React.createElement(Reorder, {
-      // The key of each object in your list to use as the element key
-      itemKey: 'name',
-      // Lock horizontal to have a vertical list
-      lock: 'horizontal',
-      // The milliseconds to hold an item for before dragging begins
-      holdTime: '500',
-      // The list to display
-      list: [
-        {name: 'Item 1'},
-        {name: 'Item 2'},
-        {name: 'Item 3'}
-      ],
-      // A template to display for each list item
-      template: ListItem,
-      // Function that is called once a reorder has been performed
-      callback: this.callback,
-      // Class to be applied to the outer list element
-      listClass: 'my-list',
-      // Class to be applied to each list item's wrapper element
-      itemClass: 'list-item',
-      // A function to be called if a list item is clicked (before hold time is up)
-      itemClicked: this.itemClicked,
-      // The item to be selected (adds 'selected' class)
-      selected: this.state.selected,
-      // The key to compare from the selected item object with each item object
-      selectedKey: 'uuid',
-      // Allows reordering to be disabled
-      disableReorder: false
-    })
-    ```
+```javascript
+<Reorder
+  component="ul" // Tag name or Component to be used for the wrapping element
+  placeholderClassName="placeholder" // Class name to be applied to placeholder elements (optional)
+  draggedClassName="dragged" // Class name to be applied to dragged elements (optional)
+  lock="horizontal" // Lock the dragging direction (optional): vertical, horizontal
+  holdTime={500} // Default hold time before dragging begins (mouse & touch) (optional) defaults to 0
+  touchHoldTime={500} // Hold time before dragging begins on touch devices (optional) defaults to holdTime
+  mouseHoldTime={200} // Hold time before dragging begins with mouse (optional) defaults to holdTime
+  onReorder={this.onReorder} // Callback when an item is dropped (you will need this to update your state)
+  placeholder={
+    <div className="custom-placeholder" /> // Custom placeholder element (optional, defaults to child element)
+  }
+>
+  {
+    this.state.list.map(function (item) {
+      return (
+        <li key={item.name}>{item.name}</li>
+      );
+    }).toArray() // Note this example is an ImmutableJS List so we must turn it into an array
+  }
+</Reorder>
+```
 
 5. Callback functions
 
-  1. The `callback` function that is called once a reorder has been performed
+  1. The `onReorder` function that is called once a reorder has been performed
 
     ```javascript
-    function callback(event, itemThatHasBeenMoved, itemsPreviousIndex, itemsNewIndex, reorderedArray) {
-      // ...
-    }
-    ```
-
-  2. The `itemClicked` function that is called when an item is clicked before any dragging begins
-
-    ```javascript
-    function itemClicked(event, itemThatHasBeenClicked, itemsIndex) {
-      // ...
+    function onReorder(event, fromIndex, toIndex) {
+      // You can use our helper functions for reordering your arrays (reorderImmutable is also available)
+      this.setState({
+        myList: Reorder.reorder(this.state.myList, fromIndex, toIndex);
+      });
     }
     ```
 
     **Note: `event` will be the synthetic React event for either `mouseup` or `touchend`, and both contain `clientX` & `clientY` values (for ease of use)**
 
 ## Compatibility / Requirements
+
+* Version `3.x` tested and working with React `0.15`
 
 * Version `2.x` tested and working with React `0.14`
 
@@ -160,7 +110,7 @@ __[Demo](http://jakesidsmith.github.io/react-reorder/)__
 
 ### Desktop
 
-* Internet Explorer 9+ (may support IE8**)
+* Internet Explorer 9+ (dropped support for IE 8)
 
 * Google Chrome (tested in version 39.0.2171.95(64-bit))
 
@@ -170,17 +120,8 @@ __[Demo](http://jakesidsmith.github.io/react-reorder/)__
 
 * Safari (tested in version 7.1.2 (9537.85.11.5))
 
-\** Have not had a chance to test in IE8, but IE8 is supported by React
-
-
 ### Mobile
 
 * Chrome (tested in version 40.0.2214.89)
 
 * Safari (tested on iOS 8)
-
-## Untested Browsers
-
-* Internet Explorer 8*** (the lowest version that React supports)
-
-\*** If anyone could confirm that this works in IE8, that'd be awesome
