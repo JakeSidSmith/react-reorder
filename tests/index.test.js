@@ -72,6 +72,12 @@ describe('Reorder', function () {
       expect(props.holdTime).to.equal(0);
     });
 
+    it('should allow defining the root component', function () {
+      const wrapper = shallow(<Reorder component="ul" />);
+
+      expect(wrapper.type()).to.equal('ul');
+    });
+
   });
 
 });
