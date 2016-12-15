@@ -24,50 +24,54 @@ describe('Reorder', function () {
     }
   ];
 
-  it('should render itself & its children', function () {
-    const wrapper = shallow(
-      <Reorder>
-        {
-          items.map((item) => (
-            <span key={item.id}>
-              {item.name}
-            </span>
-          ))
-        }
-      </Reorder>
-    );
+  describe('basic rendering', function () {
 
-    const children = wrapper.children();
+    it('should render itself & its children', function () {
+      const wrapper = shallow(
+        <Reorder>
+          {
+            items.map((item) => (
+              <span key={item.id}>
+                {item.name}
+              </span>
+            ))
+          }
+        </Reorder>
+      );
 
-    expect(wrapper.type()).to.equal('div');
-    expect(children.length).to.equal(4);
+      const children = wrapper.children();
 
-    children.forEach(function (child) {
-      expect(child.type()).to.equal('span');
+      expect(wrapper.type()).to.equal('div');
+      expect(children.length).to.equal(4);
+
+      children.forEach(function (child) {
+        expect(child.type()).to.equal('span');
+      });
     });
-  });
 
-  it('should have a name & default props', function () {
-    const wrapper = mount(
-      <Reorder>
-        {
-          items.map((item) => (
-            <span key={item.id}>
-              {item.name}
-            </span>
-          ))
-        }
-      </Reorder>
-    );
+    it('should have a name & default props', function () {
+      const wrapper = mount(
+        <Reorder>
+          {
+            items.map((item) => (
+              <span key={item.id}>
+                {item.name}
+              </span>
+            ))
+          }
+        </Reorder>
+      );
 
-    expect(wrapper.name()).to.equal('Reorder');
+      expect(wrapper.name()).to.equal('Reorder');
 
-    const props = wrapper.props();
+      const props = wrapper.props();
 
-    expect(props.component).to.equal('div');
-    expect(props.placeholderClassName).to.equal('placeholder');
-    expect(props.draggedClassName).to.equal('dragged');
-    expect(props.holdTime).to.equal(0);
+      expect(props.component).to.equal('div');
+      expect(props.placeholderClassName).to.equal('placeholder');
+      expect(props.draggedClassName).to.equal('dragged');
+      expect(props.holdTime).to.equal(0);
+    });
+
   });
 
 });
