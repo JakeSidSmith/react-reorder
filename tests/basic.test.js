@@ -1,4 +1,5 @@
 import { expect } from 'chai';
+import { spy } from 'sinon';
 import { shallow, mount } from 'enzyme';
 import React, { Component } from 'react';
 import Reorder from '../src/index';
@@ -98,6 +99,14 @@ describe('Reorder', function () {
       const wrapper = shallow(<Reorder component={MyComponent} />);
 
       expect(wrapper.name()).to.equal('MyComponent');
+    });
+
+    it('should call a ref function (if provided) with the root element', function () {
+      const refSpy = spy();
+
+      mount(<Reorder ref={refSpy} />);
+
+      expect(refSpy).to.have.been.called;
     });
 
   });
