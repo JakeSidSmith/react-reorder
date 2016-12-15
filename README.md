@@ -60,7 +60,7 @@ It also allows the user to set a hold time (duration before drag begins) allowin
     mouseHoldTime={200} // Hold time before dragging begins with mouse (optional) defaults to holdTime
     onReorder={this.onReorder.bind(this)} // Callback when an item is dropped (you will need this to update your state)
     placeholder={
-      <div className="custom-placeholder" /> // Custom placeholder element (optional, defaults to child element)
+      <div className="custom-placeholder" /> // Custom placeholder element (optional, defaults to clone of dragged element)
     }
   >
     {
