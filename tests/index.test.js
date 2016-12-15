@@ -47,7 +47,7 @@ describe('Reorder', function () {
     });
   });
 
-  it('shoudl have a name & default props', function () {
+  it('should have a name & default props', function () {
     const wrapper = mount(
       <Reorder>
         {
