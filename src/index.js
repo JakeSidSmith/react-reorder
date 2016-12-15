@@ -447,7 +447,7 @@
     var PropTypes = React.PropTypes;
 
     Reorder.propTypes = {
-      component: PropTypes.node,
+      component: PropTypes.oneOfType([PropTypes.func, PropTypes.string]),
       placeholderClassName: PropTypes.string,
       draggedClassName: PropTypes.string,
       lock: PropTypes.string,
