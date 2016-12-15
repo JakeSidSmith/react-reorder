@@ -1,5 +1,7 @@
 node_modules/**
 examples/build/**
+coverage/**
+.nyc_output/**
 
 npm-debug.log*
 .DS_Store

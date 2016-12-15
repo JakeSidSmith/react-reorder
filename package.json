@@ -14,7 +14,9 @@
     "watch": "npm run watch-js",
     "lint-lib": "eslint -c node_modules/eslintrc/.eslintrc-es5 lib/index.js",
     "lint-examples": "eslint -c node_modules/eslintrc/.eslintrc-es6-react examples/src/js/",
-    "test": "npm run lint-lib && npm run lint-examples"
+    "lint-tests": "eslint -c node_modules/eslintrc/.eslintrc-es6-react-mocha tests/",
+    "mocha": "nyc mocha --bail --recursive 'tests/**/*.test.js'",
+    "test": "npm run lint-lib && npm run lint-examples && npm run lint-tests && npm run mocha"
   },
   "bugs": "https://github.com/JakeSidSmith/react-reorder/issues",
   "repository": {
@@ -42,6 +44,7 @@
     "eslintrc": "git+https://github.com/JakeSidSmith/eslintrc.git#v0.0.2",
     "http-server": "=0.8.5",
     "immutable": "=3.8.1",
+    "jsdom": "=9.8.3",
     "mocha": "=3.2.0",
     "nyc": "=10.0.0",
     "react": "=15.3.1",
