@@ -1,4 +1,4 @@
-var ReactStyleSheets = require('react-style-sheets');
+import ReactStyleSheets from 'react-style-sheets';
 
 ReactStyleSheets.setOptions({
   vendorPrefixes: {
@@ -9,7 +9,7 @@ ReactStyleSheets.setOptions({
   }
 });
 
-var htmlBody = {
+const htmlBody = {
   padding: 0,
   margin: 0,
   fontFamily: ['arial', 'helvetica', 'sans-serif'],

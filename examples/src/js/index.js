@@ -1,11 +1,11 @@
-require('./styles');
-var React = require('react');
-var ReactDOM = require('react-dom');
-var ReactStyleSheets = require('react-style-sheets');
-var Immutable = require('immutable');
-var Reorder = require('../../../lib/index');
+import './styles';
+import React from 'react';
+import ReactDOM from 'react-dom';
+import ReactStyleSheets from 'react-style-sheets';
+import Immutable from 'immutable';
+import Reorder from '../../../lib/index';
 
-var classNames = ReactStyleSheets.createUniqueClassStyles({
+const classNames = ReactStyleSheets.createUniqueClassStyles({
   app: {
     position: 'relative',
     width: '100%',
@@ -83,7 +83,7 @@ var classNames = ReactStyleSheets.createUniqueClassStyles({
   }
 });
 
-var Main = React.createClass({
+const Main = React.createClass({
   getInitialState: function () {
     return {
       list: Immutable.List(Immutable.Range(0, 10).map(function (value) {
@@ -97,7 +97,7 @@ var Main = React.createClass({
   },
 
   onReorder: function (event, previousIndex, nextIndex) {
-    var list = Immutable.List(Reorder.reorderImmutable(this.state.list, previousIndex, nextIndex));
+    const list = Immutable.List(Reorder.reorderImmutable(this.state.list, previousIndex, nextIndex));
 
     this.setState({
       list: list
@@ -111,7 +111,7 @@ var Main = React.createClass({
   },
 
   onPrefixChange: function (event) {
-    var target = event.currentTarget;
+    const target = event.currentTarget;
 
     this.setState({
       prefix: target.value
