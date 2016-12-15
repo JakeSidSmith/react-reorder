@@ -51,16 +51,16 @@ It also allows the user to set a hold time (duration before drag begins) allowin
 
   ```javascript
   <Reorder
-    component="ul" // Tag name or Component to be used for the wrapping element
-    placeholderClassName="placeholder" // Class name to be applied to placeholder elements (optional)
-    draggedClassName="dragged" // Class name to be applied to dragged elements (optional)
+    component="ul" // Tag name or Component to be used for the wrapping element, defaults to 'div'
+    placeholderClassName="placeholder" // Class name to be applied to placeholder elements (optional), defaults to 'placeholder'
+    draggedClassName="dragged" // Class name to be applied to dragged elements (optional), defaults to 'dragged'
     lock="horizontal" // Lock the dragging direction (optional): vertical, horizontal
-    holdTime={500} // Default hold time before dragging begins (mouse & touch) (optional) defaults to 0
-    touchHoldTime={500} // Hold time before dragging begins on touch devices (optional) defaults to holdTime
-    mouseHoldTime={200} // Hold time before dragging begins with mouse (optional) defaults to holdTime
+    holdTime={500} // Default hold time before dragging begins (mouse & touch) (optional), defaults to 0
+    touchHoldTime={500} // Hold time before dragging begins on touch devices (optional), defaults to holdTime
+    mouseHoldTime={200} // Hold time before dragging begins with mouse (optional), defaults to holdTime
     onReorder={this.onReorder.bind(this)} // Callback when an item is dropped (you will need this to update your state)
     placeholder={
-      <div className="custom-placeholder" /> // Custom placeholder element (optional, defaults to clone of dragged element)
+      <div className="custom-placeholder" /> // Custom placeholder element (optional), defaults to clone of dragged element
     }
   >
     {
