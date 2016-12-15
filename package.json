@@ -4,7 +4,7 @@
   "description": "Drag & drop, touch enabled, reorderable / sortable list, React component",
   "author": "Jake 'Sid' Smith",
   "license": "MIT",
-  "main": "lib/index.js",
+  "main": "src/index.js",
   "scripts": {
     "start": "http-server examples/ -c-1 -o",
     "build-js": "browserify -t babelify examples/src/js/index.js -o examples/build/js/index.js",
