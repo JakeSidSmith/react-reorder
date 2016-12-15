@@ -142,7 +142,8 @@ class Main extends Component {
           Selected item: {this.state.clickedItem ? this.state.clickedItem.name : undefined}
         </p>
         <p>
-          Prefix (shared props): <input type="text" value={this.state.prefix} onChange={this.onPrefixChange.bind(this)} />
+          {'Prefix (shared props): '}
+          <input type="text" value={this.state.prefix} onChange={this.onPrefixChange.bind(this)} />
         </p>
 
         <Reorder
