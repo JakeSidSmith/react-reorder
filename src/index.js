@@ -37,7 +37,8 @@
   }
 
   function getReorderComponent (React, ReactDOM) {
-    return React.createClass({
+
+    var Reorder = React.createClass({
       displayName: 'Reorder',
 
       getInitialState: function () {
@@ -392,7 +393,7 @@
           var draggedStyle = isDragged ? extend({}, child.props.style, self.state.draggedStyle) : child.props.style;
           var draggedClass = [
             child.props.className || '',
-            (isDragged ? self.props.draggedClassName : '') || ''
+            (isDragged ? self.props.draggedClassName : '')
           ].join(' ');
 
           return React.cloneElement(
@@ -415,7 +416,7 @@
             placeholderElement,
             {
               key: 'react-reorder-placeholder',
-              className: [placeholderElement.props.className || '', self.props.placeholderClassName || ''].join(' '),
+              className: [placeholderElement.props.className || '', self.props.placeholderClassName].join(' '),
               'data-placeholder': true
             }
           );
@@ -423,7 +424,7 @@
         }
 
         return React.createElement(
-          self.props.component || 'div',
+          self.props.component,
           {
             className: this.props.className,
             id: this.props.id,
@@ -442,6 +443,34 @@
       }
 
     });
+
+    var PropTypes = React.PropTypes;
+
+    Reorder.propTypes = {
+      component: PropTypes.node,
+      placeholderClassName: PropTypes.string,
+      draggedClassName: PropTypes.string,
+      lock: PropTypes.string,
+      holdTime: PropTypes.number,
+      touchHoldTime: PropTypes.number,
+      mouseHoldTime: PropTypes.number,
+      onReorder: PropTypes.func,
+      placeholder: PropTypes.element
+    };
+
+    Reorder.defaultProps = {
+      component: 'div',
+      placeholderClassName: 'placeholder',
+      draggedClassName: 'dragged',
+      // lock: direction,
+      holdTime: 0
+      // touchHoldTime: 0,
+      // mouseHoldTime: 0,
+      // onReorder: function,
+      // placeholder: react element
+    };
+
+    return Reorder;
 
   }
 
