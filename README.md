@@ -39,14 +39,12 @@ It also allows the user to set a hold time (duration before drag begins) allowin
 
   ```javascript
   var Reorder = require('react-reorder');
-  ```
+  var reorder = Reorder.reorder;
+  var reorderImmutable = Reorder.reorderImmutable;
 
-  If using requirejs you'll probably want to wrap your module e.g.
+  // Or ES6
 
-  ```javascript
-  define(function (require) {
-    // Require react-reorder here
-  });
+  import Reorder, { reorder, reorderImmutable } from 'react-reorder';  
   ```
 
 3. Configuration
@@ -60,7 +58,7 @@ It also allows the user to set a hold time (duration before drag begins) allowin
     holdTime={500} // Default hold time before dragging begins (mouse & touch) (optional) defaults to 0
     touchHoldTime={500} // Hold time before dragging begins on touch devices (optional) defaults to holdTime
     mouseHoldTime={200} // Hold time before dragging begins with mouse (optional) defaults to holdTime
-    onReorder={this.onReorder} // Callback when an item is dropped (you will need this to update your state)
+    onReorder={this.onReorder.bind(this)} // Callback when an item is dropped (you will need this to update your state)
     placeholder={
       <div className="custom-placeholder" /> // Custom placeholder element (optional, defaults to child element)
     }
@@ -83,7 +81,7 @@ It also allows the user to set a hold time (duration before drag begins) allowin
     function onReorder(event, fromIndex, toIndex) {
       // You can use our helper functions for reordering your arrays (reorderImmutable is also available)
       this.setState({
-        myList: Reorder.reorder(this.state.myList, fromIndex, toIndex);
+        myList: reorder(this.state.myList, fromIndex, toIndex);
       });
     }
     ```
