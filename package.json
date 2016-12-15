@@ -54,6 +54,9 @@
     "sinon-chai": "=2.8.0",
     "watchify": "=3.6.1"
   },
+  "peerDependencies": {
+    "react": ">=0.14"
+  },
   "engines": {
     "node": "6.9.1",
     "npm": "3.10.8"
