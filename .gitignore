@@ -1,3 +1,5 @@
-node_modules/
-examples/build/
+node_modules/**
+examples/build/**
+
+npm-debug.log*
 .DS_Store
