@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import ReactStyleSheets from 'react-style-sheets';
 import Immutable from 'immutable';
-import Reorder from '../../../lib/index';
+import Reorder, { reorderImmutable } from '../../../lib/index';
 
 const classNames = ReactStyleSheets.createUniqueClassStyles({
   app: {
@@ -99,7 +99,7 @@ class Main extends Component {
   }
 
   onReorder (event, previousIndex, nextIndex) {
-    const list = Immutable.List(Reorder.reorderImmutable(this.state.list, previousIndex, nextIndex));
+    const list = Immutable.List(reorderImmutable(this.state.list, previousIndex, nextIndex));
 
     this.setState({
       list: list
