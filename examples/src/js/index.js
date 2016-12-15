@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import ReactStyleSheets from 'react-style-sheets';
 import Immutable from 'immutable';
-import Reorder, { reorderImmutable } from '../../../lib/index';
+import Reorder, { reorderImmutable } from '../../../src/index';
 
 const classNames = ReactStyleSheets.createUniqueClassStyles({
   app: {
