@@ -1,5 +1,5 @@
 import './styles';
-import React from 'react';
+import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import ReactStyleSheets from 'react-style-sheets';
 import Immutable from 'immutable';
@@ -83,9 +83,11 @@ const classNames = ReactStyleSheets.createUniqueClassStyles({
   }
 });
 
-const Main = React.createClass({
-  getInitialState: function () {
-    return {
+class Main extends Component {
+  constructor () {
+    super();
+
+    this.state = {
       list: Immutable.List(Immutable.Range(0, 10).map(function (value) {
         return {
           name: ['Thing', value].join(' '),
@@ -94,33 +96,33 @@ const Main = React.createClass({
       })),
       prefix: 'Prefix'
     };
-  },
+  }
 
-  onReorder: function (event, previousIndex, nextIndex) {
+  onReorder (event, previousIndex, nextIndex) {
     const list = Immutable.List(Reorder.reorderImmutable(this.state.list, previousIndex, nextIndex));
 
     this.setState({
       list: list
     });
-  },
+  }
 
-  onDisableToggle: function () {
+  onDisableToggle () {
     this.setState({
       disableReorder: !this.state.disableReorder
     });
-  },
+  }
 
-  onPrefixChange: function (event) {
+  onPrefixChange (event) {
     const target = event.currentTarget;
 
     this.setState({
       prefix: target.value
     });
-  },
+  }
 
   // ----
 
-  render: function () {
+  render () {
     return (
       <div className={classNames.app}>
         <h1>
@@ -140,7 +142,7 @@ const Main = React.createClass({
           Selected item: {this.state.clickedItem ? this.state.clickedItem.name : undefined}
         </p>
         <p>
-          Prefix (shared props): <input type="text" value={this.state.prefix} onChange={this.onPrefixChange} />
+          Prefix (shared props): <input type="text" value={this.state.prefix} onChange={this.onPrefixChange.bind(this)} />
         </p>
 
         <Reorder
@@ -150,7 +152,7 @@ const Main = React.createClass({
           draggedClassName={classNames.dragged}
           lock="horizontal"
           holdTime={500}
-          onReorder={this.onReorder}
+          onReorder={this.onReorder.bind(this)}
           placeholder={<div className={[classNames.listItem, classNames.customPlaceholder].join(' ')} />}
         >
           {
@@ -184,7 +186,7 @@ const Main = React.createClass({
           <input
             type="checkbox"
             value={this.state.disableReorder || false}
-            onChange={this.onDisableToggle}
+            onChange={this.onDisableToggle.bind(this)}
           />
           Last item clicked: {this.state.clickedItem2 ? this.state.clickedItem2.name : undefined}
         </p>
@@ -196,7 +198,7 @@ const Main = React.createClass({
           draggedClassName={classNames.dragged}
           lock="vertical"
           holdTime={250}
-          onReorder={this.onReorder}
+          onReorder={this.onReorder.bind(this)}
           disabled={this.state.disableReorder}
         >
           {
@@ -225,7 +227,7 @@ const Main = React.createClass({
           className={[classNames.myList, classNames.myList3].join(' ')}
           placeholderClassName={classNames.placeholder}
           draggedClassName={classNames.dragged}
-          onReorder={this.onReorder}
+          onReorder={this.onReorder.bind(this)}
         >
           {
             this.state.list.map(function (item) {
@@ -244,6 +246,6 @@ const Main = React.createClass({
       </div>
     );
   }
-});
+}
 
 ReactDOM.render(React.createElement(Main), document.getElementById('app'));
