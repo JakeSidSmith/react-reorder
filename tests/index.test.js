@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import { shallow, mount } from 'enzyme';
-import React from 'react';
+import React, { Component } from 'react';
 import Reorder from '../src/index';
 
 describe('Reorder', function () {
@@ -72,15 +72,27 @@ describe('Reorder', function () {
       expect(props.holdTime).to.equal(0);
     });
 
-    it('should allow defining the root component', function () {
+    it('should allow defining the root component (string)', function () {
       const wrapper = shallow(<Reorder component="ul" />);
 
       expect(wrapper.type()).to.equal('ul');
     });
 
-    it('should allow defining the root component', function () {
+    it('should allow defining the root component (function)', function () {
       function MyComponent () {
         return <div />;
+      }
+
+      const wrapper = shallow(<Reorder component={MyComponent} />);
+
+      expect(wrapper.name()).to.equal('MyComponent');
+    });
+
+    it('should allow defining the root component (component)', function () {
+      class MyComponent extends Component {
+        render () {
+          return <div />;
+        }
       }
 
       const wrapper = shallow(<Reorder component={MyComponent} />);
