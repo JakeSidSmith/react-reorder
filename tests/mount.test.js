@@ -21,7 +21,12 @@ describe('mount', function () {
     componentWillUnmount () {}
 
     render () {
-      return <div />;
+      return (
+        <div>
+          <span>Foo</span>
+          <span>Bar</span>
+        </div>
+      );
     }
   }
 
