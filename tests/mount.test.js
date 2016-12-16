@@ -87,6 +87,8 @@ describe('mount', function () {
     const childText = ['Foo', 'Bar'];
     const children = wrapper.children();
 
+    children.forEach();
+
     children.forEach(function (child, index) {
       childCount += 1;
       expect(child.text()).to.equal(childText[index]);
