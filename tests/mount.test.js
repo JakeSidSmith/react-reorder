@@ -12,6 +12,9 @@ describe('mount', function () {
       super();
 
       this.displayName = 'MyComponent';
+      this.state = {
+        foo: 'bar'
+      };
     }
 
     shouldComponentUpdate () {
@@ -107,6 +110,31 @@ describe('mount', function () {
     expect(updatedProps).to.eql({foo: 'bar'});
 
     expect(originalProps).not.to.eql(updatedProps);
+
+    shouldComponentUpdateSpy.reset();
+    componentDidUpdateSpy.reset();
+  });
+
+  it('should return and update the component\'s state', function () {
+    const originalState = wrapper.state();
+
+    expect(originalState).to.eql({foo: 'bar'});
+    expect(shouldComponentUpdateSpy).not.to.have.been.called;
+    expect(componentDidUpdateSpy).not.to.have.been.called;
+
+    expect(componentWillMountSpy).not.to.have.been.called;
+    expect(componentDidMountSpy).not.to.have.been.called;
+
+    wrapper.setState({foo: 'foo', bar: 'foo'});
+
+    expect(shouldComponentUpdateSpy).to.have.been.called;
+    expect(componentDidUpdateSpy).to.have.been.called;
+
+    const updatedState = wrapper.state();
+
+    expect(updatedState).to.eql({foo: 'foo', bar: 'foo'});
+
+    expect(originalState).not.to.eql(updatedState);
 
     shouldComponentUpdateSpy.reset();
     componentDidUpdateSpy.reset();
