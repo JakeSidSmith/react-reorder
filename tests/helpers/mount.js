@@ -60,6 +60,10 @@ function internalMount (component) {
     return wrapper;
   });
 
+  defineProperty(wrapper, 'unmount', function () {
+    ReactDOM.unmountComponentAtNode(element);
+  });
+
   return wrapper;
 }
 
