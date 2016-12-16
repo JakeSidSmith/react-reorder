@@ -34,6 +34,18 @@ function internalMount (component) {
     return instance;
   });
 
+  defineProperty(wrapper, 'getName', function () {
+    return instance.constructor.displayName;
+  });
+
+  defineProperty(wrapper, 'getProps', function () {
+    return instance.props;
+  });
+
+  defineProperty(wrapper, 'getState', function () {
+    return instance.state;
+  });
+
   defineProperty(wrapper, 'setProps', function (props) {
     const clone = React.cloneElement(component, props);
 
