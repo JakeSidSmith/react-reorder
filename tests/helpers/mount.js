@@ -12,7 +12,7 @@ function defineProperty (obj, prop, value) {
   Object.defineProperty(obj, prop, {value, enumerable: false});
 }
 
-export default function mount (component) {
+function internalMount (component) {
   const element = document.createElement('div');
 
   let instance = ReactDOM.render(component, element);
@@ -29,16 +29,15 @@ export default function mount (component) {
     wrapper = $(ReactDOM.findDOMNode(instance));
 
     // instance.forceUpdate();
-
-    return wrapper;
   });
 
   defineProperty(wrapper, 'setState', function (state) {
     instance.setState(state);
-
-    return wrapper;
   });
 
   return wrapper;
+}
 
+export default function mount (component) {
+  return internalMount(component);
 }
