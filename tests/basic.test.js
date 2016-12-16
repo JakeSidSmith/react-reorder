@@ -106,7 +106,7 @@ describe('Reorder', function () {
     it('should call a ref function (if provided) with the root element', function () {
       const refSpy = spy();
 
-      mount(<Reorder ref={refSpy} />);
+      mount(<Reorder getRef={refSpy} />);
 
       expect(refSpy).to.have.been.called;
     });

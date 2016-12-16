@@ -51,6 +51,7 @@ It also allows the user to set a hold time (duration before drag begins) allowin
 
   ```javascript
   <Reorder
+    getRef={this.storeRef.bind(this)} // Function that is passed a reference to the root node when mounted
     component="ul" // Tag name or Component to be used for the wrapping element, defaults to 'div'
     placeholderClassName="placeholder" // Class name to be applied to placeholder elements (optional), defaults to 'placeholder'
     draggedClassName="dragged" // Class name to be applied to dragged elements (optional), defaults to 'dragged'

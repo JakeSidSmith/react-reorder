@@ -379,8 +379,8 @@
       storeRootNode: function (element) {
         this.rootNode = element;
 
-        if (typeof this.props.ref === 'function') {
-          this.props.ref(element);
+        if (typeof this.props.getRef === 'function') {
+          this.props.getRef(element);
         }
       },
 
