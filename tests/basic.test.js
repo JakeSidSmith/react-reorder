@@ -117,6 +117,8 @@ describe('Reorder', function () {
 
       const wrapper = mount(<Reorder />);
 
+      const eventCount = addEventListenerSpy.callCount;
+
       expect(addEventListenerSpy).to.have.been.called;
       expect(removeEventListenerSpy).not.to.have.been.called;
 
@@ -127,6 +129,9 @@ describe('Reorder', function () {
 
       expect(addEventListenerSpy).not.to.have.been.called;
       expect(removeEventListenerSpy).to.have.been.called;
+
+      expect(removeEventListenerSpy.callCount).to.be.above(0);
+      expect(removeEventListenerSpy.callCount).to.equal(eventCount);
 
       addEventListenerSpy.restore();
       removeEventListenerSpy.restore();
