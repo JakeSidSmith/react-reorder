@@ -47,16 +47,16 @@ function internalMount (component) {
   });
 
   defineProperty(wrapper, 'setProps', function (props) {
-    const clone = React.cloneElement(component, props);
+    $.extend(instance.props, props);
+    instance.forceUpdate();
 
-    instance = ReactDOM.render(clone, element);
-    wrapper = $(ReactDOM.findDOMNode(instance));
-
-    // instance.forceUpdate();
+    return wrapper;
   });
 
   defineProperty(wrapper, 'setState', function (state) {
     instance.setState(state);
+
+    return wrapper;
   });
 
   return wrapper;
