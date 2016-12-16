@@ -55,6 +55,9 @@ describe('mount', function () {
     expect(shouldComponentUpdateSpy).not.to.have.been.called;
     expect(componentDidUpdateSpy).not.to.have.been.called;
 
+    expect(componentWillMountSpy).not.to.have.been.called;
+    expect(componentDidMountSpy).not.to.have.been.called;
+
     wrapper.setProps({foo: 'bar'});
 
     expect(shouldComponentUpdateSpy).to.have.been.called;
