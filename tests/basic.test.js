@@ -111,6 +111,27 @@ describe('Reorder', function () {
       expect(refSpy).to.have.been.called;
     });
 
+    it('should add and remove event listeners on mount and unmount', function () {
+      const addEventListenerSpy = spy(window, 'addEventListener');
+      const removeEventListenerSpy = spy(window, 'removeEventListener');
+
+      const wrapper = mount(<Reorder />);
+
+      expect(addEventListenerSpy).to.have.been.called;
+      expect(removeEventListenerSpy).not.to.have.been.called;
+
+      addEventListenerSpy.reset();
+      removeEventListenerSpy.reset();
+
+      wrapper.unmount();
+
+      expect(addEventListenerSpy).not.to.have.been.called;
+      expect(removeEventListenerSpy).to.have.been.called;
+
+      addEventListenerSpy.restore();
+      removeEventListenerSpy.restore();
+    });
+
   });
 
 });
