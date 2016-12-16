@@ -1,4 +1,5 @@
 import $ from 'jquery';
+import React from 'react';
 import ReactDOM from 'react-dom';
 import TestUtils from 'react-addons-test-utils';
 
@@ -46,8 +47,9 @@ function internalMount (component) {
   });
 
   defineProperty(wrapper, 'setProps', function (props) {
-    $.extend(instance.props, props);
-    instance.forceUpdate();
+    const clone = React.cloneElement(component, props);
+    instance = ReactDOM.render(clone, element);
+    wrapper = $(ReactDOM.findDOMNode(instance));
 
     return wrapper;
   });
