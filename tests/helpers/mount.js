@@ -24,8 +24,8 @@ function defineProperty (obj, prop, value) {
   Object.defineProperty(obj, prop, {value, enumerable: false});
 }
 
-function internalMount (component) {
-  const element = document.createElement('div');
+function internalMount (component, element) {
+  element = typeof element !== 'undefined' ? element : document.createElement('div');
 
   let instance = ReactDOM.render(component, element);
   let wrapper = $(ReactDOM.findDOMNode(instance));
@@ -48,10 +48,8 @@ function internalMount (component) {
 
   defineProperty(wrapper, 'setProps', function (props) {
     const clone = React.cloneElement(component, props);
-    instance = ReactDOM.render(clone, element);
-    wrapper = $(ReactDOM.findDOMNode(instance));
 
-    return wrapper;
+    return internalMount(clone, element);
   });
 
   defineProperty(wrapper, 'setState', function (state) {
