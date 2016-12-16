@@ -8,6 +8,12 @@ describe('mount', function () {
   let wrapper;
 
   class MyComponent extends Component {
+    constructor () {
+      super();
+
+      this.displayName = 'MyComponent';
+    }
+
     shouldComponentUpdate () {
       return true;
     }
@@ -53,7 +59,8 @@ describe('mount', function () {
     componentDidMountSpy.reset();
   });
 
-  it('should return the components tag name', function () {
+  it('should return the components name & tag name', function () {
+    expect(wrapper.name()).to.equal('MyComponent');
     expect(wrapper.tagName()).to.equal('div');
   });
 

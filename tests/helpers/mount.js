@@ -35,7 +35,7 @@ function internalMount (component, element) {
   });
 
   defineProperty(wrapper, 'name', function () {
-    return instance.constructor.displayName;
+    return instance.constructor.displayName || instance.displayName;
   });
 
   defineProperty(wrapper, 'props', function () {
