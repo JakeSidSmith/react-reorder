@@ -49,13 +49,11 @@ function internalMount (component, element) {
   defineProperty(wrapper, 'setProps', function (props) {
     const clone = React.cloneElement(component, props);
 
-    return internalMount(clone, element);
+    internalMount(clone, element);
   });
 
   defineProperty(wrapper, 'setState', function (state) {
     instance.setState(state);
-
-    return wrapper;
   });
 
   defineProperty(wrapper, 'unmount', function () {
