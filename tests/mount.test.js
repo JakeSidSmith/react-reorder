@@ -8,20 +8,38 @@ describe('mount', function () {
   // let wrapper;
 
   class MyComponent extends Component {
+    componentWillMount () {
+
+    }
+
+    componentDidMount () {
+
+    }
+
     render () {
       return <div />;
     }
   }
 
   const renderSpy = spy(MyComponent.prototype, 'render');
+  const componentWillMountSpy = spy(MyComponent.prototype, 'componentWillMount');
+  const componentDidMountSpy = spy(MyComponent.prototype, 'componentDidMount');
 
-  it('should render a component', function () {
+  it('should render a component & call its lifecycle methods', function () {
+    expect(renderSpy).not.to.have.been.called;
+    expect(componentWillMountSpy).not.to.have.been.called;
+    expect(componentDidMountSpy).not.to.have.been.called;
+
     // wrapper =
     mount(<MyComponent />);
 
     expect(renderSpy).to.have.been.called;
+    expect(componentWillMountSpy).to.have.been.called;
+    expect(componentDidMountSpy).to.have.been.called;
 
     renderSpy.reset();
+    componentWillMountSpy.reset();
+    componentDidMountSpy.reset();
   });
 
 });
