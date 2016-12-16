@@ -9,7 +9,7 @@ $.fn.trigger = function (type, data) {
 };
 
 $.fn.tagName = function () {
-  return (this[0].tagName || '').toLowerCase();
+  return this[0].tagName.toLowerCase();
 };
 
 $.fn.forEach = function (fn) {
