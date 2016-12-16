@@ -8,6 +8,18 @@ $.fn.trigger = function (type, data) {
   TestUtils.Simulate[type](this[0], data);
 };
 
+$.fn.tag = function () {
+  return (this[0].tagName || '').toLowerCase();
+};
+
+$.fn.forEach = function (fn) {
+  return this.each(function () {
+    if (typeof fn === 'function') {
+      fn($(this));
+    }
+  });
+};
+
 function defineProperty (obj, prop, value) {
   Object.defineProperty(obj, prop, {value, enumerable: false});
 }
