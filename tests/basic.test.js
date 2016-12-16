@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import { spy } from 'sinon';
-import { shallow, mount } from 'enzyme';
+import mount from './helpers/mount';
 import React, { Component } from 'react';
 import Reorder from '../src/index';
 
@@ -28,7 +28,7 @@ describe('Reorder', function () {
   describe('basic rendering', function () {
 
     it('should render itself & its children', function () {
-      const wrapper = shallow(
+      const wrapper = mount(
         <Reorder>
           {
             items.map((item) => (
@@ -42,11 +42,11 @@ describe('Reorder', function () {
 
       const children = wrapper.children();
 
-      expect(wrapper.type()).to.equal('div');
+      expect(wrapper.tagName()).to.equal('div');
       expect(children.length).to.equal(4);
 
       children.forEach(function (child) {
-        expect(child.type()).to.equal('span');
+        expect(child.tagName()).to.equal('span');
       });
     });
 
@@ -74,31 +74,33 @@ describe('Reorder', function () {
     });
 
     it('should allow defining the root component (string)', function () {
-      const wrapper = shallow(<Reorder component="ul" />);
+      const wrapper = mount(<Reorder component="ul" />);
 
-      expect(wrapper.type()).to.equal('ul');
+      expect(wrapper.tagName()).to.equal('ul');
     });
 
     it('should allow defining the root component (function)', function () {
       function MyComponent () {
-        return <div />;
+        return <h1 />;
       }
 
-      const wrapper = shallow(<Reorder component={MyComponent} />);
+      const wrapper = mount(<Reorder component={MyComponent} />);
 
-      expect(wrapper.name()).to.equal('MyComponent');
+      expect(wrapper.name()).to.equal('Reorder');
+      expect(wrapper.tagName()).to.equal('h1');
     });
 
     it('should allow defining the root component (component)', function () {
       class MyComponent extends Component {
         render () {
-          return <div />;
+          return <h2 />;
         }
       }
 
-      const wrapper = shallow(<Reorder component={MyComponent} />);
+      const wrapper = mount(<Reorder component={MyComponent} />);
 
-      expect(wrapper.name()).to.equal('MyComponent');
+      expect(wrapper.name()).to.equal('Reorder');
+      expect(wrapper.tagName()).to.equal('h2');
     });
 
     it('should call a ref function (if provided) with the root element', function () {
