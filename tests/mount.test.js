@@ -57,6 +57,19 @@ describe('mount', function () {
     expect(wrapper.tagName()).to.equal('div');
   });
 
+  it('should return the components children & loop over a jquery collection', function () {
+    let childCount = 0;
+    const childText = ['Foo', 'Bar'];
+    const children = wrapper.children();
+
+    children.forEach(function (child, index) {
+      childCount += 1;
+      expect(child.text()).to.equal(childText[index]);
+    });
+
+    expect(childCount).to.equal(2);
+  });
+
   it('should return and update the component\'s props', function () {
     const originalProps = wrapper.props();
 

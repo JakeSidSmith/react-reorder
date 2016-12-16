@@ -13,9 +13,9 @@ $.fn.tagName = function () {
 };
 
 $.fn.forEach = function (fn) {
-  return this.each(function () {
+  return this.each(function (index) {
     if (typeof fn === 'function') {
-      fn($(this));
+      fn($(this), index);
     }
   });
 };
