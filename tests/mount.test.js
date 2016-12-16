@@ -65,6 +65,9 @@ describe('mount', function () {
     expect(updatedProps).to.eql({foo: 'bar'});
 
     expect(originalProps).not.to.eql(updatedProps);
+
+    shouldComponentUpdateSpy.reset();
+    componentDidUpdateSpy.reset();
   });
 
   it('should unmount a component', function () {
