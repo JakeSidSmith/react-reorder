@@ -29,9 +29,13 @@ describe('mount', function () {
 
     componentWillUnmount () {}
 
+    onClick (event) {
+      expect(event.foo).to.equal('bar');
+    }
+
     render () {
       return (
-        <div>
+        <div onClick={this.onClick}>
           <span>Foo</span>
           <span>Bar</span>
         </div>
@@ -51,6 +55,7 @@ describe('mount', function () {
   const componentWillMountSpy = spy(MyComponent.prototype, 'componentWillMount');
   const componentDidMountSpy = spy(MyComponent.prototype, 'componentDidMount');
   const componentWillUnmountSpy = spy(MyComponent.prototype, 'componentWillUnmount');
+  const onClickSpy = spy(MyComponent.prototype, 'onClick');
 
   it('should render a component & call its lifecycle methods', function () {
     expect(renderSpy).not.to.have.been.called;
@@ -138,6 +143,13 @@ describe('mount', function () {
 
     shouldComponentUpdateSpy.reset();
     componentDidUpdateSpy.reset();
+  });
+
+  it('should trigger event listeners', function () {
+    const event = {foo: 'bar'};
+    wrapper.trigger('click', event);
+
+    expect(onClickSpy).to.have.been.called;
   });
 
   it('should unmount a component', function () {
