@@ -112,6 +112,9 @@ describe('Reorder', function () {
     });
 
     it('should add and remove event listeners on mount and unmount', function () {
+      const addEventListenerSpy = spy(window, 'addEventListener');
+      const removeEventListenerSpy = spy(window, 'removeEventListener');
+
       const events = [
         'mouseup',
         'touchend',
@@ -119,9 +122,6 @@ describe('Reorder', function () {
         'touchmove',
         'contextmenu'
       ];
-
-      const addEventListenerSpy = spy(window, 'addEventListener');
-      const removeEventListenerSpy = spy(window, 'removeEventListener');
 
       const wrapper = mount(<Reorder />);
 
@@ -148,6 +148,32 @@ describe('Reorder', function () {
 
       addEventListenerSpy.restore();
       removeEventListenerSpy.restore();
+    });
+
+    it('should clear timeouts & intervals on unmount', function () {
+      const clearTimeoutSpy = spy(global, 'clearTimeout');
+      const clearIntervalSpy = spy(global, 'clearInterval');
+
+      const wrapper = mount(<Reorder />);
+      const instance = wrapper.instance();
+
+      instance.holdTimeout = {
+        foo: 'bar'
+      };
+      instance.scrollInterval = {
+        bar: 'foo'
+      };
+
+      wrapper.unmount();
+
+      expect(clearTimeoutSpy).to.have.been.called;
+      expect(clearIntervalSpy).to.have.been.called;
+
+      expect(clearTimeoutSpy).to.have.been.calledWith(instance.holdTimeout);
+      expect(clearIntervalSpy).to.have.been.calledWith(instance.scrollInterval);
+
+      clearTimeoutSpy.restore();
+      clearIntervalSpy.restore();
     });
 
   });
