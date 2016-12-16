@@ -36,6 +36,12 @@ describe('mount', function () {
     }
   }
 
+  const AnotherComponent = React.createClass({
+    render: function () {
+      return <div />;
+    }
+  });
+
   const renderSpy = spy(MyComponent.prototype, 'render');
   const shouldComponentUpdateSpy = spy(MyComponent.prototype, 'shouldComponentUpdate');
   const componentDidUpdateSpy = spy(MyComponent.prototype, 'componentDidUpdate');
@@ -62,6 +68,10 @@ describe('mount', function () {
   it('should return the components name & tag name', function () {
     expect(wrapper.name()).to.equal('MyComponent');
     expect(wrapper.tagName()).to.equal('div');
+
+    const anotherComponent = mount(<AnotherComponent />);
+
+    expect(anotherComponent.name()).to.equal('AnotherComponent');
   });
 
   it('should return the components children & loop over a jquery collection', function () {
