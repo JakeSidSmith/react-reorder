@@ -112,15 +112,26 @@ describe('Reorder', function () {
     });
 
     it('should add and remove event listeners on mount and unmount', function () {
+      const events = [
+        'mouseup',
+        'touchend',
+        'mousemove',
+        'touchmove',
+        'contextmenu'
+      ];
+
       const addEventListenerSpy = spy(window, 'addEventListener');
       const removeEventListenerSpy = spy(window, 'removeEventListener');
 
       const wrapper = mount(<Reorder />);
 
-      const eventCount = addEventListenerSpy.callCount;
-
       expect(addEventListenerSpy).to.have.been.called;
       expect(removeEventListenerSpy).not.to.have.been.called;
+      expect(addEventListenerSpy.callCount).to.equal(events.length);
+
+      events.forEach(function (event) {
+        expect(addEventListenerSpy).to.have.been.calledWith(event);
+      });
 
       addEventListenerSpy.reset();
       removeEventListenerSpy.reset();
@@ -129,9 +140,11 @@ describe('Reorder', function () {
 
       expect(addEventListenerSpy).not.to.have.been.called;
       expect(removeEventListenerSpy).to.have.been.called;
+      expect(removeEventListenerSpy.callCount).to.equal(events.length);
 
-      expect(removeEventListenerSpy.callCount).to.be.above(0);
-      expect(removeEventListenerSpy.callCount).to.equal(eventCount);
+      events.forEach(function (event) {
+        expect(removeEventListenerSpy).to.have.been.calledWith(event);
+      });
 
       addEventListenerSpy.restore();
       removeEventListenerSpy.restore();
