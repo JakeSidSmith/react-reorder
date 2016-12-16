@@ -53,6 +53,10 @@ describe('mount', function () {
     componentDidMountSpy.reset();
   });
 
+  it('should return the components tag name', function () {
+    expect(wrapper.tagName()).to.equal('div');
+  });
+
   it('should return and update the component\'s props', function () {
     const originalProps = wrapper.props();
 
