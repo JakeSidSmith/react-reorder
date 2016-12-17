@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import { spy } from 'sinon';
 import mount from './helpers/mount';
 import React, { Component } from 'react';
-import Reorder from '../src/index';
+import Reorder, { reorder, reorderImmutable } from '../src/index';
 
 describe('Reorder', function () {
 
@@ -24,6 +24,22 @@ describe('Reorder', function () {
       id: 'buzz'
     }
   ];
+
+  describe('exports', function () {
+
+    it('should provide a react component and some helpful functions', function () {
+      expect(typeof Reorder).to.equal('function');
+      expect(typeof reorder).to.equal('function');
+      expect(typeof reorderImmutable).to.equal('function');
+
+      const requiredReorder = require('../src/index');
+
+      expect(typeof requiredReorder).to.equal('function');
+      expect(typeof requiredReorder.reorder).to.equal('function');
+      expect(typeof requiredReorder.reorderImmutable).to.equal('function');
+    });
+
+  });
 
   describe('basic rendering', function () {
 
