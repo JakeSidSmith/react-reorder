@@ -202,4 +202,17 @@ describe('Reorder', function () {
 
   });
 
+  describe('helper functions', function () {
+
+    it('should reorder an array', function () {
+      const arr = [1, 2, 3, 4, 5];
+
+      const reordered = reorder(arr, 1, 3);
+
+      expect(reordered).not.to.equal(arr);
+      expect(reordered).to.eql([1, 3, 4, 2, 5]);
+    });
+
+  });
+
 });

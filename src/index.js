@@ -10,8 +10,12 @@
   };
 
   function reorder (list, previousIndex, nextIndex) {
-    list = [].concat(list);
-    return list.splice(nextIndex, 0, list.splice(previousIndex, 1)[0]);
+    const copy = [].concat(list);
+    const removed = copy.splice(previousIndex, 1)[0];
+
+    copy.splice(nextIndex, 0, removed);
+
+    return copy;
   }
 
   function reorderImmutable (list, previousIndex, nextIndex) {
