@@ -204,6 +204,25 @@ describe('Reorder', function () {
 
   });
 
+  describe('methods', function () {
+
+    it('should return true if the draggedIndex is greater than or equal to zero', function () {
+      const wrapper = mount(<Reorder />);
+      const instance = wrapper.instance();
+
+      expect(instance.isDragging()).to.be.false;
+
+      wrapper.setState({draggedIndex: 0});
+
+      expect(instance.isDragging()).to.be.true;
+
+      wrapper.setState({draggedIndex: 10});
+
+      expect(instance.isDragging()).to.be.true;
+    });
+
+  });
+
   describe('helper functions', function () {
 
     it('should reorder an array', function () {
