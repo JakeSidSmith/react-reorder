@@ -130,7 +130,7 @@ describe('Reorder', function () {
 
       mount(<Reorder getRef={refSpy} />);
 
-      expect(refSpy).to.have.been.called;
+      expect(refSpy).to.have.been.calledOnce;
     });
 
   });
@@ -192,8 +192,8 @@ describe('Reorder', function () {
 
       wrapper.unmount();
 
-      expect(clearTimeoutSpy).to.have.been.called;
-      expect(clearIntervalSpy).to.have.been.called;
+      expect(clearTimeoutSpy).to.have.been.calledOnce;
+      expect(clearIntervalSpy).to.have.been.calledOnce;
 
       expect(clearTimeoutSpy).to.have.been.calledWith(instance.holdTimeout);
       expect(clearIntervalSpy).to.have.been.calledWith(instance.scrollInterval);
@@ -231,13 +231,13 @@ describe('Reorder', function () {
 
       expect(event.preventDefault).not.to.have.been.called;
       instance.preventDefault(event);
-      expect(event.preventDefault).to.have.been.called;
+      expect(event.preventDefault).to.have.been.calledOnce;
 
       event.preventDefault.reset();
 
       expect(event.preventDefault).not.to.have.been.called;
       instance.preventNativeScrolling(event);
-      expect(event.preventDefault).to.have.been.called;
+      expect(event.preventDefault).to.have.been.calledOnce;
     });
 
     it('should persist an event if available', function () {

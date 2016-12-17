@@ -64,9 +64,9 @@ describe('mount', function () {
 
     wrapper = mount(<MyComponent />);
 
-    expect(renderSpy).to.have.been.called;
-    expect(componentWillMountSpy).to.have.been.called;
-    expect(componentDidMountSpy).to.have.been.called;
+    expect(renderSpy).to.have.been.calledOnce;
+    expect(componentWillMountSpy).to.have.been.calledOnce;
+    expect(componentDidMountSpy).to.have.been.calledOnce;
 
     renderSpy.reset();
     componentWillMountSpy.reset();
@@ -109,8 +109,8 @@ describe('mount', function () {
 
     wrapper.setProps({foo: 'bar'});
 
-    expect(shouldComponentUpdateSpy).to.have.been.called;
-    expect(componentDidUpdateSpy).to.have.been.called;
+    expect(shouldComponentUpdateSpy).to.have.been.calledOnce;
+    expect(componentDidUpdateSpy).to.have.been.calledOnce;
 
     const updatedProps = wrapper.props();
 
@@ -134,8 +134,8 @@ describe('mount', function () {
 
     wrapper.setState({foo: 'foo', bar: 'foo'});
 
-    expect(shouldComponentUpdateSpy).to.have.been.called;
-    expect(componentDidUpdateSpy).to.have.been.called;
+    expect(shouldComponentUpdateSpy).to.have.been.calledOnce;
+    expect(componentDidUpdateSpy).to.have.been.calledOnce;
 
     const updatedState = wrapper.state();
 
@@ -151,7 +151,7 @@ describe('mount', function () {
     const event = {foo: 'bar'};
     wrapper.trigger('click', event);
 
-    expect(onClickSpy).to.have.been.called;
+    expect(onClickSpy).to.have.been.calledOnce;
   });
 
   it('should unmount a component', function () {
@@ -159,7 +159,7 @@ describe('mount', function () {
 
     wrapper.unmount();
 
-    expect(componentWillUnmountSpy).to.have.been.called;
+    expect(componentWillUnmountSpy).to.have.been.calledOnce;
   });
 
 });
