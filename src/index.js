@@ -49,12 +49,6 @@
         event.preventDefault();
       },
 
-      preventDefaultIfDragging: function (event) {
-        if (this.isDragging()) {
-          event.preventDefault();
-        }
-      },
-
       preventNativeScrolling: function (event) {
         event.preventDefault();
       },
@@ -354,7 +348,7 @@
         window.addEventListener('touchend', this.onWindowUp);
         window.addEventListener('mousemove', this.onWindowMove);
         window.addEventListener('touchmove', this.onWindowMove);
-        window.addEventListener('contextmenu', this.preventDefaultIfDragging);
+        window.addEventListener('contextmenu', this.preventDefault);
       },
 
       // Remove listeners
@@ -366,7 +360,7 @@
         window.removeEventListener('touchend', this.onWindowUp);
         window.removeEventListener('mousemove', this.onWindowMove);
         window.removeEventListener('touchmove', this.onWindowMove);
-        window.removeEventListener('contextmenu', this.preventDefaultIfDragging);
+        window.removeEventListener('contextmenu', this.preventDefault);
       },
 
       storeRootNode: function (element) {
