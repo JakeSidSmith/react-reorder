@@ -240,6 +240,21 @@ describe('Reorder', function () {
       expect(event.preventDefault).to.have.been.called;
     });
 
+    it('should persist an event if available', function () {
+      const event = {};
+
+      const wrapper = mount(<Reorder />);
+      const instance = wrapper.instance();
+
+      instance.persistEvent(event);
+
+      event.persist = spy();
+
+      instance.persistEvent(event);
+
+      expect(event.persist).to.have.been.calledOnce;
+    });
+
   });
 
   describe('helper functions', function () {
