@@ -1,7 +1,9 @@
 import { expect } from 'chai';
 import { spy } from 'sinon';
 import mount from './helpers/mount';
+
 import React, { Component } from 'react';
+import { List } from 'immutable';
 import Reorder, { reorder, reorderImmutable } from '../src/index';
 
 describe('Reorder', function () {
@@ -211,6 +213,15 @@ describe('Reorder', function () {
 
       expect(reordered).not.to.equal(arr);
       expect(reordered).to.eql([1, 3, 4, 2, 5]);
+    });
+
+    it('should reorder an immutable list', function () {
+      const list = List([1, 2, 3, 4, 5]);
+
+      const reordered = reorderImmutable(list, 4, 0);
+
+      expect(reordered).not.to.equal(list);
+      expect(reordered.toJS()).to.eql([5, 1, 2, 3, 4]);
     });
 
   });

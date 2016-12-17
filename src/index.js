@@ -19,7 +19,8 @@
   }
 
   function reorderImmutable (list, previousIndex, nextIndex) {
-    return list.delete(previousIndex).splice(nextIndex, 0, list.get(previousIndex));
+    const removed = list.get(previousIndex);
+    return list.delete(previousIndex).splice(nextIndex, 0, removed);
   }
 
   function withReorderMethods (Reorder) {
