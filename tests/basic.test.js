@@ -250,9 +250,34 @@ describe('Reorder', function () {
 
       event.persist = spy();
 
+      expect(event.persist).not.to.have.been.called;
+
       instance.persistEvent(event);
 
       expect(event.persist).to.have.been.calledOnce;
+    });
+
+    it('should copy clientX and clientY from touches & persist event', function () {
+      const event = {
+        touches: [
+          {
+            clientX: 123,
+            clientY: 456
+          }
+        ],
+        persist: spy()
+      };
+
+      const wrapper = mount(<Reorder />);
+      const instance = wrapper.instance();
+
+      expect(event.persist).not.to.have.been.called;
+
+      instance.copyTouchKeys(event);
+
+      expect(event.persist).to.have.been.calledOnce;
+      expect(event.clientX).to.equal(123);
+      expect(event.clientY).to.equal(456);
     });
 
   });
