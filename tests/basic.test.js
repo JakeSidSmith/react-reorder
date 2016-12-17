@@ -89,6 +89,10 @@ describe('Reorder', function () {
       expect(props.holdTime).to.equal(0);
     });
 
+  });
+
+  describe('props', function () {
+
     it('should allow defining the root component (string)', function () {
       const wrapper = mount(<Reorder component="ul" />);
 
@@ -126,6 +130,10 @@ describe('Reorder', function () {
 
       expect(refSpy).to.have.been.called;
     });
+
+  });
+
+  describe('mounting & unmounting', function () {
 
     it('should add and remove event listeners on mount and unmount', function () {
       const addEventListenerSpy = spy(window, 'addEventListener');
