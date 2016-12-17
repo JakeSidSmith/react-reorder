@@ -9,18 +9,6 @@
     SCROLL_SPEED: 20
   };
 
-  function extend (obj1, obj2, obj3) {
-    for (var key2 in obj2) {
-      obj1[key2] = obj2[key2];
-    }
-
-    for (var key3 in obj3) {
-      obj1[key3] = obj3[key3];
-    }
-
-    return obj1;
-  }
-
   function reorder (list, previousIndex, nextIndex) {
     list = [].concat(list);
     return list.splice(nextIndex, 0, list.splice(previousIndex, 1)[0]);
@@ -36,7 +24,7 @@
     return Reorder;
   }
 
-  function getReorderComponent (React, ReactDOM) {
+  function getReorderComponent (React, ReactDOM, assign) {
 
     var Reorder = React.createClass({
       displayName: 'Reorder',
@@ -324,7 +312,7 @@
         if (this.isDragging()) {
           this.preventNativeScrolling(event);
 
-          var draggedStyle = extend({}, this.state.draggedStyle, {
+          var draggedStyle = assign({}, this.state.draggedStyle, {
             top: (!this.props.lock || this.props.lock === 'horizontal') ?
               event.clientY - this.mouseDownOffset.clientY : this.state.draggedStyle.top,
             left: (!this.props.lock || this.props.lock === 'vertical') ?
@@ -390,7 +378,7 @@
         var children = this.props.children && this.props.children.map(function (child, index) {
           var isDragged = index === self.state.draggedIndex;
 
-          var draggedStyle = isDragged ? extend({}, child.props.style, self.state.draggedStyle) : child.props.style;
+          var draggedStyle = isDragged ? assign({}, child.props.style, self.state.draggedStyle) : child.props.style;
           var draggedClass = [
             child.props.className || '',
             (isDragged ? self.props.draggedClassName : '')
@@ -480,11 +468,12 @@
   if (typeof exports === 'object' && typeof module !== 'undefined') {
     var React = require('react');
     var ReactDOM = require('react-dom');
-    module.exports = withReorderMethods(getReorderComponent(React, ReactDOM));
+    var assign = require('lodash.assign');
+    module.exports = withReorderMethods(getReorderComponent(React, ReactDOM, assign));
   // Export for amd / require
   } else if (typeof define === 'function' && define.amd) { // eslint-disable-line no-undef
-    define(['react', 'react-dom'], function (ReactAMD, ReactDOMAMD) { // eslint-disable-line no-undef
-      return withReorderMethods(getReorderComponent(ReactAMD, ReactDOMAMD));
+    define(['react', 'react-dom', 'lodash.assign'], function (ReactAMD, ReactDOMAMD, assignAMD) { // eslint-disable-line no-undef
+      return withReorderMethods(getReorderComponent(ReactAMD, ReactDOMAMD, assignAMD));
     });
   // Export globally
   } else {
@@ -500,7 +489,7 @@
       root = this;
     }
 
-    root.Reorder = withReorderMethods(getReorderComponent(root.React, root.ReactDOM));
+    root.Reorder = withReorderMethods(getReorderComponent(root.React, root.ReactDOM, root.assign));
   }
 
 })();
