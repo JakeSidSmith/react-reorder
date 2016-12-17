@@ -230,9 +230,13 @@ describe('Reorder', function () {
       const instance = wrapper.instance();
 
       expect(event.preventDefault).not.to.have.been.called;
-
       instance.preventDefault(event);
+      expect(event.preventDefault).to.have.been.called;
 
+      event.preventDefault.reset();
+
+      expect(event.preventDefault).not.to.have.been.called;
+      instance.preventNativeScrolling(event);
       expect(event.preventDefault).to.have.been.called;
     });
 
