@@ -60,7 +60,7 @@
     "watchify": "=3.6.1"
   },
   "peerDependencies": {
-    "react": ">=0.14"
+    "react": "*"
   },
   "engines": {
     "node": "6.9.1",
