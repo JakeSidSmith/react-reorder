@@ -221,6 +221,21 @@ describe('Reorder', function () {
       expect(instance.isDragging()).to.be.true;
     });
 
+    it('should preventDefault on events', function () {
+      const event = {
+        preventDefault: spy()
+      };
+
+      const wrapper = mount(<Reorder />);
+      const instance = wrapper.instance();
+
+      expect(event.preventDefault).not.to.have.been.called;
+
+      instance.preventDefault(event);
+
+      expect(event.preventDefault).to.have.been.called;
+    });
+
   });
 
   describe('helper functions', function () {
