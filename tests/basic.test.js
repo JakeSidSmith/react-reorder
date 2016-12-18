@@ -410,6 +410,53 @@ describe('Reorder', function () {
       expect(instance.yCollision(rect, event)).to.be.true;
     });
 
+    it('should find the first collision of the pointer & Reorder children (no lock)', function () {
+      const wrapper = mount(<Reorder />);
+      const instance = wrapper.instance();
+
+      const event = {
+        clientX: 0,
+        clientY: 0
+      };
+
+      expect(instance.findCollisionIndex(children, event)).to.equal(-1);
+
+      event.clientX = 30;
+
+      expect(instance.findCollisionIndex(children, event)).to.equal(-1);
+
+      event.clientY = 30;
+
+      expect(instance.findCollisionIndex(children, event)).to.equal(0);
+
+      event.clientY = 50;
+
+      expect(instance.findCollisionIndex(children, event)).to.equal(-1);
+
+      event.clientY = 70;
+
+      expect(instance.findCollisionIndex(children, event)).to.equal(-1);
+
+      event.clientY = 90;
+
+      expect(instance.findCollisionIndex(children, event)).to.equal(3);
+
+      event.clientX = 200;
+      event.clientY = 110;
+
+      expect(instance.findCollisionIndex(children, event)).to.equal(-1);
+
+      event.clientX = 50;
+      event.clientY = 110;
+
+      expect(instance.findCollisionIndex(children, event)).to.equal(4);
+
+      event.clientX = 50;
+      event.clientY = 130;
+
+      expect(instance.findCollisionIndex(children, event)).to.equal(-1);
+    });
+
   });
 
   describe('helper functions', function () {
