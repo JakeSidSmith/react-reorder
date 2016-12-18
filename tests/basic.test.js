@@ -259,12 +259,6 @@ describe('Reorder', function () {
 
     it('should copy clientX and clientY from touches & persist event', function () {
       const event = {
-        touches: [
-          {
-            clientX: 123,
-            clientY: 456
-          }
-        ],
         persist: spy()
       };
 
@@ -272,6 +266,20 @@ describe('Reorder', function () {
       const instance = wrapper.instance();
 
       expect(event.persist).not.to.have.been.called;
+
+      instance.copyTouchKeys(event);
+
+      expect(event.clientX).not.to.be.ok;
+      expect(event.clientY).not.to.be.ok;
+
+      expect(event.persist).not.to.have.been.called;
+
+      event.touches = [
+        {
+          clientX: 123,
+          clientY: 456
+        }
+      ];
 
       instance.copyTouchKeys(event);
 
