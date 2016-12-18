@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { spy } from 'sinon';
+import { spy, stub } from 'sinon';
 import mount from './helpers/mount';
 
 import React from 'react';
@@ -387,6 +387,61 @@ describe('methods', function () {
 
     expect(instance.getScrollOffsetY(rect, node, {clientY: maxScrollArea * 1.5})).to.equal(-scrollSpeed / 2);
     expect(instance.getScrollOffsetY(rect, node, {clientY: maxScrollArea * 4.5})).to.equal(scrollSpeed / 2);
+  });
+
+  it('should scroll the root node if auto-scroll enabled & pointer is in the right location', function () {
+    const wrapper = mount(<Reorder />);
+    const instance = wrapper.instance();
+
+    expect(instance.rootNode).to.be.ok;
+
+    stub(instance.rootNode, 'getBoundingClientRect', function () {
+      return {
+        top: 0,
+        left: 0,
+        height: 100,
+        width: 100,
+        bottom: 100,
+        right: 100
+      };
+    });
+
+    instance.rootNode.scrollTop = 50;
+    instance.rootNode.scrollLeft = 50;
+    instance.rootNode.scrollHeight = 200;
+    instance.rootNode.scrollWidth = 200;
+
+    instance.mouseOffset = {
+      clientY: 50,
+      clientX: 50
+    };
+
+    instance.autoScroll();
+    expect(instance.rootNode.scrollTop).to.equal(50);
+    expect(instance.rootNode.scrollLeft).to.equal(50);
+
+    instance.mouseOffset.clientY = 100;
+    instance.autoScroll();
+    expect(instance.rootNode.scrollTop).to.equal(70);
+    expect(instance.rootNode.scrollLeft).to.equal(50);
+
+    wrapper.setProps({lock: 'vertical'});
+    instance.mouseOffset.clientX = 100;
+    instance.autoScroll();
+    expect(instance.rootNode.scrollTop).to.equal(70);
+    expect(instance.rootNode.scrollLeft).to.equal(70);
+
+    wrapper.setProps({lock: 'horizontal'});
+    instance.autoScroll();
+    expect(instance.rootNode.scrollTop).to.equal(90);
+    expect(instance.rootNode.scrollLeft).to.equal(70);
+
+    wrapper.setProps({autoScroll: false});
+    instance.autoScroll();
+    expect(instance.rootNode.scrollTop).to.equal(90);
+    expect(instance.rootNode.scrollLeft).to.equal(70);
+
+    instance.rootNode.getBoundingClientRect.restore();
   });
 
 });
