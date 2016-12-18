@@ -319,4 +319,40 @@ describe('methods', function () {
     expect(instance.getHoldTime({touches: []})).to.equal(0);
   });
 
+  it('should return the scroll offset x for autoscrolling', function () {
+    const wrapper = mount(<Reorder />);
+    const instance = wrapper.instance();
+
+    const rect = {
+      top: 10,
+      left: 10,
+      right: 110,
+      bottom: 110,
+      width: 100,
+      height: 100
+    };
+
+    const node = {
+      scrollTop: 50,
+      scrollLeft: 50,
+      scrollHeight: 200,
+      scrollWidth: 200
+    };
+
+    const mouseOffset = {
+      clientX: 50,
+      clientY: 50
+    };
+
+    expect(instance.getScrollOffsetX(rect, node, mouseOffset)).to.equal(0);
+
+    mouseOffset.clientX = 0;
+
+    expect(instance.getScrollOffsetX(rect, node, mouseOffset)).to.equal(-20);
+
+    mouseOffset.clientX = 120;
+
+    expect(instance.getScrollOffsetX(rect, node, mouseOffset)).to.equal(20);
+  });
+
 });
