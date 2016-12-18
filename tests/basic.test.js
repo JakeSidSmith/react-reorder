@@ -269,10 +269,9 @@ describe('Reorder', function () {
 
       instance.copyTouchKeys(event);
 
+      expect(event.persist).not.to.have.been.called;
       expect(event.clientX).not.to.be.ok;
       expect(event.clientY).not.to.be.ok;
-
-      expect(event.persist).not.to.have.been.called;
 
       event.touches = [
         {
