@@ -91,6 +91,13 @@ describe('Reorder', function () {
       expect(props.holdTime).to.equal(0);
     });
 
+    it('should store a reference to its root node', function () {
+      const wrapper = mount(<Reorder />);
+      const instance = wrapper.instance();
+
+      expect(instance.rootNode).to.be.ok;
+    });
+
   });
 
   describe('props', function () {
