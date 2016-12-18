@@ -326,8 +326,8 @@ describe('methods', function () {
     const rect = {
       top: 10,
       left: 10,
-      right: 110,
-      bottom: 110,
+      right: 120,
+      bottom: 120,
       width: 100,
       height: 100
     };
@@ -347,11 +347,15 @@ describe('methods', function () {
     expect(instance.getScrollOffsetX(rect, node, mouseOffset)).to.equal(0);
 
     mouseOffset.clientX = 0;
+    expect(instance.getScrollOffsetX(rect, node, mouseOffset)).to.equal(-20);
 
+    mouseOffset.clientX = rect.left;
     expect(instance.getScrollOffsetX(rect, node, mouseOffset)).to.equal(-20);
 
     mouseOffset.clientX = 120;
+    expect(instance.getScrollOffsetX(rect, node, mouseOffset)).to.equal(20);
 
+    mouseOffset.clientX = rect.right;
     expect(instance.getScrollOffsetX(rect, node, mouseOffset)).to.equal(20);
   });
 
