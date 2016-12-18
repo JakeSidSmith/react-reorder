@@ -319,44 +319,68 @@ describe('methods', function () {
     expect(instance.getHoldTime({touches: []})).to.equal(0);
   });
 
-  it('should return the scroll offset x for autoscrolling', function () {
+  it('should return the scroll offset x for auto-scrolling (max scroll area)', function () {
+    const maxScrollArea = 50;
+    const scrollSpeed = 20;
     const wrapper = mount(<Reorder />);
     const instance = wrapper.instance();
 
     const rect = {
-      top: 10,
-      left: 10,
-      right: 120,
-      bottom: 120,
-      width: 100,
-      height: 100
+      top: 200,
+      left: maxScrollArea,
+      height: 50, // Larger than maxScrollArea * 3 (as scroll area is divided by 3)
+      width: maxScrollArea * 4, // Larger than maxScrollArea * 3 (as scroll area is divided by 3)
+      bottom: 250,
+      right: maxScrollArea * 5
     };
 
     const node = {
-      scrollTop: 50,
-      scrollLeft: 50,
-      scrollHeight: 200,
-      scrollWidth: 200
+      scrollTop: 1000, // More than zero, less than scrollHeight
+      scrollLeft: 1, // More than zero, less than scrollWidth
+      scrollHeight: 2000, // Larger than width & height
+      scrollWidth: maxScrollArea * 5 // Larger than width & height
     };
 
-    const mouseOffset = {
-      clientX: 50,
-      clientY: 50
+    const expectedScrollOffsets = [-scrollSpeed, -scrollSpeed, 0, 0, 0, scrollSpeed, scrollSpeed];
+
+    for (var i = 0; i < expectedScrollOffsets.length; i += 1) {
+      const expectedScrollOffset = expectedScrollOffsets[i];
+      const mouseOffset = {clientX: maxScrollArea * i};
+
+      expect(instance.getScrollOffsetX(rect, node, mouseOffset)).to.equal(expectedScrollOffset);
+    }
+  });
+
+  it('should return the scroll offset y for auto-scrolling (max scroll area)', function () {
+    const maxScrollArea = 50;
+    const scrollSpeed = 20;
+    const wrapper = mount(<Reorder />);
+    const instance = wrapper.instance();
+
+    const rect = {
+      top: maxScrollArea,
+      left: 200,
+      height: maxScrollArea * 4, // Larger than maxScrollArea * 3 (as scroll area is divided by 3)
+      width: 50, // Larger than maxScrollArea * 3 (as scroll area is divided by 3)
+      bottom: maxScrollArea * 5,
+      right: 250
     };
 
-    expect(instance.getScrollOffsetX(rect, node, mouseOffset)).to.equal(0);
+    const node = {
+      scrollTop: 1, // More than zero, less than scrollHeight
+      scrollLeft: 1000, // More than zero, less than scrollWidth
+      scrollHeight: maxScrollArea * 5, // Larger than width & height
+      scrollWidth: 2000 // Larger than width & height
+    };
 
-    mouseOffset.clientX = 0;
-    expect(instance.getScrollOffsetX(rect, node, mouseOffset)).to.equal(-20);
+    const expectedScrollOffsets = [-scrollSpeed, -scrollSpeed, 0, 0, 0, scrollSpeed, scrollSpeed];
 
-    mouseOffset.clientX = rect.left;
-    expect(instance.getScrollOffsetX(rect, node, mouseOffset)).to.equal(-20);
+    for (var i = 0; i < expectedScrollOffsets.length; i += 1) {
+      const expectedScrollOffset = expectedScrollOffsets[i];
+      const mouseOffset = {clientY: maxScrollArea * i};
 
-    mouseOffset.clientX = 120;
-    expect(instance.getScrollOffsetX(rect, node, mouseOffset)).to.equal(20);
-
-    mouseOffset.clientX = rect.right;
-    expect(instance.getScrollOffsetX(rect, node, mouseOffset)).to.equal(20);
+      expect(instance.getScrollOffsetY(rect, node, mouseOffset)).to.equal(expectedScrollOffset);
+    }
   });
 
 });
