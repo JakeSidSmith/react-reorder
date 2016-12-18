@@ -456,7 +456,8 @@
       mouseHoldTime: PropTypes.number,
       onReorder: PropTypes.func,
       placeholder: PropTypes.element,
-      autoScroll: PropTypes.bool
+      autoScroll: PropTypes.bool,
+      disabled: PropTypes.bool
     };
 
     Reorder.defaultProps = {
@@ -469,7 +470,8 @@
       // mouseHoldTime: 0,
       // onReorder: function,
       // placeholder: react element
-      autoScroll: true
+      autoScroll: true,
+      disabled: false
     };
 
     return Reorder;
