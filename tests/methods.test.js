@@ -349,6 +349,9 @@ describe('methods', function () {
 
       expect(instance.getScrollOffsetX(rect, node, mouseOffset)).to.equal(expectedScrollOffset);
     }
+
+    expect(instance.getScrollOffsetX(rect, node, {clientX: maxScrollArea * 1.5})).to.equal(-scrollSpeed / 2);
+    expect(instance.getScrollOffsetX(rect, node, {clientX: maxScrollArea * 4.5})).to.equal(scrollSpeed / 2);
   });
 
   it('should return the scroll offset y for auto-scrolling (max scroll area)', function () {
@@ -381,6 +384,9 @@ describe('methods', function () {
 
       expect(instance.getScrollOffsetY(rect, node, mouseOffset)).to.equal(expectedScrollOffset);
     }
+
+    expect(instance.getScrollOffsetY(rect, node, {clientY: maxScrollArea * 1.5})).to.equal(-scrollSpeed / 2);
+    expect(instance.getScrollOffsetY(rect, node, {clientY: maxScrollArea * 4.5})).to.equal(scrollSpeed / 2);
   });
 
 });
