@@ -4,7 +4,7 @@ import mount from './helpers/mount';
 
 import React from 'react';
 import Reorder from '../src/index';
-import { verticalChildren } from './helpers/children-stub';
+import { verticalChildren, horizontalChildren } from './helpers/children-stub';
 
 describe('methods', function () {
 
@@ -145,7 +145,7 @@ describe('methods', function () {
     expect(instance.yCollision(rect, event)).to.be.true;
   });
 
-  it('should find the first collision of the pointer & Reorder children (no lock)', function () {
+  it('should find the first collision of the pointer & children (no lock)', function () {
     const wrapper = mount(<Reorder />);
     const instance = wrapper.instance();
 
@@ -190,6 +190,100 @@ describe('methods', function () {
     event.clientY = 130;
 
     expect(instance.findCollisionIndex(verticalChildren, event)).to.equal(-1);
+  });
+
+  it('should find the first collision of the pointer & children (horizontal)', function () {
+    const wrapper = mount(<Reorder lock="horizontal" />);
+    const instance = wrapper.instance();
+
+    const event = {
+      clientX: 0,
+      clientY: 0
+    };
+
+    expect(instance.findCollisionIndex(verticalChildren, event)).to.equal(-1);
+
+    event.clientY = 30;
+
+    expect(instance.findCollisionIndex(verticalChildren, event)).to.equal(0);
+
+    event.clientX = 30;
+
+    expect(instance.findCollisionIndex(verticalChildren, event)).to.equal(0);
+
+    event.clientY = 50;
+
+    expect(instance.findCollisionIndex(verticalChildren, event)).to.equal(-1);
+
+    event.clientY = 70;
+
+    expect(instance.findCollisionIndex(verticalChildren, event)).to.equal(-1);
+
+    event.clientY = 90;
+
+    expect(instance.findCollisionIndex(verticalChildren, event)).to.equal(3);
+
+    event.clientX = 200;
+    event.clientY = 110;
+
+    expect(instance.findCollisionIndex(verticalChildren, event)).to.equal(4);
+
+    event.clientX = 50;
+    event.clientY = 110;
+
+    expect(instance.findCollisionIndex(verticalChildren, event)).to.equal(4);
+
+    event.clientX = 50;
+    event.clientY = 130;
+
+    expect(instance.findCollisionIndex(verticalChildren, event)).to.equal(-1);
+  });
+
+  it('should find the first collision of the pointer & children (vertical)', function () {
+    const wrapper = mount(<Reorder lock="vertical" />);
+    const instance = wrapper.instance();
+
+    const event = {
+      clientX: 0,
+      clientY: 0
+    };
+
+    expect(instance.findCollisionIndex(horizontalChildren, event)).to.equal(-1);
+
+    event.clientX = 30;
+
+    expect(instance.findCollisionIndex(horizontalChildren, event)).to.equal(0);
+
+    event.clientY = 30;
+
+    expect(instance.findCollisionIndex(horizontalChildren, event)).to.equal(0);
+
+    event.clientX = 150;
+
+    expect(instance.findCollisionIndex(horizontalChildren, event)).to.equal(-1);
+
+    event.clientX = 250;
+
+    expect(instance.findCollisionIndex(horizontalChildren, event)).to.equal(-1);
+
+    event.clientX = 350;
+
+    expect(instance.findCollisionIndex(horizontalChildren, event)).to.equal(3);
+
+    event.clientX = 450;
+    event.clientY = 110;
+
+    expect(instance.findCollisionIndex(horizontalChildren, event)).to.equal(4);
+
+    event.clientX = 450;
+    event.clientY = 0;
+
+    expect(instance.findCollisionIndex(horizontalChildren, event)).to.equal(4);
+
+    event.clientX = 550;
+    event.clientY = 130;
+
+    expect(instance.findCollisionIndex(horizontalChildren, event)).to.equal(-1);
   });
 
 });
