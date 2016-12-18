@@ -286,4 +286,37 @@ describe('methods', function () {
     expect(instance.findCollisionIndex(horizontalChildren, event)).to.equal(-1);
   });
 
+  it('should return the relevant holdTime', function () {
+    const wrapper = mount(<Reorder />);
+    const instance = wrapper.instance();
+
+    expect(instance.getHoldTime({})).to.equal(0);
+    expect(instance.getHoldTime({touches: []})).to.equal(0);
+
+    wrapper.setProps({holdTime: 50});
+
+    expect(instance.getHoldTime({})).to.equal(50);
+    expect(instance.getHoldTime({touches: []})).to.equal(50);
+
+    wrapper.setProps({holdTime: 50, touchHoldTime: 500});
+
+    expect(instance.getHoldTime({})).to.equal(50);
+    expect(instance.getHoldTime({touches: []})).to.equal(500);
+
+    wrapper.setProps({holdTime: 50, mouseHoldTime: 250, touchHoldTime: 500});
+
+    expect(instance.getHoldTime({})).to.equal(250);
+    expect(instance.getHoldTime({touches: []})).to.equal(500);
+
+    wrapper.setProps({holdTime: NaN});
+
+    expect(instance.getHoldTime({})).to.equal(0);
+    expect(instance.getHoldTime({touches: []})).to.equal(0);
+
+    wrapper.setProps({holdTime: NaN, mouseHoldTime: NaN, touchHoldTime: NaN});
+
+    expect(instance.getHoldTime({})).to.equal(0);
+    expect(instance.getHoldTime({touches: []})).to.equal(0);
+  });
+
 });
