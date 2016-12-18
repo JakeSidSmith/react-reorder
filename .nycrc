@@ -9,7 +9,8 @@
   ],
   "include": [
     "src/**/*.js",
-    "tests/helpers/mount.js"
+    "tests/helpers/mount.js",
+    "tests/helpers/children-stub.js"
   ],
   "exclude": [],
   "extension": [
