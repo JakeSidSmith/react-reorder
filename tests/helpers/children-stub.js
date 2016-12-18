@@ -52,7 +52,7 @@ for (var i = 0; i < 5; i += 1) {
     getBoundingClientRect: function () {
       return {
         top: itemSize.top,
-        bottom: itemSize.top,
+        bottom: itemSize.top + itemSize.height,
         left: itemSize.left + (itemSize.width * index),
         right: itemSize.left + (itemSize.width * index) + itemSize.width,
         width: itemSize.width,
