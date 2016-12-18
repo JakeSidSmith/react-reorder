@@ -118,48 +118,50 @@
       },
 
       autoScroll: function () {
-        var rect = this.rootNode.getBoundingClientRect();
+        if (this.props.autoScroll) {
+          var rect = this.rootNode.getBoundingClientRect();
 
-        var scrollTop = this.rootNode.scrollTop;
-        var scrollLeft = this.rootNode.scrollLeft;
+          var scrollTop = this.rootNode.scrollTop;
+          var scrollLeft = this.rootNode.scrollLeft;
 
-        var scrollHeight = this.rootNode.scrollHeight;
-        var scrollWidth = this.rootNode.scrollWidth;
+          var scrollHeight = this.rootNode.scrollHeight;
+          var scrollWidth = this.rootNode.scrollWidth;
 
-        var scrollAreaX = Math.min(rect.width / 3, CONSTANTS.SCROLL_AREA_MAX);
-        var scrollAreaY = Math.min(rect.height / 3, CONSTANTS.SCROLL_AREA_MAX);
+          var scrollAreaX = Math.min(rect.width / 3, CONSTANTS.SCROLL_AREA_MAX);
+          var scrollAreaY = Math.min(rect.height / 3, CONSTANTS.SCROLL_AREA_MAX);
 
-        var scrollMultiplier;
+          var scrollMultiplier;
 
-        if (this.props.lock !== 'horizontal') {
-          if (scrollLeft > 0 && this.mouseOffset.clientX <= rect.left + scrollAreaX) {
-            scrollMultiplier = Math.min(Math.abs(rect.left + scrollAreaX - this.mouseOffset.clientX), scrollAreaX) /
-              scrollAreaX;
+          if (this.props.lock !== 'horizontal') {
+            if (scrollLeft > 0 && this.mouseOffset.clientX <= rect.left + scrollAreaX) {
+              scrollMultiplier = Math.min(Math.abs(rect.left + scrollAreaX - this.mouseOffset.clientX), scrollAreaX) /
+                scrollAreaX;
 
-            this.rootNode.scrollLeft = this.rootNode.scrollLeft - scrollMultiplier * CONSTANTS.SCROLL_SPEED;
+              this.rootNode.scrollLeft = this.rootNode.scrollLeft - scrollMultiplier * CONSTANTS.SCROLL_SPEED;
+            }
+
+            if (scrollLeft < scrollWidth - rect.width && this.mouseOffset.clientX >= rect.right - scrollAreaX) {
+              scrollMultiplier = Math.min(Math.abs(rect.right - scrollAreaX - this.mouseOffset.clientX), scrollAreaX) /
+                scrollAreaX;
+
+              this.rootNode.scrollLeft = this.rootNode.scrollLeft + scrollMultiplier * CONSTANTS.SCROLL_SPEED;
+            }
           }
 
-          if (scrollLeft < scrollWidth - rect.width && this.mouseOffset.clientX >= rect.right - scrollAreaX) {
-            scrollMultiplier = Math.min(Math.abs(rect.right - scrollAreaX - this.mouseOffset.clientX), scrollAreaX) /
-              scrollAreaX;
+          if (this.props.lock !== 'vertical') {
+            if (scrollTop > 0 && this.mouseOffset.clientY <= rect.top + scrollAreaY) {
+              scrollMultiplier = Math.min(Math.abs(rect.top + scrollAreaY - this.mouseOffset.clientY), scrollAreaY) /
+                scrollAreaY;
 
-            this.rootNode.scrollLeft = this.rootNode.scrollLeft + scrollMultiplier * CONSTANTS.SCROLL_SPEED;
-          }
-        }
+              this.rootNode.scrollTop = this.rootNode.scrollTop - scrollMultiplier * CONSTANTS.SCROLL_SPEED;
+            }
 
-        if (this.props.lock !== 'vertical') {
-          if (scrollTop > 0 && this.mouseOffset.clientY <= rect.top + scrollAreaY) {
-            scrollMultiplier = Math.min(Math.abs(rect.top + scrollAreaY - this.mouseOffset.clientY), scrollAreaY) /
-              scrollAreaY;
+            if (scrollTop < scrollHeight - rect.height && this.mouseOffset.clientY >= rect.bottom - scrollAreaY) {
+              scrollMultiplier = Math.min(Math.abs(rect.bottom - scrollAreaY - this.mouseOffset.clientY), scrollAreaY) /
+                scrollAreaY;
 
-            this.rootNode.scrollTop = this.rootNode.scrollTop - scrollMultiplier * CONSTANTS.SCROLL_SPEED;
-          }
-
-          if (scrollTop < scrollHeight - rect.height && this.mouseOffset.clientY >= rect.bottom - scrollAreaY) {
-            scrollMultiplier = Math.min(Math.abs(rect.bottom - scrollAreaY - this.mouseOffset.clientY), scrollAreaY) /
-              scrollAreaY;
-
-            this.rootNode.scrollTop = this.rootNode.scrollTop + scrollMultiplier * CONSTANTS.SCROLL_SPEED;
+              this.rootNode.scrollTop = this.rootNode.scrollTop + scrollMultiplier * CONSTANTS.SCROLL_SPEED;
+            }
           }
         }
       },
@@ -442,7 +444,8 @@
       touchHoldTime: PropTypes.number,
       mouseHoldTime: PropTypes.number,
       onReorder: PropTypes.func,
-      placeholder: PropTypes.element
+      placeholder: PropTypes.element,
+      autoScroll: PropTypes.bool
     };
 
     Reorder.defaultProps = {
@@ -450,11 +453,12 @@
       placeholderClassName: 'placeholder',
       draggedClassName: 'dragged',
       // lock: direction,
-      holdTime: 0
+      holdTime: 0,
       // touchHoldTime: 0,
       // mouseHoldTime: 0,
       // onReorder: function,
       // placeholder: react element
+      autoScroll: true
     };
 
     return Reorder;
