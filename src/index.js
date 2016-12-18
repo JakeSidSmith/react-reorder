@@ -36,6 +36,7 @@
 
       getInitialState: function () {
         return {
+          placedIndex: -1,
           draggedIndex: -1,
           draggedStyle: null
         };
