@@ -287,6 +287,62 @@ describe('Reorder', function () {
       expect(event.clientY).to.equal(456);
     });
 
+    it('should check a collision on the x-axis', function () {
+      const wrapper = mount(<Reorder />);
+      const instance = wrapper.instance();
+
+      const rect = {
+        left: 50,
+        right: 100
+      };
+
+      const event = {
+        clientX: 20
+      };
+
+      expect(instance.xCollision(rect, event)).to.be.false;
+
+      event.clientX = 120;
+
+      expect(instance.xCollision(rect, event)).to.be.false;
+
+      event.clientX = 80;
+
+      expect(instance.xCollision(rect, event)).to.be.true;
+
+      event.clientX = 100;
+
+      expect(instance.xCollision(rect, event)).to.be.true;
+    });
+
+    it('should check a collision on the y-axis', function () {
+      const wrapper = mount(<Reorder />);
+      const instance = wrapper.instance();
+
+      const rect = {
+        top: 20,
+        bottom: 80
+      };
+
+      const event = {
+        clientY: 10
+      };
+
+      expect(instance.yCollision(rect, event)).to.be.false;
+
+      event.clientY = 100;
+
+      expect(instance.yCollision(rect, event)).to.be.false;
+
+      event.clientY = 50;
+
+      expect(instance.yCollision(rect, event)).to.be.true;
+
+      event.clientY = 80;
+
+      expect(instance.yCollision(rect, event)).to.be.true;
+    });
+
   });
 
   describe('helper functions', function () {
