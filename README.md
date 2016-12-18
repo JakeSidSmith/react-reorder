@@ -65,11 +65,11 @@ It also allows the user to set a hold time (duration before drag begins) allowin
     }
   >
     {
-      this.state.list.map(function (item) {
-        return (
-          <li key={item.name}>{item.name}</li>
-        );
-      }).toArray() // Note this example is an ImmutableJS List so we must turn it into an array
+      this.state.list.map((item) => (
+        <li key={item.name}>
+          {item.name}
+        </li>
+      )).toArray() // Note this example is an ImmutableJS List so we must convert it to an array
     }
   </Reorder>
   ```
