@@ -71,7 +71,13 @@ It also allows the user to set a hold time (duration before drag begins) allowin
         <li key={item.name}>
           {item.name}
         </li>
-      )).toArray() // Note this example is an ImmutableJS List so we must convert it to an array
+      )).toArray()
+      /*
+      Note this example is an ImmutableJS List so we must convert it to an array.
+      I've left this up to you to covert to an array, as react-reorder updates a lot,
+      and if I called this internally it could get rather slow,
+      whereas you have greater control over your component updates.
+      */
     }
   </Reorder>
   ```
