@@ -34,6 +34,13 @@ const classNames = ReactStyleSheets.createUniqueClassStyles({
     whiteSpace: 'nowrap'
   },
   mylist3: {},
+  multiList: {
+    width: '50%',
+    minHeight: 100,
+    maxHeight: 400,
+    overflowX: 'hidden',
+    overflowY: 'auto'
+  },
   listItem: {
     float: 'left',
     width: '100%',
@@ -55,6 +62,7 @@ const classNames = ReactStyleSheets.createUniqueClassStyles({
     float: 'left',
     width: '50%'
   },
+  multiListItem: {},
   placeholder: {
     backgroundColor: '#CCC',
     border: [1, 'solid', '#CCC']
@@ -91,6 +99,18 @@ class Main extends Component {
       list: Immutable.List(Immutable.Range(0, 10).map(function (value) {
         return {
           name: ['Thing', value].join(' '),
+          color: ['rgb(', (value + 1) * 25, ',', 250 - ((value + 1) * 25), ',0)'].join('')
+        };
+      })),
+      multiList1: Immutable.List(Immutable.Range(0, 5).map(function (value) {
+        return {
+          name: ['List A - Item', value].join(' '),
+          color: ['rgb(', (value + 1) * 25, ',', 250 - ((value + 1) * 25), ',0)'].join('')
+        };
+      })),
+      multiList2: Immutable.List(Immutable.Range(0, 5).map(function (value) {
+        return {
+          name: ['List B - Item', value].join(' '),
           color: ['rgb(', (value + 1) * 25, ',', 250 - ((value + 1) * 25), ',0)'].join('')
         };
       })),
@@ -225,6 +245,7 @@ class Main extends Component {
         </p>
 
         <Reorder
+          component="ul"
           className={[classNames.myList, classNames.myList3].join(' ')}
           placeholderClassName={classNames.placeholder}
           draggedClassName={classNames.dragged}
@@ -236,6 +257,57 @@ class Main extends Component {
                 <li
                   key={item.name}
                   className={[classNames.listItem, classNames.listItem3].join(' ')}
+                  style={{color: item.color}}
+                >
+                  {item.name}
+                </li>
+              );
+            }.bind(this)).toArray()
+          }
+        </Reorder>
+
+        <h3>
+          Drag between lists
+        </h3>
+        <p>
+          This example has a group of lists that you can drag items between
+        </p>
+
+        <Reorder
+          component="ul"
+          className={[classNames.myList, classNames.multiList].join(' ')}
+          placeholderClassName={classNames.placeholder}
+          draggedClassName={classNames.dragged}
+          onReorder={this.onReorder.bind(this)}
+        >
+          {
+            this.state.multiList1.map(function (item) {
+              return (
+                <li
+                  key={item.name}
+                  className={[classNames.listItem, classNames.multiListItem].join(' ')}
+                  style={{color: item.color}}
+                >
+                  {item.name}
+                </li>
+              );
+            }.bind(this)).toArray()
+          }
+        </Reorder>
+
+        <Reorder
+          component="ul"
+          className={[classNames.myList, classNames.multiList].join(' ')}
+          placeholderClassName={classNames.placeholder}
+          draggedClassName={classNames.dragged}
+          onReorder={this.onReorder.bind(this)}
+        >
+          {
+            this.state.multiList2.map(function (item) {
+              return (
+                <li
+                  key={item.name}
+                  className={[classNames.listItem, classNames.multiListItem].join(' ')}
                   style={{color: item.color}}
                 >
                   {item.name}
