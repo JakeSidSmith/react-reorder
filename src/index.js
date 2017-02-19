@@ -2,12 +2,57 @@
 
 (function () {
 
+  var reorderComponents = {};
+  var reorderGroups = {};
+
   var CONSTANTS = {
     HOLD_THRESHOLD: 8,
     SCROLL_INTERVAL: 1000 / 60,
     SCROLL_AREA_MAX: 50,
     SCROLL_SPEED: 20
   };
+
+  function validateComponentIdAndGroup (reorderId, reorderGroup) {
+    if (typeof reorderId !== 'string') {
+      throw new Error('Expected reorderId to be a string. Instead got ' + (typeof reorderId));
+    }
+
+    if (typeof reorderGroup !== 'undefined' && typeof reorderGroup !== 'string') {
+      throw new Error('Expected reorderGroup to be a string. Instead got ' + (typeof reorderGroup));
+    }
+  }
+
+  function registerComponent (reorderId, reorderGroup, callback) {
+    validateComponentIdAndGroup(reorderId, reorderGroup);
+
+    if (reorderId in reorderComponents) {
+      throw new Error('Duplicate reorderId: ' + reorderId);
+    }
+
+    if (typeof reorderGroup !== 'undefined') {
+      if ((reorderGroup in reorderGroups) && (reorderId in reorderGroups[reorderGroup])) {
+        throw new Error('Duplicate reorderId: ' + reorderId + ' in reorderGroup: ' + reorderGroup);
+      }
+    }
+  }
+
+  function unregisterComponent (reorderId, reorderGroup, callback) {
+    validateComponentIdAndGroup(reorderId, reorderGroup);
+
+    if (!(reorderId in reorderComponents)) {
+      throw new Error('Unknown reorderId: ' + reorderId);
+    }
+
+    if (typeof reorderGroup !== 'undefined') {
+      if (!(reorderGroup in reorderGroups)) {
+        throw new Error('Unknown reorderGroup: ' + reorderGroup);
+      }
+
+      if ((reorderGroup in reorderGroups) && !(reorderId in reorderGroups[reorderGroup])) {
+        throw new Error('Unknown reorderId: ' + reorderId + ' in reorderGroup: ' + reorderGroup);
+      }
+    }
+  }
 
   function reorder (list, previousIndex, nextIndex) {
     const copy = [].concat(list);
@@ -360,8 +405,13 @@
         }
       },
 
+      updateState: function () {
+        console.log('Update');
+      },
+
       // Add listeners
       componentWillMount: function () {
+        registerComponent(this.props.reorderId, this.props.reorderGroup, this.updateState);
         window.addEventListener('mouseup', this.onWindowUp, {passive: false});
         window.addEventListener('touchend', this.onWindowUp, {passive: false});
         window.addEventListener('mousemove', this.onWindowMove, {passive: false});
@@ -371,6 +421,7 @@
 
       // Remove listeners
       componentWillUnmount: function () {
+        unregisterComponent(this.props.reorderId, this.props.reorderGroup, this.updateState);
         clearTimeout(this.holdTimeout);
         clearInterval(this.scrollInterval);
 
@@ -453,7 +504,7 @@
 
     Reorder.propTypes = {
       component: PropTypes.oneOfType([PropTypes.func, PropTypes.string]),
-      reorderId: PropTypes.string.isRequired,
+      reorderId: PropTypes.string,
       reorderGroup: PropTypes.string,
       placeholderClassName: PropTypes.string,
       draggedClassName: PropTypes.string,

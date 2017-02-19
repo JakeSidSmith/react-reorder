@@ -167,6 +167,7 @@ class Main extends Component {
         </p>
 
         <Reorder
+          reorderId="myList1"
           component="ul"
           className={[classNames.myList, classNames.myList1].join(' ')}
           placeholderClassName={classNames.placeholder}
@@ -213,6 +214,7 @@ class Main extends Component {
         </p>
 
         <Reorder
+          reorderId="myList2"
           component="ul"
           className={[classNames.myList, classNames.myList2].join(' ')}
           placeholderClassName={classNames.placeholder}
@@ -245,6 +247,7 @@ class Main extends Component {
         </p>
 
         <Reorder
+          reorderId="myList3"
           component="ul"
           className={[classNames.myList, classNames.myList3].join(' ')}
           placeholderClassName={classNames.placeholder}
@@ -274,6 +277,8 @@ class Main extends Component {
         </p>
 
         <Reorder
+          reorderId="listA"
+          reodreorderGroup="reorderGroup"
           component="ul"
           className={[classNames.myList, classNames.multiList].join(' ')}
           placeholderClassName={classNames.placeholder}
@@ -296,6 +301,8 @@ class Main extends Component {
         </Reorder>
 
         <Reorder
+          reorderId="listB"
+          reodreorderGroup="reorderGroup"
           component="ul"
           className={[classNames.myList, classNames.multiList].join(' ')}
           placeholderClassName={classNames.placeholder}
