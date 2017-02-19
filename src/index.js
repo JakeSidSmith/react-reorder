@@ -358,11 +358,11 @@
 
       // Add listeners
       componentWillMount: function () {
-        window.addEventListener('mouseup', this.onWindowUp);
-        window.addEventListener('touchend', this.onWindowUp);
-        window.addEventListener('mousemove', this.onWindowMove);
-        window.addEventListener('touchmove', this.onWindowMove);
-        window.addEventListener('contextmenu', this.preventDefault);
+        window.addEventListener('mouseup', this.onWindowUp, {passive: false});
+        window.addEventListener('touchend', this.onWindowUp, {passive: false});
+        window.addEventListener('mousemove', this.onWindowMove, {passive: false});
+        window.addEventListener('touchmove', this.onWindowMove, {passive: false});
+        window.addEventListener('contextmenu', this.preventDefault, {passive: false});
       },
 
       // Remove listeners
