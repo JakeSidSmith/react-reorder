@@ -453,6 +453,8 @@
 
     Reorder.propTypes = {
       component: PropTypes.oneOfType([PropTypes.func, PropTypes.string]),
+      reorderId: PropTypes.string.isRequired,
+      reorderGroup: PropTypes.string,
       placeholderClassName: PropTypes.string,
       draggedClassName: PropTypes.string,
       lock: PropTypes.string,
@@ -468,6 +470,8 @@
 
     Reorder.defaultProps = {
       component: 'div',
+      // reorderId: id,
+      // reorderGroup: group,
       placeholderClassName: 'placeholder',
       draggedClassName: 'dragged',
       // lock: direction,
