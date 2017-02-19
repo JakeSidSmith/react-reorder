@@ -55,8 +55,8 @@
   }
 
   function reorder (list, previousIndex, nextIndex) {
-    const copy = [].concat(list);
-    const removed = copy.splice(previousIndex, 1)[0];
+    var copy = [].concat(list);
+    var removed = copy.splice(previousIndex, 1)[0];
 
     copy.splice(nextIndex, 0, removed);
 
@@ -64,7 +64,7 @@
   }
 
   function reorderImmutable (list, previousIndex, nextIndex) {
-    const removed = list.get(previousIndex);
+    var removed = list.get(previousIndex);
     return list.delete(previousIndex).splice(nextIndex, 0, removed);
   }
 
@@ -544,10 +544,10 @@
 
   // Export for commonjs / browserify
   if (typeof exports === 'object' && typeof module !== 'undefined') {
-    var React = require('react');
-    var ReactDOM = require('react-dom');
-    var assign = require('lodash.assign');
-    module.exports = withReorderMethods(getReorderComponent(React, ReactDOM, assign));
+    var React = require('react'); // eslint-disable-line no-undef
+    var ReactDOM = require('react-dom'); // eslint-disable-line no-undef
+    var assign = require('lodash.assign'); // eslint-disable-line no-undef
+    module.exports = withReorderMethods(getReorderComponent(React, ReactDOM, assign)); // eslint-disable-line no-undef
   // Export for amd / require
   } else if (typeof define === 'function' && define.amd) { // eslint-disable-line no-undef
     define(['react', 'react-dom', 'lodash.assign'], function (ReactAMD, ReactDOMAMD, assignAMD) { // eslint-disable-line no-undef
@@ -560,9 +560,9 @@
     if (typeof window !== 'undefined') {
       root = window;
     } else if (typeof global !== 'undefined') {
-      root = global;
+      root = global; // eslint-disable-line no-undef
     } else if (typeof self !== 'undefined') {
-      root = self;
+      root = self; // eslint-disable-line no-undef
     } else {
       root = this;
     }
