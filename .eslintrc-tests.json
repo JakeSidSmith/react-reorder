@@ -1,0 +1,6 @@
+{
+  "extends":[
+    "jakesidsmith/default",
+    "jakesidsmith/mocha"
+  ]
+}
