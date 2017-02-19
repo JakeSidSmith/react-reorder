@@ -46,8 +46,10 @@
         return this.state.draggedIndex >= 0;
       },
 
-      preventDefault: function (event) {
-        event.preventDefault();
+      preventContextMenu: function (event) {
+        if (this.downPos && this.props.disableContentMenus) {
+          event.preventDefault();
+        }
       },
 
       preventNativeScrolling: function (event) {
@@ -307,6 +309,8 @@
           draggedIndex: -1,
           draggedStyle: null
         });
+
+        this.downPos = null;
       },
 
       // Update dragged position & placeholder index, invalidate drag if moved
@@ -362,7 +366,7 @@
         window.addEventListener('touchend', this.onWindowUp, {passive: false});
         window.addEventListener('mousemove', this.onWindowMove, {passive: false});
         window.addEventListener('touchmove', this.onWindowMove, {passive: false});
-        window.addEventListener('contextmenu', this.preventDefault, {passive: false});
+        window.addEventListener('contextmenu', this.preventContextMenu, {passive: false});
       },
 
       // Remove listeners
@@ -374,7 +378,7 @@
         window.removeEventListener('touchend', this.onWindowUp);
         window.removeEventListener('mousemove', this.onWindowMove);
         window.removeEventListener('touchmove', this.onWindowMove);
-        window.removeEventListener('contextmenu', this.preventDefault);
+        window.removeEventListener('contextmenu', this.preventContextMenu);
       },
 
       storeRootNode: function (element) {
@@ -458,7 +462,8 @@
       onReorder: PropTypes.func,
       placeholder: PropTypes.element,
       autoScroll: PropTypes.bool,
-      disabled: PropTypes.bool
+      disabled: PropTypes.bool,
+      disableContentMenus: PropTypes.bool
     };
 
     Reorder.defaultProps = {
@@ -472,7 +477,8 @@
       // onReorder: function,
       // placeholder: react element
       autoScroll: true,
-      disabled: false
+      disabled: false,
+      disableContentMenus: true
     };
 
     return Reorder;
