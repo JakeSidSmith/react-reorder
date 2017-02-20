@@ -20,6 +20,7 @@
 
     function trigger () {
       reorderComponents[draggedId](draggedIndex, placedIndex);
+      reorderComponents[draggedId](draggedIndex, placedIndex, activeGroup, draggedStyle);
     }
 
     function triggerGroup () {
@@ -27,7 +28,8 @@
         reorderGroups[activeGroup][reorderId](
           reorderId === draggedId ? draggedIndex : -1,
           reorderId === placedId ? placedIndex : -1,
-          activeGroup
+          activeGroup,
+          draggedStyle
         );
       }
     }
@@ -107,6 +109,7 @@
         if (reorderGroup === activeGroup) {
           draggedIndex = -1;
           placedIndex = -1;
+          draggedStyle = null;
 
           triggerGroup();
 
@@ -117,6 +120,7 @@
       } else if (reorderId === draggedId) {
         draggedIndex = -1;
         placedIndex = -1;
+        draggedStyle = null;
 
         trigger();
 
@@ -138,6 +142,22 @@
         }
       } else if (reorderId === draggedId) {
         placedIndex = index;
+
+        trigger();
+      }
+    };
+
+    this.setDraggedStyle = function setDraggedStyle (reorderId, reorderGroup, style) {
+      validateComponentIdAndGroup(reorderId, reorderGroup);
+
+      if (typeof reorderGroup !== 'undefined') {
+        if (reorderGroup === activeGroup) {
+          draggedStyle = style;
+
+          triggerGroup();
+        }
+      } else if (reorderId === draggedId) {
+        draggedStyle = style;
 
         trigger();
       }
@@ -322,17 +342,16 @@
           this.scrollInterval = setInterval(this.autoScroll, CONSTANTS.SCROLL_INTERVAL);
           var rect = target.getBoundingClientRect();
 
-          store.startDrag(this.props.reorderId, this.props.reorderGroup, index);
+          var draggedStyle = {
+            position: 'fixed',
+            top: rect.top,
+            left: rect.left,
+            width: rect.width,
+            height: rect.height
+          };
 
-          this.setState({
-            draggedStyle: {
-              position: 'fixed',
-              top: rect.top,
-              left: rect.left,
-              width: rect.width,
-              height: rect.height
-            }
-          });
+          store.startDrag(this.props.reorderId, this.props.reorderGroup, index);
+          store.setDraggedStyle(this.props.reorderId, this.props.reorderGroup, draggedStyle);
 
           this.mouseOffset = {
             clientX: event.clientX,
@@ -393,10 +412,6 @@
 
         store.stopDrag(this.props.reorderId, this.props.reorderGroup);
 
-        this.setState({
-          draggedStyle: null
-        });
-
         this.downPos = null;
       },
 
@@ -434,9 +449,7 @@
             store.setPlacedIndex(this.props.reorderId, this.props.reorderGroup, collisionIndex);
           }
 
-          this.setState({
-            draggedStyle: draggedStyle
-          });
+          store.setDraggedStyle(this.props.reorderId, this.props.reorderGroup, draggedStyle);
 
           this.mouseOffset = {
             clientX: event.clientX,
@@ -445,11 +458,12 @@
         }
       },
 
-      setDragState: function (draggedIndex, placedIndex, activeGroup) {
+      setDragState: function (draggedIndex, placedIndex, activeGroup, draggedStyle) {
         this.setState({
           draggedIndex: draggedIndex,
           placedIndex: placedIndex,
-          activeGroup: activeGroup
+          activeGroup: activeGroup,
+          draggedStyle: draggedStyle
         });
       },
 
