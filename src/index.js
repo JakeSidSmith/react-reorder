@@ -23,7 +23,13 @@
     }
 
     function triggerGroup () {
-
+      for (var reorderId in reorderGroups[activeGroup]) {
+        reorderGroups[activeGroup][reorderId](
+          reorderId === draggedId ? draggedIndex : -1,
+          reorderId === placedId ? placedIndex : -1,
+          activeGroup
+        );
+      }
     }
 
     function validateComponentIdAndGroup (reorderId, reorderGroup) {
@@ -489,16 +495,17 @@
         }
       },
 
-      updateState: function (draggedIndex, placedIndex) {
+      setDragState: function (draggedIndex, placedIndex, activeGroup) {
         this.setState({
           draggedIndex: draggedIndex,
-          placedIndex: placedIndex
+          placedIndex: placedIndex,
+          activeGroup: activeGroup
         });
       },
 
       // Add listeners
       componentWillMount: function () {
-        store.registerReorderComponent(this.props.reorderId, this.props.reorderGroup, this.updateState);
+        store.registerReorderComponent(this.props.reorderId, this.props.reorderGroup, this.setDragState);
         window.addEventListener('mouseup', this.onWindowUp, {passive: false});
         window.addEventListener('touchend', this.onWindowUp, {passive: false});
         window.addEventListener('mousemove', this.onWindowMove, {passive: false});
