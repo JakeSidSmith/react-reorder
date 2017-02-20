@@ -96,33 +96,40 @@
     this.stopDrag = function stopDrag (reorderId, reorderGroup) {
       validateComponentIdAndGroup(reorderId, reorderGroup);
 
-      if (typeof activeGroup !== 'undefined' && reorderGroup === activeGroup) {
-        draggedIndex = -1;
-        placedIndex = -1;
+      if (typeof activeGroup !== 'undefined') {
+        if (reorderGroup === activeGroup) {
+          draggedIndex = -1;
+          placedIndex = -1;
 
-        triggerGroup();
+          triggerGroup();
+
+          draggedId = undefined;
+          placedId = undefined;
+          activeGroup = undefined;
+        }
       } else if (reorderId === draggedId) {
         draggedIndex = -1;
         placedIndex = -1;
 
         trigger();
-      }
 
-      draggedId = undefined;
-      placedId = undefined;
-      activeGroup = undefined;
+        draggedId = undefined;
+        placedId = undefined;
+        activeGroup = undefined;
+      }
     };
 
     this.setPlacedIndex = function setPlacedIndex (reorderId, reorderGroup, index) {
       validateComponentIdAndGroup(reorderId, reorderGroup);
 
-      if (typeof reorderGroup !== 'undefined' && reorderGroup === activeGroup) {
-        placedId = reorderId;
-        placedIndex = index;
+      if (typeof reorderGroup !== 'undefined') {
+        if (reorderGroup === activeGroup) {
+          placedId = reorderId;
+          placedIndex = index;
 
-        triggerGroup();
+          triggerGroup();
+        }
       } else if (reorderId === draggedId) {
-        placedId = reorderId;
         placedIndex = index;
 
         trigger();
