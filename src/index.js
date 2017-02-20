@@ -12,6 +12,7 @@
   function Store () {
     var activeGroup, draggedId, placedId;
 
+    var draggedStyle = null;
     var draggedIndex = -1;
     var placedIndex = -1;
 
