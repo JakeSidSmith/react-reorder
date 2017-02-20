@@ -489,8 +489,6 @@
       },
 
       updateState: function (draggedIndex, placedIndex) {
-        console.log('Update', this.props.reorderId, this.props.reorderGroup);
-
         this.setState({
           draggedIndex: draggedIndex,
           placedIndex: placedIndex
