@@ -375,56 +375,6 @@
         }
       },
 
-      onItemMove: function (callback, index, event) {
-        if (typeof callback === 'function') {
-          callback(event);
-        }
-
-        if (event.button === 2 || this.props.disabled) {
-          return;
-        }
-
-        this.copyTouchKeys(event);
-      },
-
-      onListDown: function (callback, event) {
-        if (typeof callback === 'function') {
-          callback(event);
-        }
-
-        if (event.button === 2 || this.props.disabled) {
-          return;
-        }
-
-        this.copyTouchKeys(event);
-      },
-
-      // Handle moving from one list to another
-      onListMove: function (callback, event) {
-        if (typeof callback === 'function') {
-          callback(event);
-        }
-
-        if (event.button === 2 || this.props.disabled) {
-          return;
-        }
-
-        this.copyTouchKeys(event);
-      },
-
-      // Handle same as list move
-      onListUp: function (callback, event) {
-        if (typeof callback === 'function') {
-          callback(event);
-        }
-
-        if (event.button === 2 || this.props.disabled) {
-          return;
-        }
-
-        this.copyTouchKeys(event);
-      },
-
       // Stop dragging - reset style & draggedIndex, handle reorder
       onWindowUp: function (event) {
         clearTimeout(this.holdTimeout);
@@ -580,13 +530,7 @@
             id: this.props.id,
             style: this.props.style,
             onClick: this.props.onClick,
-            ref: this.storeRootNode,
-            onMouseDown: this.onListDown.bind(this, this.props.onMouseDown),
-            onTouchStart: this.onListDown.bind(this, this.props.onTouchStart),
-            onMouseMove: this.onListMove.bind(this, this.props.onMouseMove),
-            onTouchMove: this.onListMove.bind(this, this.props.onTouchMove),
-            onMouseUp: this.onListUp.bind(this, this.props.onMouseUp),
-            onTouchEnd: this.onListUp.bind(this, this.props.onTouchEnd)
+            ref: this.storeRootNode
           },
           children
         );
