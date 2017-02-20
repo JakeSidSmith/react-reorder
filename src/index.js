@@ -81,6 +81,7 @@
       validateComponentIdAndGroup(reorderId, reorderGroup);
 
       draggedId = reorderId;
+      placedId = reorderId;
       draggedIndex = index;
       placedIndex = index;
 
