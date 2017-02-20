@@ -2,6 +2,11 @@
 
 (function () {
 
+  var activeGroup, draggedId, placedId;
+
+  var draggedIndex = -1;
+  var placedIndex = -1;
+
   var reorderComponents = {};
   var reorderGroups = {};
 
