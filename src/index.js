@@ -10,6 +10,7 @@
   };
 
   var downPos = null;
+  var mouseOffset = null;
 
   function Store () {
     var activeGroup, draggedId, placedId;
@@ -279,7 +280,7 @@
         return parseInt(this.props.holdTime, 10) || 0;
       },
 
-      getScrollOffsetX: function (rect, node, mouseOffset) {
+      getScrollOffsetX: function (rect, node) {
         var scrollLeft = node.scrollLeft;
         var scrollWidth = node.scrollWidth;
 
@@ -298,7 +299,7 @@
         return 0;
       },
 
-      getScrollOffsetY: function (rect, node, mouseOffset) {
+      getScrollOffsetY: function (rect, node) {
         var scrollTop = node.scrollTop;
         var scrollHeight = node.scrollHeight;
 
@@ -322,7 +323,7 @@
           var rect = this.rootNode.getBoundingClientRect();
 
           if (this.props.lock !== 'horizontal') {
-            var scrollOffsetX = this.getScrollOffsetX(rect, this.rootNode, this.mouseOffset);
+            var scrollOffsetX = this.getScrollOffsetX(rect, this.rootNode);
 
             if (scrollOffsetX) {
               this.rootNode.scrollLeft = this.rootNode.scrollLeft + scrollOffsetX;
@@ -330,7 +331,7 @@
           }
 
           if (this.props.lock !== 'vertical') {
-            var scrollOffsetY = this.getScrollOffsetY(rect, this.rootNode, this.mouseOffset);
+            var scrollOffsetY = this.getScrollOffsetY(rect, this.rootNode);
 
             if (scrollOffsetY) {
               this.rootNode.scrollTop = this.rootNode.scrollTop + scrollOffsetY;
@@ -355,7 +356,7 @@
           store.startDrag(this.props.reorderId, this.props.reorderGroup, index);
           store.setDraggedStyle(this.props.reorderId, this.props.reorderGroup, draggedStyle);
 
-          this.mouseOffset = {
+          mouseOffset = {
             clientX: event.clientX,
             clientY: event.clientY
           };
@@ -415,6 +416,7 @@
         store.stopDrag(this.props.reorderId, this.props.reorderGroup);
 
         downPos = null;
+        mouseOffset = null;
       },
 
       // Update dragged position & placeholder index, invalidate drag if moved
@@ -453,7 +455,7 @@
 
           store.setDraggedStyle(this.props.reorderId, this.props.reorderGroup, draggedStyle);
 
-          this.mouseOffset = {
+          mouseOffset = {
             clientX: event.clientX,
             clientY: event.clientY
           };
