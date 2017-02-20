@@ -20,7 +20,6 @@
     var reorderGroups = {};
 
     function trigger () {
-      reorderComponents[draggedId](draggedIndex, placedIndex);
       reorderComponents[draggedId](draggedIndex, placedIndex, activeGroup, draggedStyle);
     }
 
