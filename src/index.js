@@ -2,14 +2,6 @@
 
 (function () {
 
-  var activeGroup, draggedId, placedId;
-
-  var draggedIndex = -1;
-  var placedIndex = -1;
-
-  var reorderComponents = {};
-  var reorderGroups = {};
-
   var CONSTANTS = {
     HOLD_THRESHOLD: 8,
     SCROLL_INTERVAL: 1000 / 60,
@@ -17,47 +9,128 @@
     SCROLL_SPEED: 20
   };
 
-  function validateComponentIdAndGroup (reorderId, reorderGroup) {
-    if (typeof reorderId !== 'string') {
-      throw new Error('Expected reorderId to be a string. Instead got ' + (typeof reorderId));
+  function Store () {
+    var activeGroup, draggedId, placedId;
+
+    var draggedIndex = -1;
+    var placedIndex = -1;
+
+    var reorderComponents = {};
+    var reorderGroups = {};
+
+    function trigger () {
+      reorderComponents[draggedId](draggedIndex, placedIndex);
     }
 
-    if (typeof reorderGroup !== 'undefined' && typeof reorderGroup !== 'string') {
-      throw new Error('Expected reorderGroup to be a string. Instead got ' + (typeof reorderGroup));
-    }
-  }
+    function triggerGroup () {
 
-  function registerComponent (reorderId, reorderGroup, callback) {
-    validateComponentIdAndGroup(reorderId, reorderGroup);
-
-    if (reorderId in reorderComponents) {
-      throw new Error('Duplicate reorderId: ' + reorderId);
     }
 
-    if (typeof reorderGroup !== 'undefined') {
-      if ((reorderGroup in reorderGroups) && (reorderId in reorderGroups[reorderGroup])) {
-        throw new Error('Duplicate reorderId: ' + reorderId + ' in reorderGroup: ' + reorderGroup);
-      }
-    }
-  }
-
-  function unregisterComponent (reorderId, reorderGroup, callback) {
-    validateComponentIdAndGroup(reorderId, reorderGroup);
-
-    if (!(reorderId in reorderComponents)) {
-      throw new Error('Unknown reorderId: ' + reorderId);
-    }
-
-    if (typeof reorderGroup !== 'undefined') {
-      if (!(reorderGroup in reorderGroups)) {
-        throw new Error('Unknown reorderGroup: ' + reorderGroup);
+    function validateComponentIdAndGroup (reorderId, reorderGroup) {
+      if (typeof reorderId !== 'string') {
+        throw new Error('Expected reorderId to be a string. Instead got ' + (typeof reorderId));
       }
 
-      if ((reorderGroup in reorderGroups) && !(reorderId in reorderGroups[reorderGroup])) {
-        throw new Error('Unknown reorderId: ' + reorderId + ' in reorderGroup: ' + reorderGroup);
+      if (typeof reorderGroup !== 'undefined' && typeof reorderGroup !== 'string') {
+        throw new Error('Expected reorderGroup to be a string. Instead got ' + (typeof reorderGroup));
       }
     }
+
+    this.registerReorderComponent = function registerReorderComponent (reorderId, reorderGroup, callback) {
+      validateComponentIdAndGroup(reorderId, reorderGroup);
+
+      if (reorderId in reorderComponents) {
+        throw new Error('Duplicate reorderId: ' + reorderId);
+      }
+
+      if (typeof reorderGroup !== 'undefined') {
+        if ((reorderGroup in reorderGroups) && (reorderId in reorderGroups[reorderGroup])) {
+          throw new Error('Duplicate reorderId: ' + reorderId + ' in reorderGroup: ' + reorderGroup);
+        }
+
+        reorderGroups[reorderGroup] = reorderGroups[reorderGroup] || {};
+        reorderGroups[reorderGroup][reorderId] = callback;
+      } else {
+        reorderComponents[reorderId] = callback;
+      }
+    };
+
+    this.unregisterReorderComponent = function unregisterReorderComponent (reorderId, reorderGroup) {
+      validateComponentIdAndGroup(reorderId, reorderGroup);
+
+      if (!(reorderId in reorderComponents)) {
+        throw new Error('Unknown reorderId: ' + reorderId);
+      }
+
+      if (typeof reorderGroup !== 'undefined') {
+        if (!(reorderGroup in reorderGroups)) {
+          throw new Error('Unknown reorderGroup: ' + reorderGroup);
+        }
+
+        if ((reorderGroup in reorderGroups) && !(reorderId in reorderGroups[reorderGroup])) {
+          throw new Error('Unknown reorderId: ' + reorderId + ' in reorderGroup: ' + reorderGroup);
+        }
+
+        delete reorderGroups[reorderGroup][reorderId];
+      } else {
+        delete reorderComponents[reorderId];
+      }
+    };
+
+    this.startDrag = function startDrag (reorderId, reorderGroup, index) {
+      validateComponentIdAndGroup(reorderId, reorderGroup);
+
+      draggedId = reorderId;
+      draggedIndex = index;
+      placedIndex = index;
+
+      if (typeof reorderGroup !== 'undefined') {
+        activeGroup = reorderGroup;
+
+        triggerGroup();
+      } else {
+        trigger();
+      }
+    };
+
+    this.stopDrag = function stopDrag (reorderId, reorderGroup) {
+      validateComponentIdAndGroup(reorderId, reorderGroup);
+
+      if (typeof activeGroup !== 'undefined' && reorderGroup === activeGroup) {
+        draggedIndex = -1;
+        placedIndex = -1;
+
+        triggerGroup();
+      } else if (reorderId === draggedId) {
+        draggedIndex = -1;
+        placedIndex = -1;
+
+        trigger();
+      }
+
+      draggedId = undefined;
+      placedId = undefined;
+      activeGroup = undefined;
+    };
+
+    this.setPlacedIndex = function setPlacedIndex (reorderId, reorderGroup, index) {
+      validateComponentIdAndGroup(reorderId, reorderGroup);
+
+      if (typeof reorderGroup !== 'undefined' && reorderGroup === activeGroup) {
+        placedId = reorderId;
+        placedIndex = index;
+
+        triggerGroup();
+      } else if (reorderId === draggedId) {
+        placedId = reorderId;
+        placedIndex = index;
+
+        trigger();
+      }
+    };
   }
+
+  var store = new Store();
 
   function reorder (list, previousIndex, nextIndex) {
     var copy = [].concat(list);
@@ -235,9 +308,9 @@
           this.scrollInterval = setInterval(this.autoScroll, CONSTANTS.SCROLL_INTERVAL);
           var rect = target.getBoundingClientRect();
 
+          store.startDrag(this.props.reorderId, this.props.reorderGroup, index);
+
           this.setState({
-            draggedIndex: index,
-            placedIndex: index,
             draggedStyle: {
               position: 'fixed',
               top: rect.top,
@@ -354,9 +427,9 @@
           this.props.onReorder(event, fromIndex, toIndex - (fromIndex < toIndex ? 1 : 0));
         }
 
+        store.stopDrag(this.props.reorderId, this.props.reorderGroup);
+
         this.setState({
-          placedIndex: -1,
-          draggedIndex: -1,
           draggedStyle: null
         });
 
@@ -394,9 +467,7 @@
             collisionIndex <= this.props.children.length &&
             collisionIndex >= 0
           ) {
-            this.setState({
-              placedIndex: collisionIndex
-            });
+            store.setPlacedIndex(this.props.reorderId, this.props.reorderGroup, collisionIndex);
           }
 
           this.setState({
@@ -410,13 +481,18 @@
         }
       },
 
-      updateState: function () {
-        console.log('Update');
+      updateState: function (draggedIndex, placedIndex) {
+        console.log('Update', this.props.reorderId, this.props.reorderGroup);
+
+        this.setState({
+          draggedIndex: draggedIndex,
+          placedIndex: placedIndex
+        })
       },
 
       // Add listeners
       componentWillMount: function () {
-        registerComponent(this.props.reorderId, this.props.reorderGroup, this.updateState);
+        store.registerReorderComponent(this.props.reorderId, this.props.reorderGroup, this.updateState);
         window.addEventListener('mouseup', this.onWindowUp, {passive: false});
         window.addEventListener('touchend', this.onWindowUp, {passive: false});
         window.addEventListener('mousemove', this.onWindowMove, {passive: false});
@@ -426,7 +502,7 @@
 
       // Remove listeners
       componentWillUnmount: function () {
-        unregisterComponent(this.props.reorderId, this.props.reorderGroup, this.updateState);
+        store.unregisterReorderComponent(this.props.reorderId, this.props.reorderGroup);
         clearTimeout(this.holdTimeout);
         clearInterval(this.scrollInterval);
 
