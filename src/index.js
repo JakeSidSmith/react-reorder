@@ -487,7 +487,7 @@
         this.setState({
           draggedIndex: draggedIndex,
           placedIndex: placedIndex
-        })
+        });
       },
 
       // Add listeners
