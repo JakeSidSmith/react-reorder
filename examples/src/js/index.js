@@ -126,6 +126,10 @@ class Main extends Component {
     });
   }
 
+  onReorderGroup () {
+    console.log('Reorder group');
+  }
+
   onDisableToggle () {
     this.setState({
       disableReorder: !this.state.disableReorder
@@ -283,7 +287,7 @@ class Main extends Component {
           className={[classNames.myList, classNames.multiList].join(' ')}
           placeholderClassName={classNames.placeholder}
           draggedClassName={classNames.dragged}
-          onReorder={this.onReorder.bind(this)}
+          onReorder={this.onReorderGroup.bind(this)}
         >
           {
             this.state.multiList1.map(function (item) {
@@ -307,7 +311,7 @@ class Main extends Component {
           className={[classNames.myList, classNames.multiList].join(' ')}
           placeholderClassName={classNames.placeholder}
           draggedClassName={classNames.dragged}
-          onReorder={this.onReorder.bind(this)}
+          onReorder={this.onReorderGroup.bind(this)}
         >
           {
             this.state.multiList2.map(function (item) {
