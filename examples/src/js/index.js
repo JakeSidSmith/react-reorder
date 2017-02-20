@@ -278,7 +278,7 @@ class Main extends Component {
 
         <Reorder
           reorderId="listA"
-          reodreorderGroup="reorderGroup"
+          reorderGroup="reorderGroup"
           component="ul"
           className={[classNames.myList, classNames.multiList].join(' ')}
           placeholderClassName={classNames.placeholder}
@@ -302,7 +302,7 @@ class Main extends Component {
 
         <Reorder
           reorderId="listB"
-          reodreorderGroup="reorderGroup"
+          reorderGroup="reorderGroup"
           component="ul"
           className={[classNames.myList, classNames.multiList].join(' ')}
           placeholderClassName={classNames.placeholder}
