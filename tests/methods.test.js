@@ -343,7 +343,7 @@ describe('methods', function () {
 
     const expectedScrollOffsets = [-scrollSpeed, -scrollSpeed, 0, 0, 0, scrollSpeed, scrollSpeed];
 
-    for (var i = 0; i < expectedScrollOffsets.length; i += 1) {
+    for (let i = 0; i < expectedScrollOffsets.length; i += 1) {
       const expectedScrollOffset = expectedScrollOffsets[i];
       const mouseOffset = {clientX: maxScrollArea * i};
 
@@ -378,7 +378,7 @@ describe('methods', function () {
 
     const expectedScrollOffsets = [-scrollSpeed, -scrollSpeed, 0, 0, 0, scrollSpeed, scrollSpeed];
 
-    for (var i = 0; i < expectedScrollOffsets.length; i += 1) {
+    for (let i = 0; i < expectedScrollOffsets.length; i += 1) {
       const expectedScrollOffset = expectedScrollOffsets[i];
       const mouseOffset = {clientY: maxScrollArea * i};
 

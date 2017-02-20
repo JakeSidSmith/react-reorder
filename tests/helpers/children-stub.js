@@ -10,7 +10,7 @@ const itemSize = {
   top: 20
 };
 
-for (var i = 0; i < 5; i += 1) {
+for (let i = 0; i < 5; i += 1) {
   const index = i;
 
   verticalChildren.push({
