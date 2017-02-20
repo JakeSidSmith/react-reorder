@@ -9,6 +9,8 @@
     SCROLL_SPEED: 20
   };
 
+  var downPos = null;
+
   function Store () {
     var activeGroup, draggedId, placedId;
 
@@ -204,7 +206,7 @@
       },
 
       preventContextMenu: function (event) {
-        if (this.downPos && this.props.disableContentMenus) {
+        if (downPos && this.props.disableContentMenus) {
           event.preventDefault();
         }
       },
@@ -378,7 +380,7 @@
         this.copyTouchKeys(event);
 
         this.moved = false;
-        this.downPos = {
+        downPos = {
           clientX: event.clientX,
           clientY: event.clientY
         };
@@ -412,7 +414,7 @@
 
         store.stopDrag(this.props.reorderId, this.props.reorderGroup);
 
-        this.downPos = null;
+        downPos = null;
       },
 
       // Update dragged position & placeholder index, invalidate drag if moved
@@ -420,9 +422,9 @@
         this.copyTouchKeys(event);
 
         if (
-          this.downPos && (
-            Math.abs(event.clientX - this.downPos.clientX) >= CONSTANTS.HOLD_THRESHOLD ||
-            Math.abs(event.clientY - this.downPos.clientY) >= CONSTANTS.HOLD_THRESHOLD
+          downPos && (
+            Math.abs(event.clientX - downPos.clientX) >= CONSTANTS.HOLD_THRESHOLD ||
+            Math.abs(event.clientY - downPos.clientY) >= CONSTANTS.HOLD_THRESHOLD
           )
         ) {
           this.moved = true;
