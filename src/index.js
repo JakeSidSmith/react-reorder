@@ -11,6 +11,7 @@
 
   var downPos = null;
   var mouseOffset = null;
+  var mouseDownOffset = null;
 
   function Store () {
     var activeGroup, draggedId, placedId;
@@ -361,7 +362,7 @@
             clientY: event.clientY
           };
 
-          this.mouseDownOffset = {
+          mouseDownOffset = {
             clientX: event.clientX - rect.left,
             clientY: event.clientY - rect.top
           };
@@ -416,7 +417,8 @@
         store.stopDrag(this.props.reorderId, this.props.reorderGroup);
 
         downPos = null;
-        mouseOffset = null;
+        // mouseOffset = null;
+        // mouseDownOffset = null;
       },
 
       // Update dragged position & placeholder index, invalidate drag if moved
@@ -437,9 +439,9 @@
 
           var draggedStyle = assign({}, this.state.draggedStyle, {
             top: (!this.props.lock || this.props.lock === 'horizontal') ?
-              event.clientY - this.mouseDownOffset.clientY : this.state.draggedStyle.top,
+              event.clientY - mouseDownOffset.clientY : this.state.draggedStyle.top,
             left: (!this.props.lock || this.props.lock === 'vertical') ?
-              event.clientX - this.mouseDownOffset.clientX : this.state.draggedStyle.left
+              event.clientX - mouseDownOffset.clientX : this.state.draggedStyle.left
           });
 
           var children = ReactDOM.findDOMNode(this).childNodes;
