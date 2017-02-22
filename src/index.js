@@ -126,6 +126,7 @@
 
           triggerGroup();
 
+          // These need to be cleared after trigger to allow state updates to these components
           draggedId = undefined;
           placedId = undefined;
           activeGroup = undefined;
@@ -138,6 +139,7 @@
 
         trigger();
 
+        // These need to be cleared after trigger to allow state updates to these components
         draggedId = undefined;
         placedId = undefined;
         activeGroup = undefined;
