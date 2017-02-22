@@ -127,8 +127,6 @@ class Main extends Component {
   }
 
   onReorderGroup (event, previousIndex, nextIndex, fromId, toId) {
-    console.log(fromId, toId);
-
     if (fromId === toId) {
       const list = Immutable.List(reorderImmutable(this.state[fromId], previousIndex, nextIndex));
 
