@@ -195,21 +195,45 @@
 
   function reorder (list, previousIndex, nextIndex) {
     var copy = [].concat(list);
-    var removed = copy.splice(previousIndex, 1)[0];
+    var item = copy.splice(previousIndex, 1)[0];
 
-    copy.splice(nextIndex, 0, removed);
+    copy.splice(nextIndex, 0, item);
 
     return copy;
   }
 
   function reorderImmutable (list, previousIndex, nextIndex) {
-    var removed = list.get(previousIndex);
-    return list.delete(previousIndex).splice(nextIndex, 0, removed);
+    var item = list.get(previousIndex);
+    return list.delete(previousIndex).splice(nextIndex, 0, item);
+  }
+
+  function reorderFromTo (lists, previousIndex, nextIndex) {
+    var previousList = [].concat(lists.from);
+    var nextList = [].concat(lists.to);
+
+    var item = previousList.splice(previousIndex, 1);
+    nextList.splice(nextList, 0, item);
+
+    return {
+      from: previousList,
+      to: nextList
+    };
+  }
+
+  function reorderFromToImmutable (lists, previousIndex, nextIndex) {
+    var item = lists.from.get(previousIndex);
+
+    return {
+      from: lists.from.delete(previousIndex),
+      to: lists.to.splice(nextIndex, 0, item);
+    };
   }
 
   function withReorderMethods (Reorder) {
     Reorder.reorder = reorder;
     Reorder.reorderImmutable = reorderImmutable;
+    Reorder.reorderFromTo = reorderFromTo;
+    Reorder.reorderFromToImmutable = reorderFromToImmutable;
     return Reorder;
   }
 
