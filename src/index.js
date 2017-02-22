@@ -72,7 +72,7 @@
       } else {
         reorderComponents[reorderId] = callback;
       }
-    };
+    }
 
     function unregisterReorderComponent (reorderId, reorderGroup) {
       validateComponentIdAndGroup(reorderId, reorderGroup);
@@ -94,7 +94,7 @@
       } else {
         delete reorderComponents[reorderId];
       }
-    };
+    }
 
     function startDrag (reorderId, reorderGroup, index, element) {
       validateComponentIdAndGroup(reorderId, reorderGroup);
@@ -112,7 +112,7 @@
       } else if (typeof draggedId !== 'undefined' && reorderId === draggedId) {
         trigger();
       }
-    };
+    }
 
     function stopDrag (reorderId, reorderGroup) {
       validateComponentIdAndGroup(reorderId, reorderGroup);
@@ -142,7 +142,7 @@
         placedId = undefined;
         activeGroup = undefined;
       }
-    };
+    }
 
     function setPlacedIndex (reorderId, reorderGroup, index) {
       validateComponentIdAndGroup(reorderId, reorderGroup);
@@ -159,7 +159,7 @@
 
         trigger();
       }
-    };
+    }
 
     function setDraggedStyle (reorderId, reorderGroup, style) {
       validateComponentIdAndGroup(reorderId, reorderGroup);
@@ -175,7 +175,7 @@
 
         trigger();
       }
-    };
+    }
 
     this.getState = getState;
     this.registerReorderComponent = registerReorderComponent;
