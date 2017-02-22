@@ -526,8 +526,11 @@
           ) {
             store.setPlacedIndex(this.props.reorderId, this.props.reorderGroup, collisionIndex);
           } else if (
-            typeof this.props.reorderGroup !== 'undefined' &&
-            (!this.props.children || !this.props.children.length) &&
+            typeof this.props.reorderGroup !== 'undefined' && // Is part of a group
+            (
+              (!this.props.children || !this.props.children.length) || // If all items removed
+              (this.isDraggingFrom() && this.props.children.length === 1) // If dragging back to a now empty list
+            ) &&
             this.collidesWithElement(event, element)
           ) {
             store.setPlacedIndex(this.props.reorderId, this.props.reorderGroup, 0);
