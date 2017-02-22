@@ -497,16 +497,16 @@
       onWindowMove: function (event) {
         this.copyTouchKeys(event);
 
-        if (this.isDragging() && this.isInvolvedInDragging()) {
-          if (
-            downPos && (
-              Math.abs(event.clientX - downPos.clientX) >= CONSTANTS.HOLD_THRESHOLD ||
-              Math.abs(event.clientY - downPos.clientY) >= CONSTANTS.HOLD_THRESHOLD
-            )
-          ) {
-            this.moved = true;
-          }
+        if (
+          downPos && (
+            Math.abs(event.clientX - downPos.clientX) >= CONSTANTS.HOLD_THRESHOLD ||
+            Math.abs(event.clientY - downPos.clientY) >= CONSTANTS.HOLD_THRESHOLD
+          )
+        ) {
+          this.moved = true;
+        }
 
+        if (this.isDragging() && this.isInvolvedInDragging()) {
           this.preventNativeScrolling(event);
 
           var draggedStyle = assign({}, this.state.draggedStyle, {
