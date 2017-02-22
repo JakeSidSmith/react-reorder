@@ -291,15 +291,15 @@
         }
       },
 
-      xCollision: function (rect, event) {
+      xCollision: function (event, rect) {
         return event.clientX >= rect.left && event.clientX <= rect.right;
       },
 
-      yCollision: function (rect, event) {
+      yCollision: function (event, rect) {
         return event.clientY >= rect.top && event.clientY <= rect.bottom;
       },
 
-      findCollisionIndex: function (listElements, event) {
+      findCollisionIndex: function (event, listElements) {
         for (var i = 0; i < listElements.length; i += 1) {
           if (!listElements[i].getAttribute('data-placeholder') && !listElements[i].getAttribute('data-dragged')) {
 
@@ -307,17 +307,17 @@
 
             switch (this.props.lock) {
               case 'horizontal':
-                if (this.yCollision(rect, event)) {
+                if (this.yCollision(event, rect)) {
                   return i;
                 }
                 break;
               case 'vertical':
-                if (this.xCollision(rect, event)) {
+                if (this.xCollision(event, rect)) {
                   return i;
                 }
                 break;
               default:
-                if (this.yCollision(rect, event) && this.xCollision(rect, event)) {
+                if (this.yCollision(event, rect) && this.xCollision(event, rect)) {
                   return i;
                 }
                 break;
@@ -328,6 +328,11 @@
         }
 
         return -1;
+      },
+
+      collidesWithElement: function (event, element) {
+        var rect = element.getBoundingClientRect();
+        return this.yCollision(event, rect) && this.xCollision(event, rect);
       },
 
       getHoldTime: function (event) {
@@ -511,14 +516,21 @@
               event.clientX - mouseDownOffset.clientX : this.state.draggedStyle.left
           });
 
-          var children = ReactDOM.findDOMNode(this).childNodes;
-          var collisionIndex = this.findCollisionIndex(children, event);
+          var element = ReactDOM.findDOMNode(this);
+          var children = element.childNodes;
+          var collisionIndex = this.findCollisionIndex(event, children);
 
           if (
             collisionIndex <= this.props.children.length &&
             collisionIndex >= 0
           ) {
             store.setPlacedIndex(this.props.reorderId, this.props.reorderGroup, collisionIndex);
+          } else if (
+            typeof this.props.reorderGroup !== 'undefined' &&
+            (!this.props.children || !this.props.children.length) &&
+            this.collidesWithElement(event, element)
+          ) {
+            store.setPlacedIndex(this.props.reorderId, this.props.reorderGroup, 0);
           }
 
           store.setDraggedStyle(this.props.reorderId, this.props.reorderGroup, draggedStyle);
