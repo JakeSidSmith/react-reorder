@@ -14,7 +14,7 @@
   var mouseDownOffset = null;
 
   function Store () {
-    var activeGroup, draggedId, placedId;
+    var activeGroup, draggedId, placedId, draggedElement;
 
     var draggedStyle = null;
     var draggedIndex = -1;
@@ -23,18 +23,25 @@
     var reorderComponents = {};
     var reorderGroups = {};
 
+    function getState () {
+      return {
+        draggedId: draggedId,
+        placedId: placedId,
+        activeGroup: activeGroup,
+        draggedStyle: draggedStyle,
+        draggedIndex: draggedIndex,
+        placedIndex: placedIndex,
+        draggedElement: draggedElement
+      };
+    }
+
     function trigger () {
-      reorderComponents[draggedId](draggedIndex, placedIndex, activeGroup, draggedStyle);
+      reorderComponents[draggedId](getState());
     }
 
     function triggerGroup () {
       for (var reorderId in reorderGroups[activeGroup]) {
-        reorderGroups[activeGroup][reorderId](
-          reorderId === draggedId ? draggedIndex : -1,
-          reorderId === placedId ? placedIndex : -1,
-          activeGroup,
-          draggedStyle
-        );
+        reorderGroups[activeGroup][reorderId](getState());
       }
     }
 
@@ -48,7 +55,7 @@
       }
     }
 
-    this.registerReorderComponent = function registerReorderComponent (reorderId, reorderGroup, callback) {
+    function registerReorderComponent (reorderId, reorderGroup, callback) {
       validateComponentIdAndGroup(reorderId, reorderGroup);
 
       if (reorderId in reorderComponents) {
@@ -67,7 +74,7 @@
       }
     };
 
-    this.unregisterReorderComponent = function unregisterReorderComponent (reorderId, reorderGroup) {
+    function unregisterReorderComponent (reorderId, reorderGroup) {
       validateComponentIdAndGroup(reorderId, reorderGroup);
 
       if (!(reorderId in reorderComponents)) {
@@ -89,24 +96,25 @@
       }
     };
 
-    this.startDrag = function startDrag (reorderId, reorderGroup, index) {
+    function startDrag (reorderId, reorderGroup, index, element) {
       validateComponentIdAndGroup(reorderId, reorderGroup);
 
       draggedId = reorderId;
       placedId = reorderId;
       draggedIndex = index;
       placedIndex = index;
+      draggedElement = element;
 
       if (typeof reorderGroup !== 'undefined') {
         activeGroup = reorderGroup;
 
         triggerGroup();
-      } else {
+      } else if (typeof draggedId !== 'undefined' && reorderId === draggedId) {
         trigger();
       }
     };
 
-    this.stopDrag = function stopDrag (reorderId, reorderGroup) {
+    function stopDrag (reorderId, reorderGroup) {
       validateComponentIdAndGroup(reorderId, reorderGroup);
 
       if (typeof activeGroup !== 'undefined') {
@@ -114,6 +122,7 @@
           draggedIndex = -1;
           placedIndex = -1;
           draggedStyle = null;
+          draggedElement = undefined;
 
           triggerGroup();
 
@@ -121,10 +130,11 @@
           placedId = undefined;
           activeGroup = undefined;
         }
-      } else if (reorderId === draggedId) {
+      } else if (typeof draggedId !== 'undefined' && reorderId === draggedId) {
         draggedIndex = -1;
         placedIndex = -1;
         draggedStyle = null;
+        draggedElement = undefined;
 
         trigger();
 
@@ -134,7 +144,7 @@
       }
     };
 
-    this.setPlacedIndex = function setPlacedIndex (reorderId, reorderGroup, index) {
+    function setPlacedIndex (reorderId, reorderGroup, index) {
       validateComponentIdAndGroup(reorderId, reorderGroup);
 
       if (typeof reorderGroup !== 'undefined') {
@@ -144,14 +154,14 @@
 
           triggerGroup();
         }
-      } else if (reorderId === draggedId) {
+      } else if (typeof draggedId !== 'undefined' && reorderId === draggedId) {
         placedIndex = index;
 
         trigger();
       }
     };
 
-    this.setDraggedStyle = function setDraggedStyle (reorderId, reorderGroup, style) {
+    function setDraggedStyle (reorderId, reorderGroup, style) {
       validateComponentIdAndGroup(reorderId, reorderGroup);
 
       if (typeof reorderGroup !== 'undefined') {
@@ -160,12 +170,20 @@
 
           triggerGroup();
         }
-      } else if (reorderId === draggedId) {
+      } else if (typeof draggedId !== 'undefined' && reorderId === draggedId) {
         draggedStyle = style;
 
         trigger();
       }
     };
+
+    this.getState = getState;
+    this.registerReorderComponent = registerReorderComponent;
+    this.unregisterReorderComponent = unregisterReorderComponent;
+    this.startDrag = startDrag;
+    this.stopDrag = stopDrag;
+    this.setPlacedIndex = setPlacedIndex;
+    this.setDraggedStyle = setDraggedStyle;
   }
 
   var store = new Store();
@@ -196,15 +214,27 @@
       displayName: 'Reorder',
 
       getInitialState: function () {
-        return {
-          placedIndex: -1,
-          draggedIndex: -1,
-          draggedStyle: null
-        };
+        return store.getState();
       },
 
       isDragging: function () {
         return this.state.draggedIndex >= 0;
+      },
+
+      isPlacing: function () {
+        return this.state.placedIndex >= 0;
+      },
+
+      isDraggingFrom: function () {
+        return this.props.reorderId === this.state.draggedId;
+      },
+
+      isPlacingTo: function () {
+        return this.props.reorderId === this.state.placedId;
+      },
+
+      isInvolvedInDragging: function () {
+        return this.props.reorderId === this.state.draggedId || this.props.reorderGroup === this.state.activeGroup;
       },
 
       preventContextMenu: function (event) {
@@ -354,7 +384,7 @@
             height: rect.height
           };
 
-          store.startDrag(this.props.reorderId, this.props.reorderGroup, index);
+          store.startDrag(this.props.reorderId, this.props.reorderGroup, index, this.props.children[index]);
           store.setDraggedStyle(this.props.reorderId, this.props.reorderGroup, draggedStyle);
 
           mouseOffset = {
@@ -403,38 +433,38 @@
         clearTimeout(this.holdTimeout);
         clearInterval(this.scrollInterval);
 
-        var fromIndex = this.state.draggedIndex;
-        var toIndex = this.state.placedIndex;
+        if (this.isDraggingFrom() && this.isDragging()) {
+          var fromIndex = this.state.draggedIndex;
+          var toIndex = this.state.placedIndex;
 
-        if (
-          typeof this.props.onReorder === 'function' &&
-          fromIndex !== toIndex &&
-          fromIndex >= 0
-        ) {
-          this.props.onReorder(event, fromIndex, toIndex - (fromIndex < toIndex ? 1 : 0));
+          store.stopDrag(this.props.reorderId, this.props.reorderGroup);
+
+          if (fromIndex !== toIndex && fromIndex >= 0) {
+            if (typeof this.props.onReorder === 'function') {
+              this.props.onReorder(event, fromIndex, toIndex - (fromIndex < toIndex ? 1 : 0));
+            }
+          }
         }
 
-        store.stopDrag(this.props.reorderId, this.props.reorderGroup);
-
         downPos = null;
-        // mouseOffset = null;
-        // mouseDownOffset = null;
+        mouseOffset = null;
+        mouseDownOffset = null;
       },
 
       // Update dragged position & placeholder index, invalidate drag if moved
       onWindowMove: function (event) {
         this.copyTouchKeys(event);
 
-        if (
-          downPos && (
-            Math.abs(event.clientX - downPos.clientX) >= CONSTANTS.HOLD_THRESHOLD ||
-            Math.abs(event.clientY - downPos.clientY) >= CONSTANTS.HOLD_THRESHOLD
-          )
-        ) {
-          this.moved = true;
-        }
+        if (this.isDragging() && this.isDraggingFrom()) {
+          if (
+            downPos && (
+              Math.abs(event.clientX - downPos.clientX) >= CONSTANTS.HOLD_THRESHOLD ||
+              Math.abs(event.clientY - downPos.clientY) >= CONSTANTS.HOLD_THRESHOLD
+            )
+          ) {
+            this.moved = true;
+          }
 
-        if (this.isDragging()) {
           this.preventNativeScrolling(event);
 
           var draggedStyle = assign({}, this.state.draggedStyle, {
@@ -464,13 +494,8 @@
         }
       },
 
-      setDragState: function (draggedIndex, placedIndex, activeGroup, draggedStyle) {
-        this.setState({
-          draggedIndex: draggedIndex,
-          placedIndex: placedIndex,
-          activeGroup: activeGroup,
-          draggedStyle: draggedStyle
-        });
+      setDragState: function (state) {
+        this.setState(state);
       },
 
       // Add listeners
@@ -505,46 +530,45 @@
       },
 
       render: function () {
-        var self = this;
-
         var children = this.props.children && this.props.children.map(function (child, index) {
-          var isDragged = index === self.state.draggedIndex;
+          var isDragged = this.isDragging() && this.isDraggingFrom() && index === this.state.draggedIndex;
 
-          var draggedStyle = isDragged ? assign({}, child.props.style, self.state.draggedStyle) : child.props.style;
+          var draggedStyle = isDragged ? assign({}, child.props.style, this.state.draggedStyle) : child.props.style;
+
           var draggedClass = [
             child.props.className || '',
-            (isDragged ? self.props.draggedClassName : '')
+            (isDragged ? this.props.draggedClassName : '')
           ].join(' ');
 
           return React.cloneElement(
-            child,
+            isDragged ? this.state.draggedElement : child,
             {
               style: draggedStyle,
               className: draggedClass,
-              onMouseDown: self.onItemDown.bind(self, child.props.onMouseDown, index),
-              onTouchStart: self.onItemDown.bind(self, child.props.onTouchStart, index),
+              onMouseDown: this.onItemDown.bind(this, child.props.onMouseDown, index),
+              onTouchStart: this.onItemDown.bind(this, child.props.onTouchStart, index),
               'data-dragged': isDragged ? true : null
             }
           );
         }.bind(this));
 
-        var draggedElement = this.props.children && this.props.children[this.state.draggedIndex];
-        var placeholderElement = this.props.placeholder || draggedElement;
+        var placeholderElement = this.props.placeholder || this.state.draggedElement;
 
-        if (this.state.placedIndex >= 0 && placeholderElement) {
+        if (this.isPlacing() && this.isPlacingTo() && placeholderElement) {
           var placeholder = React.cloneElement(
             placeholderElement,
             {
               key: 'react-reorder-placeholder',
-              className: [placeholderElement.props.className || '', self.props.placeholderClassName].join(' '),
+              className: [placeholderElement.props.className || '', this.props.placeholderClassName].join(' '),
               'data-placeholder': true
             }
           );
+
           children.splice(this.state.placedIndex, 0, placeholder);
         }
 
         return React.createElement(
-          self.props.component,
+          this.props.component,
           {
             className: this.props.className,
             id: this.props.id,
