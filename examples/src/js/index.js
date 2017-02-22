@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import ReactStyleSheets from 'react-style-sheets';
 import Immutable from 'immutable';
-import Reorder, { reorderImmutable } from '../../../src/index';
+import Reorder, { reorderImmutable, reorderFromToImmutable } from '../../../src/index';
 
 const classNames = ReactStyleSheets.createUniqueClassStyles({
   app: {
@@ -102,13 +102,13 @@ class Main extends Component {
           color: ['rgb(', (value + 1) * 25, ',', 250 - ((value + 1) * 25), ',0)'].join('')
         };
       })),
-      multiList1: Immutable.List(Immutable.Range(0, 5).map(function (value) {
+      listA: Immutable.List(Immutable.Range(0, 5).map(function (value) {
         return {
           name: ['List A - Item', value].join(' '),
           color: ['rgb(', (value + 1) * 25, ',', 250 - ((value + 1) * 25), ',0)'].join('')
         };
       })),
-      multiList2: Immutable.List(Immutable.Range(0, 5).map(function (value) {
+      listB: Immutable.List(Immutable.Range(0, 5).map(function (value) {
         return {
           name: ['List B - Item', value].join(' '),
           color: ['rgb(', (value + 1) * 25, ',', 250 - ((value + 1) * 25), ',0)'].join('')
@@ -126,8 +126,28 @@ class Main extends Component {
     });
   }
 
-  onReorderGroup () {
-    console.log('Reorder group');
+  onReorderGroup (event, previousIndex, nextIndex, fromId, toId) {
+    console.log(fromId, toId);
+
+    if (fromId === toId) {
+      const list = Immutable.List(reorderImmutable(this.state[fromId], previousIndex, nextIndex));
+
+      var state = {};
+
+      state[fromId] = list;
+
+      this.setState(state);
+    } else {
+      var lists = reorderFromToImmutable({
+        from: this.state[fromId],
+        to: this.state[toId],
+      }, previousIndex, nextIndex);
+
+      this.setState({
+        listA: fromId === 'listA' ? lists.from : lists.to,
+        listB: fromId === 'listB' ? lists.from : lists.to
+      });
+    }
   }
 
   onDisableToggle () {
@@ -290,7 +310,7 @@ class Main extends Component {
           onReorder={this.onReorderGroup.bind(this)}
         >
           {
-            this.state.multiList1.map(function (item) {
+            this.state.listA.map(function (item) {
               return (
                 <li
                   key={item.name}
@@ -315,7 +335,7 @@ class Main extends Component {
           onReorder={this.onReorderGroup.bind(this)}
         >
           {
-            this.state.multiList2.map(function (item) {
+            this.state.listB.map(function (item) {
               return (
                 <li
                   key={item.name}
