@@ -481,7 +481,6 @@
           var collisionIndex = this.findCollisionIndex(children, event);
 
           if (
-            (collisionIndex !== this.state.placedIndex || !this.isDraggingFrom()) &&
             collisionIndex <= this.props.children.length &&
             collisionIndex >= 0
           ) {
