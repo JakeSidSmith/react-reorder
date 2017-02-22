@@ -99,11 +99,14 @@
     function startDrag (reorderId, reorderGroup, index, element) {
       validateComponentIdAndGroup(reorderId, reorderGroup);
 
-      draggedId = reorderId;
-      placedId = reorderId;
       draggedIndex = index;
       placedIndex = index;
+      draggedStyle = null;
       draggedElement = element;
+
+      draggedId = reorderId;
+      placedId = reorderId;
+      activeGroup = undefined;
 
       if (typeof reorderGroup !== 'undefined') {
         activeGroup = reorderGroup;
