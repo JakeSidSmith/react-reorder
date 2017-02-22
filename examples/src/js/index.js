@@ -211,7 +211,11 @@ class Main extends Component {
                     <span className={classNames.itemName}>
                       {this.state.prefix} {item.name}
                     </span>
-                    <input className={classNames.input} type="text" defaultValue="Change me, I retain this state!" />
+                    <input
+                      className={classNames.input}
+                      type="text"
+                      defaultValue="Change me, I retain this state!"
+                    />
                   </div>
                 </li>
               );
@@ -315,8 +319,16 @@ class Main extends Component {
                   className={[classNames.listItem, classNames.multiListItem].join(' ')}
                   style={{color: item.color}}
                 >
-                  {item.name}
-                  <input type="text" />
+                  <div className={classNames.contentHolder}>
+                    <span className={classNames.itemName}>
+                      {item.name}
+                    </span>
+                    <input
+                      className={classNames.input}
+                      type="text"
+                      defaultValue="Change me, I  sort of retain this state!"
+                    />
+                  </div>
                 </li>
               );
             }.bind(this)).toArray()
@@ -340,8 +352,16 @@ class Main extends Component {
                   className={[classNames.listItem, classNames.multiListItem].join(' ')}
                   style={{color: item.color}}
                 >
-                  {item.name}
-                  <input type="text" />
+                  <div className={classNames.contentHolder}>
+                    <span className={classNames.itemName}>
+                      {item.name}
+                    </span>
+                    <input
+                      className={classNames.input}
+                      type="text"
+                      defaultValue="Change me, I  sort of retain this state!"
+                    />
+                  </div>
                 </li>
               );
             }.bind(this)).toArray()
