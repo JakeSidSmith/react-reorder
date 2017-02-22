@@ -225,7 +225,7 @@
 
     return {
       from: lists.from.delete(previousIndex),
-      to: lists.to.splice(nextIndex, 0, item);
+      to: lists.to.splice(nextIndex, 0, item)
     };
   }
 
@@ -469,7 +469,13 @@
           store.stopDrag(this.props.reorderId, this.props.reorderGroup);
 
           if (fromIndex !== toIndex && fromIndex >= 0 && typeof this.props.onReorder === 'function') {
-            this.props.onReorder(event, fromIndex, toIndex - (fromIndex < toIndex ? 1 : 0));
+            this.props.onReorder(
+              event,
+              fromIndex,
+              toIndex - (fromIndex < toIndex ? 1 : 0),
+              this.state.draggedId,
+              this.state.placedId
+            );
           }
         }
 
