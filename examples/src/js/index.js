@@ -130,15 +130,15 @@ class Main extends Component {
     if (fromId === toId) {
       const list = Immutable.List(reorderImmutable(this.state[fromId], previousIndex, nextIndex));
 
-      var state = {};
+      const state = {};
 
       state[fromId] = list;
 
       this.setState(state);
     } else {
-      var lists = reorderFromToImmutable({
+      const lists = reorderFromToImmutable({
         from: this.state[fromId],
-        to: this.state[toId],
+        to: this.state[toId]
       }, previousIndex, nextIndex);
 
       this.setState({

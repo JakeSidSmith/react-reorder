@@ -212,7 +212,7 @@
     var nextList = [].concat(lists.to);
 
     var item = previousList.splice(previousIndex, 1);
-    nextList.splice(nextList, 0, item);
+    nextList.splice(nextIndex, 0, item);
 
     return {
       from: previousList,
