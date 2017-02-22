@@ -298,6 +298,7 @@ class Main extends Component {
                   style={{color: item.color}}
                 >
                   {item.name}
+                  <input type="text" />
                 </li>
               );
             }.bind(this)).toArray()
@@ -322,6 +323,7 @@ class Main extends Component {
                   style={{color: item.color}}
                 >
                   {item.name}
+                  <input type="text" />
                 </li>
               );
             }.bind(this)).toArray()
