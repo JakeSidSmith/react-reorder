@@ -455,7 +455,7 @@
       onWindowMove: function (event) {
         this.copyTouchKeys(event);
 
-        if (this.isDragging() && this.isDraggingFrom()) {
+        if (this.isDragging() && this.isInvolvedInDragging()) {
           if (
             downPos && (
               Math.abs(event.clientX - downPos.clientX) >= CONSTANTS.HOLD_THRESHOLD ||
@@ -478,7 +478,7 @@
           var collisionIndex = this.findCollisionIndex(children, event);
 
           if (
-            collisionIndex !== this.state.placedIndex &&
+            (collisionIndex !== this.state.placedIndex || !this.isDraggingFrom()) &&
             collisionIndex <= this.props.children.length &&
             collisionIndex >= 0
           ) {
