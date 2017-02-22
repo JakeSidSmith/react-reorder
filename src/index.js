@@ -439,10 +439,8 @@
 
           store.stopDrag(this.props.reorderId, this.props.reorderGroup);
 
-          if (fromIndex !== toIndex && fromIndex >= 0) {
-            if (typeof this.props.onReorder === 'function') {
-              this.props.onReorder(event, fromIndex, toIndex - (fromIndex < toIndex ? 1 : 0));
-            }
+          if (fromIndex !== toIndex && fromIndex >= 0 && typeof this.props.onReorder === 'function') {
+            this.props.onReorder(event, fromIndex, toIndex - (fromIndex < toIndex ? 1 : 0));
           }
         }
 
