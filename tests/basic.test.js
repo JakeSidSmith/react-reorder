@@ -4,7 +4,7 @@ import mount from './helpers/mount';
 
 import React, { Component } from 'react';
 import { List } from 'immutable';
-import Reorder, { reorder, reorderImmutable } from '../src/index';
+import Reorder, { reorder, reorderImmutable, reorderFromTo, reorderFromToImmutable } from '../src/index';
 
 describe('basic', function () {
 
@@ -247,6 +247,26 @@ describe('basic', function () {
 
       expect(reordered).not.to.equal(list);
       expect(reordered.toJS()).to.eql([5, 1, 2, 3, 4]);
+    });
+
+    it('should reorder an item from one array to another', function () {
+      const from = [1, 2, 3, 4, 5];
+      const to = [1, 2, 3, 4, 5];
+
+      const reordered = reorderFromTo({from, to}, 0, 2);
+
+      expect(reordered.from).to.eql([2, 3, 4, 5]);
+      expect(reordered.to).to.eql([1, 2, 1, 3, 4, 5]);
+    });
+
+    it('should reorder an item from one array to another', function () {
+      const from = List([1, 2, 3, 4, 5]);
+      const to = List([1, 2, 3, 4, 5]);
+
+      const reordered = reorderFromToImmutable({from, to}, 4, 1);
+
+      expect(reordered.from.toJS()).to.eql([1, 2, 3, 4]);
+      expect(reordered.to.toJS()).to.eql([1, 5, 2, 3, 4, 5]);
     });
 
   });
