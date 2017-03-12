@@ -110,19 +110,19 @@ describe('methods', function () {
       clientX: 20
     };
 
-    expect(instance.xCollision(rect, event)).to.be.false;
+    expect(instance.xCollision(event, rect)).to.be.false;
 
     event.clientX = 120;
 
-    expect(instance.xCollision(rect, event)).to.be.false;
+    expect(instance.xCollision(event, rect)).to.be.false;
 
     event.clientX = 80;
 
-    expect(instance.xCollision(rect, event)).to.be.true;
+    expect(instance.xCollision(event, rect)).to.be.true;
 
     event.clientX = 100;
 
-    expect(instance.xCollision(rect, event)).to.be.true;
+    expect(instance.xCollision(event, rect)).to.be.true;
 
     wrapper.unmount();
   });
@@ -140,19 +140,19 @@ describe('methods', function () {
       clientY: 10
     };
 
-    expect(instance.yCollision(rect, event)).to.be.false;
+    expect(instance.yCollision(event, rect)).to.be.false;
 
     event.clientY = 100;
 
-    expect(instance.yCollision(rect, event)).to.be.false;
+    expect(instance.yCollision(event, rect)).to.be.false;
 
     event.clientY = 50;
 
-    expect(instance.yCollision(rect, event)).to.be.true;
+    expect(instance.yCollision(event, rect)).to.be.true;
 
     event.clientY = 80;
 
-    expect(instance.yCollision(rect, event)).to.be.true;
+    expect(instance.yCollision(event, rect)).to.be.true;
 
     wrapper.unmount();
   });
@@ -166,42 +166,42 @@ describe('methods', function () {
       clientY: 0
     };
 
-    expect(instance.findCollisionIndex(verticalChildren, event)).to.equal(-1);
+    expect(instance.findCollisionIndex(event, verticalChildren)).to.equal(-1);
 
     event.clientX = 30;
 
-    expect(instance.findCollisionIndex(verticalChildren, event)).to.equal(-1);
+    expect(instance.findCollisionIndex(event, verticalChildren)).to.equal(-1);
 
     event.clientY = 30;
 
-    expect(instance.findCollisionIndex(verticalChildren, event)).to.equal(0);
+    expect(instance.findCollisionIndex(event, verticalChildren)).to.equal(0);
 
     event.clientY = 50;
 
-    expect(instance.findCollisionIndex(verticalChildren, event)).to.equal(-1);
+    expect(instance.findCollisionIndex(event, verticalChildren)).to.equal(-1);
 
     event.clientY = 70;
 
-    expect(instance.findCollisionIndex(verticalChildren, event)).to.equal(-1);
+    expect(instance.findCollisionIndex(event, verticalChildren)).to.equal(-1);
 
     event.clientY = 90;
 
-    expect(instance.findCollisionIndex(verticalChildren, event)).to.equal(3);
+    expect(instance.findCollisionIndex(event, verticalChildren)).to.equal(3);
 
     event.clientX = 200;
     event.clientY = 110;
 
-    expect(instance.findCollisionIndex(verticalChildren, event)).to.equal(-1);
+    expect(instance.findCollisionIndex(event, verticalChildren)).to.equal(-1);
 
     event.clientX = 50;
     event.clientY = 110;
 
-    expect(instance.findCollisionIndex(verticalChildren, event)).to.equal(4);
+    expect(instance.findCollisionIndex(event, verticalChildren)).to.equal(4);
 
     event.clientX = 50;
     event.clientY = 130;
 
-    expect(instance.findCollisionIndex(verticalChildren, event)).to.equal(-1);
+    expect(instance.findCollisionIndex(event, verticalChildren)).to.equal(-1);
 
     wrapper.unmount();
   });
@@ -215,42 +215,42 @@ describe('methods', function () {
       clientY: 0
     };
 
-    expect(instance.findCollisionIndex(verticalChildren, event)).to.equal(-1);
+    expect(instance.findCollisionIndex(event, verticalChildren)).to.equal(-1);
 
     event.clientY = 30;
 
-    expect(instance.findCollisionIndex(verticalChildren, event)).to.equal(0);
+    expect(instance.findCollisionIndex(event, verticalChildren)).to.equal(0);
 
     event.clientX = 30;
 
-    expect(instance.findCollisionIndex(verticalChildren, event)).to.equal(0);
+    expect(instance.findCollisionIndex(event, verticalChildren)).to.equal(0);
 
     event.clientY = 50;
 
-    expect(instance.findCollisionIndex(verticalChildren, event)).to.equal(-1);
+    expect(instance.findCollisionIndex(event, verticalChildren)).to.equal(-1);
 
     event.clientY = 70;
 
-    expect(instance.findCollisionIndex(verticalChildren, event)).to.equal(-1);
+    expect(instance.findCollisionIndex(event, verticalChildren)).to.equal(-1);
 
     event.clientY = 90;
 
-    expect(instance.findCollisionIndex(verticalChildren, event)).to.equal(3);
+    expect(instance.findCollisionIndex(event, verticalChildren)).to.equal(3);
 
     event.clientX = 200;
     event.clientY = 110;
 
-    expect(instance.findCollisionIndex(verticalChildren, event)).to.equal(4);
+    expect(instance.findCollisionIndex(event, verticalChildren)).to.equal(4);
 
     event.clientX = 50;
     event.clientY = 110;
 
-    expect(instance.findCollisionIndex(verticalChildren, event)).to.equal(4);
+    expect(instance.findCollisionIndex(event, verticalChildren)).to.equal(4);
 
     event.clientX = 50;
     event.clientY = 130;
 
-    expect(instance.findCollisionIndex(verticalChildren, event)).to.equal(-1);
+    expect(instance.findCollisionIndex(event, verticalChildren)).to.equal(-1);
 
     wrapper.unmount();
   });
@@ -264,42 +264,42 @@ describe('methods', function () {
       clientY: 0
     };
 
-    expect(instance.findCollisionIndex(horizontalChildren, event)).to.equal(-1);
+    expect(instance.findCollisionIndex(event, horizontalChildren)).to.equal(-1);
 
     event.clientX = 30;
 
-    expect(instance.findCollisionIndex(horizontalChildren, event)).to.equal(0);
+    expect(instance.findCollisionIndex(event, horizontalChildren)).to.equal(0);
 
     event.clientY = 30;
 
-    expect(instance.findCollisionIndex(horizontalChildren, event)).to.equal(0);
+    expect(instance.findCollisionIndex(event, horizontalChildren)).to.equal(0);
 
     event.clientX = 150;
 
-    expect(instance.findCollisionIndex(horizontalChildren, event)).to.equal(-1);
+    expect(instance.findCollisionIndex(event, horizontalChildren)).to.equal(-1);
 
     event.clientX = 250;
 
-    expect(instance.findCollisionIndex(horizontalChildren, event)).to.equal(-1);
+    expect(instance.findCollisionIndex(event, horizontalChildren)).to.equal(-1);
 
     event.clientX = 350;
 
-    expect(instance.findCollisionIndex(horizontalChildren, event)).to.equal(3);
+    expect(instance.findCollisionIndex(event, horizontalChildren)).to.equal(3);
 
     event.clientX = 450;
     event.clientY = 110;
 
-    expect(instance.findCollisionIndex(horizontalChildren, event)).to.equal(4);
+    expect(instance.findCollisionIndex(event, horizontalChildren)).to.equal(4);
 
     event.clientX = 450;
     event.clientY = 0;
 
-    expect(instance.findCollisionIndex(horizontalChildren, event)).to.equal(4);
+    expect(instance.findCollisionIndex(event, horizontalChildren)).to.equal(4);
 
     event.clientX = 550;
     event.clientY = 130;
 
-    expect(instance.findCollisionIndex(horizontalChildren, event)).to.equal(-1);
+    expect(instance.findCollisionIndex(event, horizontalChildren)).to.equal(-1);
 
     wrapper.unmount();
   });
