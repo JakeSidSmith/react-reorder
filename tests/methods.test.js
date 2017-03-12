@@ -9,7 +9,7 @@ import { verticalChildren, horizontalChildren } from './helpers/children-stub';
 describe('methods', function () {
 
   it('should return true if the draggedIndex is greater than or equal to zero', function () {
-    const wrapper = mount(<Reorder />);
+    const wrapper = mount(<Reorder reorderId="id" />);
     const instance = wrapper.instance();
 
     expect(instance.isDragging()).to.be.false;
@@ -21,6 +21,8 @@ describe('methods', function () {
     wrapper.setState({draggedIndex: 10});
 
     expect(instance.isDragging()).to.be.true;
+
+    wrapper.unmount();
   });
 
   it('should preventDefault on events', function () {
@@ -28,7 +30,7 @@ describe('methods', function () {
       preventDefault: spy()
     };
 
-    const wrapper = mount(<Reorder />);
+    const wrapper = mount(<Reorder reorderId="id" />);
     const instance = wrapper.instance();
 
     expect(event.preventDefault).not.to.have.been.called;
@@ -40,12 +42,14 @@ describe('methods', function () {
     expect(event.preventDefault).not.to.have.been.called;
     instance.preventNativeScrolling(event);
     expect(event.preventDefault).to.have.been.calledOnce;
+
+    wrapper.unmount();
   });
 
   it('should persist an event if available', function () {
     const event = {};
 
-    const wrapper = mount(<Reorder />);
+    const wrapper = mount(<Reorder reorderId="id" />);
     const instance = wrapper.instance();
 
     instance.persistEvent(event);
@@ -57,6 +61,8 @@ describe('methods', function () {
     instance.persistEvent(event);
 
     expect(event.persist).to.have.been.calledOnce;
+
+    wrapper.unmount();
   });
 
   it('should copy clientX and clientY from touches & persist event', function () {
@@ -64,7 +70,7 @@ describe('methods', function () {
       persist: spy()
     };
 
-    const wrapper = mount(<Reorder />);
+    const wrapper = mount(<Reorder reorderId="id" />);
     const instance = wrapper.instance();
 
     expect(event.persist).not.to.have.been.called;
@@ -87,10 +93,12 @@ describe('methods', function () {
     expect(event.persist).to.have.been.calledOnce;
     expect(event.clientX).to.equal(123);
     expect(event.clientY).to.equal(456);
+
+    wrapper.unmount();
   });
 
   it('should check a collision on the x-axis', function () {
-    const wrapper = mount(<Reorder />);
+    const wrapper = mount(<Reorder reorderId="id" />);
     const instance = wrapper.instance();
 
     const rect = {
@@ -115,10 +123,12 @@ describe('methods', function () {
     event.clientX = 100;
 
     expect(instance.xCollision(rect, event)).to.be.true;
+
+    wrapper.unmount();
   });
 
   it('should check a collision on the y-axis', function () {
-    const wrapper = mount(<Reorder />);
+    const wrapper = mount(<Reorder reorderId="id" />);
     const instance = wrapper.instance();
 
     const rect = {
@@ -143,10 +153,12 @@ describe('methods', function () {
     event.clientY = 80;
 
     expect(instance.yCollision(rect, event)).to.be.true;
+
+    wrapper.unmount();
   });
 
   it('should find the first collision of the pointer & children (no lock)', function () {
-    const wrapper = mount(<Reorder />);
+    const wrapper = mount(<Reorder reorderId="id" />);
     const instance = wrapper.instance();
 
     const event = {
@@ -190,10 +202,12 @@ describe('methods', function () {
     event.clientY = 130;
 
     expect(instance.findCollisionIndex(verticalChildren, event)).to.equal(-1);
+
+    wrapper.unmount();
   });
 
   it('should find the first collision of the pointer & children (horizontal)', function () {
-    const wrapper = mount(<Reorder lock="horizontal" />);
+    const wrapper = mount(<Reorder reorderId="id" lock="horizontal" />);
     const instance = wrapper.instance();
 
     const event = {
@@ -237,10 +251,12 @@ describe('methods', function () {
     event.clientY = 130;
 
     expect(instance.findCollisionIndex(verticalChildren, event)).to.equal(-1);
+
+    wrapper.unmount();
   });
 
   it('should find the first collision of the pointer & children (vertical)', function () {
-    const wrapper = mount(<Reorder lock="vertical" />);
+    const wrapper = mount(<Reorder reorderId="id" lock="vertical" />);
     const instance = wrapper.instance();
 
     const event = {
@@ -284,10 +300,12 @@ describe('methods', function () {
     event.clientY = 130;
 
     expect(instance.findCollisionIndex(horizontalChildren, event)).to.equal(-1);
+
+    wrapper.unmount();
   });
 
   it('should return the relevant holdTime', function () {
-    const wrapper = mount(<Reorder />);
+    const wrapper = mount(<Reorder reorderId="id" />);
     const instance = wrapper.instance();
 
     expect(instance.getHoldTime({})).to.equal(0);
@@ -317,12 +335,14 @@ describe('methods', function () {
 
     expect(instance.getHoldTime({})).to.equal(0);
     expect(instance.getHoldTime({touches: []})).to.equal(0);
+
+    wrapper.unmount();
   });
 
   it('should return the scroll offset x for auto-scrolling (max scroll area)', function () {
     const maxScrollArea = 50;
     const scrollSpeed = 20;
-    const wrapper = mount(<Reorder />);
+    const wrapper = mount(<Reorder reorderId="id" />);
     const instance = wrapper.instance();
 
     const rect = {
@@ -352,12 +372,14 @@ describe('methods', function () {
 
     expect(instance.getScrollOffsetX(rect, node, {clientX: maxScrollArea * 1.5})).to.equal(-scrollSpeed / 2);
     expect(instance.getScrollOffsetX(rect, node, {clientX: maxScrollArea * 4.5})).to.equal(scrollSpeed / 2);
+
+    wrapper.unmount();
   });
 
   it('should return the scroll offset y for auto-scrolling (max scroll area)', function () {
     const maxScrollArea = 50;
     const scrollSpeed = 20;
-    const wrapper = mount(<Reorder />);
+    const wrapper = mount(<Reorder reorderId="id" />);
     const instance = wrapper.instance();
 
     const rect = {
@@ -387,10 +409,12 @@ describe('methods', function () {
 
     expect(instance.getScrollOffsetY(rect, node, {clientY: maxScrollArea * 1.5})).to.equal(-scrollSpeed / 2);
     expect(instance.getScrollOffsetY(rect, node, {clientY: maxScrollArea * 4.5})).to.equal(scrollSpeed / 2);
+
+    wrapper.unmount();
   });
 
   it('should scroll the root node if auto-scroll enabled & pointer is in the right location', function () {
-    const wrapper = mount(<Reorder />);
+    const wrapper = mount(<Reorder reorderId="id" />);
     const instance = wrapper.instance();
 
     expect(instance.rootNode).to.be.ok;
@@ -442,6 +466,8 @@ describe('methods', function () {
     expect(instance.rootNode.scrollLeft).to.equal(70);
 
     instance.rootNode.getBoundingClientRect.restore();
+
+    wrapper.unmount();
   });
 
 });

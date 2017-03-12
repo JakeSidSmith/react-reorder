@@ -47,7 +47,7 @@ describe('basic', function () {
 
     it('should render itself & its children', function () {
       const wrapper = mount(
-        <Reorder>
+        <Reorder reorderId="id">
           {
             items.map((item) => (
               <span key={item.id}>
@@ -66,11 +66,13 @@ describe('basic', function () {
       children.forEach(function (child) {
         expect(child.tagName()).to.equal('span');
       });
+
+      wrapper.unmount();
     });
 
     it('should have a name & default props', function () {
       const wrapper = mount(
-        <Reorder>
+        <Reorder reorderId="id">
           {
             items.map((item) => (
               <span key={item.id}>
@@ -89,13 +91,17 @@ describe('basic', function () {
       expect(props.placeholderClassName).to.equal('placeholder');
       expect(props.draggedClassName).to.equal('dragged');
       expect(props.holdTime).to.equal(0);
+
+      wrapper.unmount();
     });
 
     it('should store a reference to its root node', function () {
-      const wrapper = mount(<Reorder />);
+      const wrapper = mount(<Reorder reorderId="id" />);
       const instance = wrapper.instance();
 
       expect(instance.rootNode).to.be.ok;
+
+      wrapper.unmount();
     });
 
   });
@@ -103,9 +109,11 @@ describe('basic', function () {
   describe('props', function () {
 
     it('should allow defining the root component (string)', function () {
-      const wrapper = mount(<Reorder component="ul" />);
+      const wrapper = mount(<Reorder reorderId="id" component="ul" />);
 
       expect(wrapper.tagName()).to.equal('ul');
+
+      wrapper.unmount();
     });
 
     it('should allow defining the root component (function)', function () {
@@ -113,10 +121,12 @@ describe('basic', function () {
         return <h1 />;
       }
 
-      const wrapper = mount(<Reorder component={MyComponent} />);
+      const wrapper = mount(<Reorder reorderId="id" component={MyComponent} />);
 
       expect(wrapper.name()).to.equal('Reorder');
       expect(wrapper.tagName()).to.equal('h1');
+
+      wrapper.unmount();
     });
 
     it('should allow defining the root component (component)', function () {
@@ -126,18 +136,22 @@ describe('basic', function () {
         }
       }
 
-      const wrapper = mount(<Reorder component={MyComponent} />);
+      const wrapper = mount(<Reorder reorderId="id" component={MyComponent} />);
 
       expect(wrapper.name()).to.equal('Reorder');
       expect(wrapper.tagName()).to.equal('h2');
+
+      wrapper.unmount();
     });
 
     it('should call a ref function (if provided) with the root element', function () {
       const refSpy = spy();
 
-      mount(<Reorder getRef={refSpy} />);
+      const wrapper = mount(<Reorder reorderId="id" getRef={refSpy} />);
 
       expect(refSpy).to.have.been.calledOnce;
+
+      wrapper.unmount();
     });
 
   });
@@ -156,7 +170,7 @@ describe('basic', function () {
         'contextmenu'
       ];
 
-      const wrapper = mount(<Reorder />);
+      const wrapper = mount(<Reorder reorderId="id" />);
 
       expect(addEventListenerSpy).to.have.been.called;
       expect(removeEventListenerSpy).not.to.have.been.called;
@@ -181,13 +195,15 @@ describe('basic', function () {
 
       addEventListenerSpy.restore();
       removeEventListenerSpy.restore();
+
+      wrapper.unmount();
     });
 
     it('should clear timeouts & intervals on unmount', function () {
       const clearTimeoutSpy = spy(global, 'clearTimeout');
       const clearIntervalSpy = spy(global, 'clearInterval');
 
-      const wrapper = mount(<Reorder />);
+      const wrapper = mount(<Reorder reorderId="id" />);
       const instance = wrapper.instance();
 
       instance.holdTimeout = {
@@ -207,6 +223,8 @@ describe('basic', function () {
 
       clearTimeoutSpy.restore();
       clearIntervalSpy.restore();
+
+      wrapper.unmount();
     });
 
   });
