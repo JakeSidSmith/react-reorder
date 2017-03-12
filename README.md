@@ -64,6 +64,7 @@ It also allows the user to set a hold time (duration before drag begins) allowin
     onReorder={this.onReorder.bind(this)} // Callback when an item is dropped (you will need this to update your state)
     autoScroll={true} // Enable auto-scrolling when the pointer is close to the edge of the Reorder component (optional), defaults to true
     disabled={false} // Disable reordering (optional), defaults to false
+    disableContextMenus={true} // Disable context menus when holding on touch devices (optional), defaults to true
     placeholder={
       <div className="custom-placeholder" /> // Custom placeholder element (optional), defaults to clone of dragged element
     }
