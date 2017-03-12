@@ -19,7 +19,7 @@
   ],
   "cache": true,
   "all": true,
-  "check-coverage": true,
+  "check-coverage": false,
   "sourceMap": false,
   "instrument": false,
   "report-dir": "coverage"
