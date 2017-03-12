@@ -4,13 +4,11 @@ __Drag & drop, touch enabled, reorder / sortable list, React component__
 
 ## About
 
-React Reorder is a React component that allows the user to drag-and-drop items in a list (horizontal / vertical) or a grid.
+React Reorder is a React component that allows the user to drag-and-drop items in a list (horizontal / vertical), or a grid. You can also allow dragging items from one list to another.
 
 It fully supports touch devices and auto-scrolls when a component is being dragged (check out the [demo](http://jakesidsmith.github.io/react-reorder/)).
 
 It also allows the user to set a hold time (duration before drag begins) allowing additional events like clicking / tapping to be applied.
-
-Version 3 adds the ability to drag items between multiple lists.
 
 ## Installation
 
@@ -38,10 +36,17 @@ If using a module loader (requirejs / browserfiy / commonjs): require `react-reo
 var Reorder = require('react-reorder');
 var reorder = Reorder.reorder;
 var reorderImmutable = Reorder.reorderImmutable;
+var reorderFromTo = Reorder.reorderFromTo;
+var reorderFromToImmutable = Reorder.reorderFromToImmutable;
 
 // Or ES6
 
-import Reorder, { reorder, reorderImmutable } from 'react-reorder';  
+import Reorder, {
+  reorder,
+  reorderImmutable,
+  reorderFromTo,
+  reorderFromToImmutable
+} from 'react-reorder';  
 ```
 
 ### Configuration
