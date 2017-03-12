@@ -51,17 +51,19 @@ It also allows the user to set a hold time (duration before drag begins) allowin
 
   ```javascript
   <Reorder
-    getRef={this.storeRef.bind(this)} // Function that is passed a reference to the root node when mounted
-    component="ul" // Tag name or Component to be used for the wrapping element, defaults to 'div'
+    reorderId="my-list" // Unique ID that is used internally to track this list (required)
+    reorderGroup="reorder-group" // A group ID that allows items to be dragged between lists of the same group (optional)
+    getRef={this.storeRef.bind(this)} // Function that is passed a reference to the root node when mounted (optional)
+    component="ul" // Tag name or Component to be used for the wrapping element (optional), defaults to 'div'
     placeholderClassName="placeholder" // Class name to be applied to placeholder elements (optional), defaults to 'placeholder'
     draggedClassName="dragged" // Class name to be applied to dragged elements (optional), defaults to 'dragged'
-    lock="horizontal" // Lock the dragging direction (optional): vertical, horizontal
+    lock="horizontal" // Lock the dragging direction (optional): vertical, horizontal (do not use with groups)
     holdTime={500} // Default hold time before dragging begins (mouse & touch) (optional), defaults to 0
     touchHoldTime={500} // Hold time before dragging begins on touch devices (optional), defaults to holdTime
     mouseHoldTime={200} // Hold time before dragging begins with mouse (optional), defaults to holdTime
     onReorder={this.onReorder.bind(this)} // Callback when an item is dropped (you will need this to update your state)
-    autoScroll={true} // Enable auto-scrolling when the pointer is close to the edge of the Reorder component, defaults to true
-    disabled={false} // Disable reordering, defaults to false
+    autoScroll={true} // Enable auto-scrolling when the pointer is close to the edge of the Reorder component (optional), defaults to true
+    disabled={false} // Disable reordering (optional), defaults to false
     placeholder={
       <div className="custom-placeholder" /> // Custom placeholder element (optional), defaults to clone of dragged element
     }
@@ -84,18 +86,40 @@ It also allows the user to set a hold time (duration before drag begins) allowin
 
 5. Callback functions
 
-  * The `onReorder` function that is called once a reorder has been performed
+  * The `onReorder` function that is called once a reorder has been performed.
+    You can use our helper functions for reordering your arrays.
 
     ```javascript
-    function onReorder(event, fromIndex, toIndex) {
-      // You can use our helper functions for reordering your arrays (reorderImmutable is also available)
+    import { reorder, reorderImmutable, reorderFromTo, reorderFromToImmutable } from 'react-reorder';
+
+    onReorder (event, previousIndex, nextIndex, fromId, toId) {
       this.setState({
         myList: reorder(this.state.myList, fromIndex, toIndex);
       });
     }
-    ```
 
-    **Note: `event` will be the synthetic React event for either `mouseup` or `touchend`, and both contain `clientX` & `clientY` values (for ease of use)**
+    onReorderGroup (event, previousIndex, nextIndex, fromId, toId) {
+      if (fromId === toId) {
+        const list = reorderImmutable(this.state[fromId], previousIndex, nextIndex);
+
+        const state = {};
+
+        state[fromId] = list;
+
+        this.setState(state);
+      } else {
+        const lists = reorderFromToImmutable({
+          from: this.state[fromId],
+          to: this.state[toId]
+        }, previousIndex, nextIndex);
+
+        this.setState({
+          listA: fromId === 'listA' ? lists.from : lists.to,
+          listB: fromId === 'listB' ? lists.from : lists.to
+        });
+      }
+    }    
+    ```
 
 ## Compatibility / Requirements
 
