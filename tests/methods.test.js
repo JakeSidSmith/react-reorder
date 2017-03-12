@@ -34,14 +34,14 @@ describe('methods', function () {
     const instance = wrapper.instance();
 
     expect(event.preventDefault).not.to.have.been.called;
-    instance.preventDefault(event);
+    instance.preventNativeScrolling(event);
     expect(event.preventDefault).to.have.been.calledOnce;
 
     event.preventDefault.reset();
 
     expect(event.preventDefault).not.to.have.been.called;
-    instance.preventNativeScrolling(event);
-    expect(event.preventDefault).to.have.been.calledOnce;
+    instance.preventContextMenu(event);
+    expect(event.preventDefault).not.to.have.been.called;
 
     wrapper.unmount();
   });
