@@ -3,10 +3,7 @@
   "statements": 100,
   "functions": 100,
   "branches": 100,
-  "require": [
-    "babel-core/register",
-    "./tests/helpers/test-setup.js"
-  ],
+  "require": [],
   "include": [
     "src/**/*.js",
     "tests/helpers/mount.js",
@@ -23,7 +20,7 @@
   "cache": true,
   "all": true,
   "check-coverage": true,
-  "sourceMap": true,
-  "instrument": true,
-  "report-dir": "./coverage"
+  "sourceMap": false,
+  "instrument": false,
+  "report-dir": "coverage"
 }
