@@ -342,7 +342,7 @@ describe('methods', function () {
   it('should return the scroll offset x for auto-scrolling (max scroll area)', function () {
     const maxScrollArea = 50;
     const scrollSpeed = 20;
-    const wrapper = mount(<Reorder reorderId="id" />);
+    const wrapper = mount(<Reorder reorderId="id">{[<li key={0}>Item</li>]}</Reorder>);
     const instance = wrapper.instance();
 
     const rect = {
@@ -363,23 +363,29 @@ describe('methods', function () {
 
     const expectedScrollOffsets = [-scrollSpeed, -scrollSpeed, 0, 0, 0, scrollSpeed, scrollSpeed];
 
-    for (let i = 0; i < expectedScrollOffsets.length; i += 1) {
-      const expectedScrollOffset = expectedScrollOffsets[i];
-      const mouseOffset = {clientX: maxScrollArea * i};
+    const listItem = wrapper.find('li');
 
-      expect(instance.getScrollOffsetX(rect, node, mouseOffset)).to.equal(expectedScrollOffset);
-    }
+    expectedScrollOffsets.forEach(function (expectedScrollOffset, index) {
+      const event = {clientX: maxScrollArea * index};
 
-    expect(instance.getScrollOffsetX(rect, node, {clientX: maxScrollArea * 1.5})).to.equal(-scrollSpeed / 2);
-    expect(instance.getScrollOffsetX(rect, node, {clientX: maxScrollArea * 4.5})).to.equal(scrollSpeed / 2);
+      listItem.trigger('mouseDown', event);
 
+      expect(instance.getScrollOffsetX(rect, node)).to.equal(expectedScrollOffset);
+    });
+
+    listItem.trigger('mouseDown', {clientX: maxScrollArea * 1.5});
+    expect(instance.getScrollOffsetX(rect, node)).to.equal(-scrollSpeed / 2);
+    listItem.trigger('mouseDown', {clientX: maxScrollArea * 4.5});
+    expect(instance.getScrollOffsetX(rect, node)).to.equal(scrollSpeed / 2);
+
+    instance.onWindowUp(); // Stop drag
     wrapper.unmount();
   });
 
   it('should return the scroll offset y for auto-scrolling (max scroll area)', function () {
     const maxScrollArea = 50;
     const scrollSpeed = 20;
-    const wrapper = mount(<Reorder reorderId="id" />);
+    const wrapper = mount(<Reorder reorderId="id">{[<li key={0}>Item</li>]}</Reorder>);
     const instance = wrapper.instance();
 
     const rect = {
@@ -400,16 +406,22 @@ describe('methods', function () {
 
     const expectedScrollOffsets = [-scrollSpeed, -scrollSpeed, 0, 0, 0, scrollSpeed, scrollSpeed];
 
-    for (let i = 0; i < expectedScrollOffsets.length; i += 1) {
-      const expectedScrollOffset = expectedScrollOffsets[i];
-      const mouseOffset = {clientY: maxScrollArea * i};
+    const listItem = wrapper.find('li');
 
-      expect(instance.getScrollOffsetY(rect, node, mouseOffset)).to.equal(expectedScrollOffset);
-    }
+    expectedScrollOffsets.forEach(function (expectedScrollOffset, index) {
+      const event = {clientY: maxScrollArea * index};
 
-    expect(instance.getScrollOffsetY(rect, node, {clientY: maxScrollArea * 1.5})).to.equal(-scrollSpeed / 2);
-    expect(instance.getScrollOffsetY(rect, node, {clientY: maxScrollArea * 4.5})).to.equal(scrollSpeed / 2);
+      listItem.trigger('mouseDown', event);
 
+      expect(instance.getScrollOffsetY(rect, node)).to.equal(expectedScrollOffset);
+    });
+
+    listItem.trigger('mouseDown', {clientY: maxScrollArea * 1.5});
+    expect(instance.getScrollOffsetY(rect, node)).to.equal(-scrollSpeed / 2);
+    listItem.trigger('mouseDown', {clientY: maxScrollArea * 4.5});
+    expect(instance.getScrollOffsetY(rect, node)).to.equal(scrollSpeed / 2);
+
+    instance.onWindowUp(); // Stop drag
     wrapper.unmount();
   });
 

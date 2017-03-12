@@ -346,38 +346,40 @@
       },
 
       getScrollOffsetX: function (rect, node) {
+        var positionInScrollArea;
         var scrollLeft = node.scrollLeft;
         var scrollWidth = node.scrollWidth;
 
         var scrollAreaX = Math.min(rect.width / 3, CONSTANTS.SCROLL_AREA_MAX);
 
         if (scrollLeft > 0 && mouseOffset.clientX <= rect.left + scrollAreaX) {
-          return -Math.min(Math.abs(rect.left + scrollAreaX - mouseOffset.clientX), scrollAreaX) /
-            scrollAreaX * CONSTANTS.SCROLL_SPEED;
+          positionInScrollArea = Math.min(Math.abs(rect.left + scrollAreaX - mouseOffset.clientX), scrollAreaX);
+          return -positionInScrollArea / scrollAreaX * CONSTANTS.SCROLL_SPEED;
         }
 
         if (scrollLeft < scrollWidth - rect.width && mouseOffset.clientX >= rect.right - scrollAreaX) {
-          return Math.min(Math.abs(rect.right - scrollAreaX - mouseOffset.clientX), scrollAreaX) /
-            scrollAreaX * CONSTANTS.SCROLL_SPEED;
+          positionInScrollArea = Math.min(Math.abs(rect.right - scrollAreaX - mouseOffset.clientX), scrollAreaX);
+          return positionInScrollArea / scrollAreaX * CONSTANTS.SCROLL_SPEED;
         }
 
         return 0;
       },
 
       getScrollOffsetY: function (rect, node) {
+        var positionInScrollArea;
         var scrollTop = node.scrollTop;
         var scrollHeight = node.scrollHeight;
 
         var scrollAreaY = Math.min(rect.height / 3, CONSTANTS.SCROLL_AREA_MAX);
 
         if (scrollTop > 0 && mouseOffset.clientY <= rect.top + scrollAreaY) {
-          return -Math.min(Math.abs(rect.top + scrollAreaY - mouseOffset.clientY), scrollAreaY) /
-            scrollAreaY * CONSTANTS.SCROLL_SPEED;
+          positionInScrollArea = Math.min(Math.abs(rect.top + scrollAreaY - mouseOffset.clientY), scrollAreaY);
+          return -positionInScrollArea / scrollAreaY * CONSTANTS.SCROLL_SPEED;
         }
 
         if (scrollTop < scrollHeight - rect.height && mouseOffset.clientY >= rect.bottom - scrollAreaY) {
-          return Math.min(Math.abs(rect.bottom - scrollAreaY - mouseOffset.clientY), scrollAreaY) /
-            scrollAreaY * CONSTANTS.SCROLL_SPEED;
+          positionInScrollArea = Math.min(Math.abs(rect.bottom - scrollAreaY - mouseOffset.clientY), scrollAreaY);
+          return positionInScrollArea / scrollAreaY * CONSTANTS.SCROLL_SPEED;
         }
 
         return 0;
