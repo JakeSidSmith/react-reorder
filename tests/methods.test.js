@@ -426,8 +426,9 @@ describe('methods', function () {
   });
 
   it('should scroll the root node if auto-scroll enabled & pointer is in the right location', function () {
-    const wrapper = mount(<Reorder reorderId="id" />);
+    const wrapper = mount(<Reorder reorderId="id">{[<li key={0}>Item</li>]}</Reorder>);
     const instance = wrapper.instance();
+    const listItem = wrapper.find('li');
 
     expect(instance.rootNode).to.be.ok;
 
@@ -447,22 +448,31 @@ describe('methods', function () {
     instance.rootNode.scrollHeight = 200;
     instance.rootNode.scrollWidth = 200;
 
-    instance.mouseOffset = {
+    listItem.trigger('mouseDown', {
       clientY: 50,
       clientX: 50
-    };
+    });
 
     instance.autoScroll();
     expect(instance.rootNode.scrollTop).to.equal(50);
     expect(instance.rootNode.scrollLeft).to.equal(50);
 
-    instance.mouseOffset.clientY = 100;
+    listItem.trigger('mouseDown', {
+      clientY: 100,
+      clientX: 50
+    });
+
     instance.autoScroll();
     expect(instance.rootNode.scrollTop).to.equal(70);
     expect(instance.rootNode.scrollLeft).to.equal(50);
 
     wrapper.setProps({lock: 'vertical'});
-    instance.mouseOffset.clientX = 100;
+
+    listItem.trigger('mouseDown', {
+      clientY: 100,
+      clientX: 100
+    });
+
     instance.autoScroll();
     expect(instance.rootNode.scrollTop).to.equal(70);
     expect(instance.rootNode.scrollLeft).to.equal(70);
@@ -479,6 +489,7 @@ describe('methods', function () {
 
     instance.rootNode.getBoundingClientRect.restore();
 
+    instance.onWindowUp(); // Stop drag
     wrapper.unmount();
   });
 
