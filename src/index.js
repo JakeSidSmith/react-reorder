@@ -267,7 +267,7 @@
       },
 
       preventContextMenu: function (event) {
-        if (downPos && this.props.disableContentMenus) {
+        if (downPos && this.props.disableContextMenus) {
           event.preventDefault();
         }
       },
@@ -649,7 +649,7 @@
       placeholder: PropTypes.element,
       autoScroll: PropTypes.bool,
       disabled: PropTypes.bool,
-      disableContentMenus: PropTypes.bool
+      disableContextMenus: PropTypes.bool
     };
 
     Reorder.defaultProps = {
@@ -666,7 +666,7 @@
       // placeholder: react element
       autoScroll: true,
       disabled: false,
-      disableContentMenus: true
+      disableContextMenus: true
     };
 
     return Reorder;
