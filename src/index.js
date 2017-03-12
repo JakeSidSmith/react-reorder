@@ -639,6 +639,7 @@
 
     Reorder.propTypes = {
       component: PropTypes.oneOfType([PropTypes.func, PropTypes.string]),
+      getRef: PropTypes.func,
       reorderId: PropTypes.string,
       reorderGroup: PropTypes.string,
       placeholderClassName: PropTypes.string,
@@ -656,6 +657,7 @@
 
     Reorder.defaultProps = {
       component: 'div',
+      // getRef: function,
       // reorderId: id,
       // reorderGroup: group,
       placeholderClassName: 'placeholder',
