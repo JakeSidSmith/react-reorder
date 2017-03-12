@@ -33,7 +33,7 @@ rsync -rv $DIST_DIR/* circle.yml --exclude=src/* $DEPLOY_DIR
 # Commit changes
 cd $DEPLOY_DIR
 git config user.email "jake@dabapps.com"
-git config user.name "Automated Docs Deployer"
+git config user.name "Automated Example Deployer"
 git add -f .
 git commit -m "Deployment - build $CIRCLE_BUILD_NUM"
 
