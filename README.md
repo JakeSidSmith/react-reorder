@@ -10,6 +10,8 @@ It fully supports touch devices and auto-scrolls when a component is being dragg
 
 It also allows the user to set a hold time (duration before drag begins) allowing additional events like clicking / tapping to be applied.
 
+Version 3 adds the ability to drag items between multiple lists.
+
 ## Installation
 
 Using npm
