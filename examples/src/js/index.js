@@ -119,7 +119,7 @@ class Main extends Component {
   }
 
   onReorder (event, previousIndex, nextIndex) {
-    const list = Immutable.List(reorderImmutable(this.state.list, previousIndex, nextIndex));
+    const list = reorderImmutable(this.state.list, previousIndex, nextIndex);
 
     this.setState({
       list: list
@@ -128,7 +128,7 @@ class Main extends Component {
 
   onReorderGroup (event, previousIndex, nextIndex, fromId, toId) {
     if (fromId === toId) {
-      const list = Immutable.List(reorderImmutable(this.state[fromId], previousIndex, nextIndex));
+      const list = reorderImmutable(this.state[fromId], previousIndex, nextIndex);
 
       const state = {};
 
