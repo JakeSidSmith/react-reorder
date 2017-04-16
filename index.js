@@ -84,6 +84,14 @@
           self.startDrag(dragOffset, draggedStyle);
         }
       },
+      listMove: function (event) {
+        console.log('Moved');
+        if (this.state.held && this.state.dragged) {
+          console.log('Cancelled');
+          event.preventDefault();
+          return false;
+        }
+      },
       listDown: function (event) {
         this.handleTouchEvents(event);
 
@@ -455,7 +463,8 @@
         return React.createElement('div', {
           className: this.props.listClass,
           onMouseDown: self.listDown,
-          onTouchStart: self.listDown
+          onTouchStart: self.listDown,
+          onTouchMove: self.listMove
         }, list, targetClone());
       }
     });
