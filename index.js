@@ -1,9 +1,9 @@
 (function () {
   'use strict';
 
-  var getReorderComponent = function (React, ReactDOM) {
+  var getReorderComponent = function (React, ReactDOM, createReactClass) {
 
-    return React.createClass({
+    return createReactClass({
       displayName: 'Reorder',
       nonCollisionElement: new RegExp('(^|\\s)(placeholder|dragged)($|\\s)', ''),
       constants: {
@@ -459,11 +459,12 @@
   if (typeof exports === 'object' && typeof module !== 'undefined') {
     var React = require('react');
     var ReactDOM = require('react-dom');
-    module.exports = getReorderComponent(React, ReactDOM);
+    var createReactClass = require('create-react-class');
+    module.exports = getReorderComponent(React, ReactDOM, createReactClass);
   // Export for amd / require
   } else if (typeof define === 'function' && define.amd) { // eslint-disable-line no-undef
-    define(['react', 'react-dom'], function (React, ReactDOM) { // eslint-disable-line no-undef
-      return getReorderComponent(React, ReactDOM);
+    define(['react', 'react-dom', 'create-react-class'], function (ReactAMD, ReactDOMAMD, createReactClassAMD) { // eslint-disable-line no-undef
+      return getReorderComponent(ReactAMD, ReactDOMAMD, createReactClassAMD);
     });
   // Export globally
   } else {
@@ -479,7 +480,7 @@
       root = this;
     }
 
-    root.Reorder = getReorderComponent(root.React, root.ReactDOM);
+    root.Reorder = getReorderComponent(root.React, root.ReactDOM, root.createReactClass);
   }
 
 })();
