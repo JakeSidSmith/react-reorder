@@ -16,8 +16,15 @@
       preventDefault: function (event) {
         event.preventDefault();
       },
+      persistEvent: function (event) {
+        if (typeof event.persist === 'function') {
+          event.persist();
+        }
+      },
       handleTouchEvents: function (event) {
         if (event.touches && event.touches.length) {
+          this.persistEvent(event);
+
           event.clientX = event.touches[0].clientX;
           event.clientY = event.touches[0].clientY;
         }
