@@ -152,6 +152,12 @@ class Main extends Component {
     });
   }
 
+  onDismountToggle () {
+    this.setState({
+      dismountGroups: !this.state.dismountGroups
+    });
+  }
+
   onPrefixChange (event) {
     const target = event.currentTarget;
 
@@ -299,72 +305,84 @@ class Main extends Component {
         <p>
           This example has a group of lists that you can drag items between
         </p>
+        <p>
+          {'Dismount reorder: '}
+          <input
+            type="checkbox"
+            value={this.state.dismountGroups || false}
+            onChange={this.onDismountToggle.bind(this)}
+          />
+        </p>
 
-        <Reorder
-          reorderId="listA"
-          reorderGroup="reorderGroup"
-          component="ul"
-          className={[classNames.myList, classNames.multiList].join(' ')}
-          placeholderClassName={classNames.placeholder}
-          draggedClassName={classNames.dragged}
-          onReorder={this.onReorderGroup.bind(this)}
-        >
-          {
-            this.state.listA.map(function (item) {
-              return (
-                <li
-                  key={item.name}
-                  className={[classNames.listItem, classNames.multiListItem].join(' ')}
-                  style={{color: item.color}}
-                >
-                  <div className={classNames.contentHolder}>
-                    <span className={classNames.itemName}>
-                      {item.name}
-                    </span>
-                    <input
-                      className={classNames.input}
-                      type="text"
-                      defaultValue="Change me, I  sort of retain this state!"
-                    />
-                  </div>
-                </li>
-              );
-            }.bind(this)).toArray()
-          }
-        </Reorder>
+        {!this.state.dismountGroups &&
+          <Reorder
+            reorderId="listA"
+            reorderGroup="reorderGroup"
+            component="ul"
+            className={[classNames.myList, classNames.multiList].join(' ')}
+            placeholderClassName={classNames.placeholder}
+            draggedClassName={classNames.dragged}
+            onReorder={this.onReorderGroup.bind(this)}
+          >
+            {
+              this.state.listA.map(function (item) {
+                return (
+                  <li
+                    key={item.name}
+                    className={[classNames.listItem, classNames.multiListItem].join(' ')}
+                    style={{color: item.color}}
+                  >
+                    <div className={classNames.contentHolder}>
+                      <span className={classNames.itemName}>
+                        {item.name}
+                      </span>
+                      <input
+                        className={classNames.input}
+                        type="text"
+                        defaultValue="Change me, I  sort of retain this state!"
+                      />
+                    </div>
+                  </li>
+                );
+              }.bind(this)).toArray()
+            }
+          </Reorder>
+        }
 
-        <Reorder
-          reorderId="listB"
-          reorderGroup="reorderGroup"
-          component="ul"
-          className={[classNames.myList, classNames.multiList].join(' ')}
-          placeholderClassName={classNames.placeholder}
-          draggedClassName={classNames.dragged}
-          onReorder={this.onReorderGroup.bind(this)}
-        >
-          {
-            this.state.listB.map(function (item) {
-              return (
-                <li
-                  key={item.name}
-                  className={[classNames.listItem, classNames.multiListItem].join(' ')}
-                  style={{color: item.color}}
-                >
-                  <div className={classNames.contentHolder}>
-                    <span className={classNames.itemName}>
-                      {item.name}
-                    </span>
-                    <input
-                      className={classNames.input}
-                      type="text"
-                      defaultValue="Change me, I  sort of retain this state!"
-                    />
-                  </div>
-                </li>
-              );
-            }.bind(this)).toArray()
-          }
-        </Reorder>
+        {!this.state.dismountGroups &&
+          <Reorder
+            reorderId="listB"
+            reorderGroup="reorderGroup"
+            component="ul"
+            className={[classNames.myList, classNames.multiList].join(' ')}
+            placeholderClassName={classNames.placeholder}
+            draggedClassName={classNames.dragged}
+            onReorder={this.onReorderGroup.bind(this)}
+          >
+            {
+              this.state.listB.map(function (item) {
+                return (
+                  <li
+                    key={item.name}
+                    className={[classNames.listItem, classNames.multiListItem].join(' ')}
+                    style={{color: item.color}}
+                  >
+                    <div className={classNames.contentHolder}>
+                      <span className={classNames.itemName}>
+                        {item.name}
+                      </span>
+                      <input
+                        className={classNames.input}
+                        type="text"
+                        defaultValue="Change me, I  sort of retain this state!"
+                      />
+                    </div>
+                  </li>
+                );
+              }.bind(this)).toArray()
+            }
+          </Reorder>
+        }
       </div>
     );
   }
