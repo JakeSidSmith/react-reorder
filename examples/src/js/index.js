@@ -2,9 +2,10 @@
 
 var React = require('react');
 var ReactDOM = require('react-dom');
+var createReactClass = require('create-react-class');
 var Reorder = require('../../../index');
 
-var ListItem = React.createClass({
+var ListItem = createReactClass({
   render: function () {
     return React.createElement('div', {
       className: 'inner',
@@ -15,7 +16,7 @@ var ListItem = React.createClass({
   }
 });
 
-var Main = React.createClass({
+var Main = createReactClass({
   callback: function (event, item, index, newIndex, list) {
     this.setState({arr: list});
   },
