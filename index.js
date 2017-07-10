@@ -31,7 +31,7 @@
       },
       startDrag: function (dragOffset, draggedStyle) {
         if (!this.props.disableReorder) {
-          if (typeof this.props.onStartDrag === 'function'){
+          if (typeof this.props.onStartDrag === 'function') {
             this.props.onStartDrag(dragOffset);
           }
           this.setState({
@@ -117,9 +117,9 @@
         window.addEventListener('mousemove', this.onMouseMove); // Mouse move
 
         // Touch events
-        window.addEventListener('touchend', this.onMouseUp); // Touch up
-        window.addEventListener('touchmove', this.onMouseMove); // Touch move
-
+        window.addEventListener('touchend', this.onMouseUp, { passive: false }); // Touch up
+        window.addEventListener('touchmove', this.onMouseMove, { passive: false }); // Touch move
+        
         window.addEventListener('contextmenu', this.preventDefault);
       },
       onMouseUp: function (event) {
