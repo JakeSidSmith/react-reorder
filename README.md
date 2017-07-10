@@ -87,6 +87,8 @@ __[Demo](http://jakesidsmith.github.io/react-reorder/)__
       selected={this.state.selected}
       // The key to compare from the selected item object with each item object
       selectedKey='uuid'
+      // Function that is called on when draging starts (after holding time)
+      onStartDrag={this.dragStart}
       // Allows reordering to be disabled
       disableReorder={false}/>
     ```

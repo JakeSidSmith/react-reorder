@@ -31,6 +31,9 @@
       },
       startDrag: function (dragOffset, draggedStyle) {
         if (!this.props.disableReorder) {
+          if (typeof this.props.onStartDrag === 'function'){
+            this.props.onStartDrag(dragOffset);
+          }
           this.setState({
             dragOffset: dragOffset,
             draggedStyle: draggedStyle,
