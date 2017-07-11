@@ -119,7 +119,8 @@
         // Touch events
         window.addEventListener('touchend', this.onMouseUp, { passive: false }); // Touch up
         window.addEventListener('touchmove', this.onMouseMove, { passive: false }); // Touch move
-        
+
+        // Prevent context menu
         window.addEventListener('contextmenu', this.preventDefault);
       },
       onMouseUp: function (event) {
