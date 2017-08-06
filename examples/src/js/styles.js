@@ -130,13 +130,18 @@ export const classNames = ReactStyleSheets.createUniqueClassStyles({
   },
   kanban: {
     overflowY: 'auto',
-    height: 500
+    height: 500,
+    whiteSpace: 'nowrap'
   },
   kanbanListOuter: {
     width: 200,
     border: [1, 'solid', '#ddd'],
     backgroundColor: '#fafafa',
-    borderRadius: 4
+    borderRadius: 4,
+    display: 'inline-block',
+    verticalAlign: 'top',
+    whiteSpace: 'normal',
+    marginRight: 8
   },
   kanbanListInner: {
     border: 'none',
@@ -173,5 +178,17 @@ export const classNames = ReactStyleSheets.createUniqueClassStyles({
     float: 'right',
     color: '#888',
     cursor: 'pointer'
+  },
+  kanbanAddList: {
+    width: 200,
+    padding: 8,
+    border: [1, 'solid', '#ddd'],
+    backgroundColor: '#fafafa',
+    borderRadius: 4,
+    display: 'inline-block',
+    verticalAlign: 'top',
+    whiteSpace: 'normal',
+    cursor: 'pointer',
+    textAlign: 'center'
   }
 });

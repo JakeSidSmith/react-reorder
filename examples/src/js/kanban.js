@@ -25,6 +25,15 @@ export class Kanban extends Component {
     };
   }
 
+  addList () {
+    this.setState({
+      lists: this.state.lists.push(Immutable.Map({
+        id: 'list-' + (listInt += 1),
+        items: Immutable.List()
+      }))
+    });
+  }
+
   deleteList (index) {
     this.setState({
       lists: this.state.lists.delete(index)
@@ -118,6 +127,13 @@ export class Kanban extends Component {
               </div>
             ))
           }
+
+          <div
+            className={[classNames.clearfix, classNames.kanbanAddList].join(' ')}
+            onClick={this.addList.bind(this)}
+          >
+            Add list +
+          </div>
         </div>
       </div>
     );
