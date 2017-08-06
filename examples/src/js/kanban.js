@@ -49,6 +49,12 @@ export class Kanban extends Component {
     });
   }
 
+  deleteItem (index, itemIndex) {
+    this.setState({
+      lists: this.state.lists.deleteIn([index, 'items', itemIndex])
+    });
+  }
+
   onReorderGroup (event, previousIndex, nextIndex, fromId, toId) {
     if (fromId === toId) {
       const index = this.state.lists.findIndex((list) => list.get('id') === fromId);
@@ -109,13 +115,16 @@ export class Kanban extends Component {
                   onReorder={this.onReorderGroup.bind(this)}
                 >
                   {
-                    list.get('items').map((item) => (
+                    list.get('items').map((item, itemIndex) => (
                       <li
                         key={item.get('name')}
                         className={[classNames.listItem, classNames.kanbanItem].join(' ')}
                       >
                         <div className={classNames.contentHolder}>
                           {item.get('name')}
+                          <span className={classNames.delete} onClick={this.deleteItem.bind(this, index, itemIndex)}>
+                            X
+                          </span>
                         </div>
                       </li>
                     )).toArray()
