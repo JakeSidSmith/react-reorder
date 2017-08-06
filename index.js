@@ -84,6 +84,14 @@
           self.startDrag(dragOffset, draggedStyle);
         }
       },
+      listMove: function (event) {
+        console.log('Moved');
+        if (this.state.held && this.state.dragged) {
+          console.log('Cancelled');
+          event.preventDefault();
+          return false;
+        }
+      },
       listDown: function (event) {
         this.handleTouchEvents(event);
 
@@ -114,8 +122,8 @@
         window.addEventListener('mousemove', this.onMouseMove); // Mouse move
 
         // Touch events
-        window.addEventListener('touchend', this.onMouseUp); // Touch up
-        window.addEventListener('touchmove', this.onMouseMove); // Touch move
+        window.addEventListener('touchend', this.onMouseUp, {passive: false}); // Touch up
+        window.addEventListener('touchmove', this.onMouseMove, {passive: false}); // Touch move
 
         window.addEventListener('contextmenu', this.preventDefault);
       },
@@ -455,7 +463,8 @@
         return React.createElement('div', {
           className: this.props.listClass,
           onMouseDown: self.listDown,
-          onTouchStart: self.listDown
+          onTouchStart: self.listDown,
+          onTouchMove: self.listMove
         }, list, targetClone());
       }
     });
