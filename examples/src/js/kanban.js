@@ -7,6 +7,12 @@ import { classNames } from './styles';
 let listInt = 1;
 let itemInt = 1;
 
+const Wrapper = (props) => (
+  <ul {...props}>
+    {props.children}
+  </ul>
+);
+
 export class Kanban extends Component {
   constructor () {
     super();
@@ -108,7 +114,7 @@ export class Kanban extends Component {
                 <Reorder
                   reorderId={list.get('id')}
                   reorderGroup="kanban"
-                  component="ul"
+                  component={Wrapper}
                   className={[classNames.myList, classNames.kanbanListInner].join(' ')}
                   placeholderClassName={[classNames.placeholder, classNames.customPlaceholder].join(' ')}
                   draggedClassName={classNames.dragged}
