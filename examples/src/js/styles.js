@@ -58,6 +58,7 @@ export const classNames = ReactStyleSheets.createUniqueClassStyles({
     height: 'auto',
     border: [1, 'solid', 'grey'],
     padding: 8,
+    paddingBottom: 0,
     listStyle: 'none'
   },
   myList1: {
