@@ -534,23 +534,27 @@
           });
 
           var element = this.rootNode;
-          var children = element.childNodes;
-          var collisionIndex = this.findCollisionIndex(event, children);
 
-          if (
-            collisionIndex <= this.props.children.length &&
-            collisionIndex >= 0
-          ) {
-            store.setPlacedIndex(this.props.reorderId, this.props.reorderGroup, collisionIndex, this);
-          } else if (
-            typeof this.props.reorderGroup !== 'undefined' && // Is part of a group
-            (
-              (!this.props.children || !this.props.children.length) || // If all items removed
-              (this.isDraggingFrom() && this.props.children.length === 1) // If dragging back to a now empty list
-            ) &&
-            this.collidesWithElement(event, element)
-          ) {
-            store.setPlacedIndex(this.props.reorderId, this.props.reorderGroup, 0, this);
+          if (this.collidesWithElement(event, element)) {
+
+            var children = element.childNodes;
+            var collisionIndex = this.findCollisionIndex(event, children);
+
+            if (
+              collisionIndex <= this.props.children.length &&
+              collisionIndex >= 0
+            ) {
+              store.setPlacedIndex(this.props.reorderId, this.props.reorderGroup, collisionIndex, this);
+            } else if (
+              typeof this.props.reorderGroup !== 'undefined' && // Is part of a group
+              (
+                (!this.props.children || !this.props.children.length) || // If all items removed
+                (this.isDraggingFrom() && this.props.children.length === 1) // If dragging back to a now empty list
+              )
+            ) {
+              store.setPlacedIndex(this.props.reorderId, this.props.reorderGroup, 0, this);
+            }
+
           }
 
           store.setDraggedStyle(this.props.reorderId, this.props.reorderGroup, draggedStyle);
