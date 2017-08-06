@@ -77,10 +77,6 @@
     function unregisterReorderComponent (reorderId, reorderGroup) {
       validateComponentIdAndGroup(reorderId, reorderGroup);
 
-      if (!(reorderId in reorderComponents)) {
-        throw new Error('Unknown reorderId: ' + reorderId);
-      }
-
       if (typeof reorderGroup !== 'undefined') {
         if (!(reorderGroup in reorderGroups)) {
           throw new Error('Unknown reorderGroup: ' + reorderGroup);
@@ -92,6 +88,10 @@
 
         delete reorderGroups[reorderGroup][reorderId];
       } else {
+        if (!(reorderId in reorderComponents)) {
+          throw new Error('Unknown reorderId: ' + reorderId);
+        }
+
         delete reorderComponents[reorderId];
       }
     }
