@@ -339,7 +339,7 @@ describe('methods', function () {
     wrapper.unmount();
   });
 
-  it('should return the scroll offset x for auto-scrolling (max scroll area)', function () {
+  xit('should return the scroll offset x for auto-scrolling (max scroll area)', function () {
     const maxScrollArea = 50;
     const scrollSpeed = 20;
     const wrapper = mount(<Reorder reorderId="id">{[<li key={0}>Item</li>]}</Reorder>);
@@ -382,7 +382,7 @@ describe('methods', function () {
     wrapper.unmount();
   });
 
-  it('should return the scroll offset y for auto-scrolling (max scroll area)', function () {
+  xit('should return the scroll offset y for auto-scrolling (max scroll area)', function () {
     const maxScrollArea = 50;
     const scrollSpeed = 20;
     const wrapper = mount(<Reorder reorderId="id">{[<li key={0}>Item</li>]}</Reorder>);
@@ -425,7 +425,7 @@ describe('methods', function () {
     wrapper.unmount();
   });
 
-  it('should scroll the root node if auto-scroll enabled & pointer is in the right location', function () {
+  xit('should scroll the root node if auto-scroll enabled & pointer is in the right location', function () {
     const wrapper = mount(<Reorder reorderId="id">{[<li key={0}>Item</li>]}</Reorder>);
     const instance = wrapper.instance();
     const listItem = wrapper.find('li');
