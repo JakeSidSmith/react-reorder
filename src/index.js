@@ -58,10 +58,6 @@
     function registerReorderComponent (reorderId, reorderGroup, callback) {
       validateComponentIdAndGroup(reorderId, reorderGroup);
 
-      if (reorderId in reorderComponents) {
-        throw new Error('Duplicate reorderId: ' + reorderId);
-      }
-
       if (typeof reorderGroup !== 'undefined') {
         if ((reorderGroup in reorderGroups) && (reorderId in reorderGroups[reorderGroup])) {
           throw new Error('Duplicate reorderId: ' + reorderId + ' in reorderGroup: ' + reorderGroup);
@@ -70,6 +66,10 @@
         reorderGroups[reorderGroup] = reorderGroups[reorderGroup] || {};
         reorderGroups[reorderGroup][reorderId] = callback;
       } else {
+        if (reorderId in reorderComponents) {
+          throw new Error('Duplicate reorderId: ' + reorderId);
+        }
+
         reorderComponents[reorderId] = callback;
       }
     }
