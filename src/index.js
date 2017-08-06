@@ -518,7 +518,7 @@
               event.clientX - mouseDownOffset.clientX : this.state.draggedStyle.left
           });
 
-          var element = ReactDOM.findDOMNode(this);
+          var element = this.rootNode;
           var children = element.childNodes;
           var collisionIndex = this.findCollisionIndex(event, children);
 
@@ -575,7 +575,7 @@
       },
 
       storeRootNode: function (element) {
-        this.rootNode = element;
+        this.rootNode = element && ReactDOM.findDOMNode(element);
 
         if (typeof this.props.getRef === 'function') {
           this.props.getRef(element);
