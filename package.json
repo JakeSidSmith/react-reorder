@@ -12,11 +12,9 @@
     "build-dirs": "mkdir -p examples/build/js/",
     "build": "npm run build-dirs && npm run build-js",
     "watch": "npm run watch-js",
-    "lint-src": "eslint -c .eslintrc-src.json src/",
-    "lint-examples": "eslint -c .eslintrc-examples.json examples/src/js/",
-    "lint-tests": "eslint -c .eslintrc-tests.json tests/",
+    "lint": "eslint src/ tests/ examples/js/",
     "mocha": "BABEL_ENV=mocha nyc mocha --opts .mocharc 'tests/**/*.test.js'",
-    "test": "npm run lint-src && npm run lint-examples && npm run lint-tests && npm run mocha"
+    "test": "npm run lint && npm run mocha"
   },
   "bugs": "https://github.com/JakeSidSmith/react-reorder/issues",
   "repository": {
