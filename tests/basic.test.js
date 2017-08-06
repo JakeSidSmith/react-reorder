@@ -216,10 +216,9 @@ describe('basic', function () {
       wrapper.unmount();
 
       expect(clearTimeoutSpy).to.have.been.calledOnce;
-      expect(clearIntervalSpy).to.have.been.calledOnce;
+      expect(clearIntervalSpy).not.to.have.been.calledOnce;
 
       expect(clearTimeoutSpy).to.have.been.calledWith(instance.holdTimeout);
-      expect(clearIntervalSpy).to.have.been.calledWith(instance.scrollInterval);
 
       clearTimeoutSpy.restore();
       clearIntervalSpy.restore();
