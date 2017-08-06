@@ -30,3 +30,89 @@ ReactStyleSheets.createGlobalTagStyles({
     margin: [10, 'auto']
   }
 });
+
+export const classNames = ReactStyleSheets.createUniqueClassStyles({
+  app: {
+    position: 'relative',
+    width: '100%',
+    maxWidth: 768,
+    overflow: 'hidden',
+    margin: 'auto',
+    padding: 8
+  },
+  myList: {
+    float: 'left',
+    width: '100%',
+    height: 'auto',
+    border: [1, 'solid', 'grey'],
+    padding: 8,
+    listStyle: 'none'
+  },
+  myList1: {
+    height: 200,
+    overflow: 'auto',
+    paddingBottom: 0
+  },
+  myList2: {
+    overflowX: 'auto',
+    overflowY: 'hidden',
+    height: 62,
+    whiteSpace: 'nowrap'
+  },
+  mylist3: {},
+  multiList: {
+    width: '50%',
+    minHeight: 100,
+    maxHeight: 400,
+    overflowX: 'hidden',
+    overflowY: 'auto'
+  },
+  listItem: {
+    float: 'left',
+    width: '100%',
+    height: 46,
+    padding: 12,
+    border: [2, 'solid', 'lightblue'],
+    marginBottom: 8,
+    transformOrigin: '50% 50%'
+  },
+  listItem2: {
+    float: 'none',
+    width: 80,
+    marginBottom: 0,
+    whiteSpace: 'nowrap',
+    overflow: 'hidden',
+    display: 'inline-block'
+  },
+  listItem3: {
+    float: 'left',
+    width: '50%'
+  },
+  multiListItem: {},
+  placeholder: {
+    backgroundColor: '#CCC',
+    border: [1, 'solid', '#CCC']
+  },
+  customPlaceholder: {
+    opacity: 0.2
+  },
+  dragged: {
+    backgroundColor: '#EEE',
+    transform: 'scale(0.98, 0.98)',
+    opacity: 0.8
+  },
+  selected: {
+    border: [2, 'solid', 'red']
+  },
+  contentHolder: {
+    display: 'table',
+    width: '100%'
+  },
+  itemName: {
+    display: 'table-cell'
+  },
+  input: {
+    display: 'table-cell',
+    width: '100%'
+  }
+});
