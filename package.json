@@ -6,7 +6,7 @@
   "license": "MIT",
   "main": "src/index.js",
   "scripts": {
-    "start": "http-server examples/ -c-1 -o",
+    "start": "./scripts/start",
     "build-js": "browserify -t babelify examples/src/js/index.js -o examples/build/js/index.js",
     "watch-js": "watchify -t babelify examples/src/js/index.js -o examples/build/js/index.js -v",
     "build-dirs": "mkdir -p examples/build/js/",
