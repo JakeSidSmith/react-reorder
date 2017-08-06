@@ -20,11 +20,11 @@ class Main extends Component {
           Examples
         </h2>
 
+        <Kanban />
         <LockHorizontal />
         <LockVertical />
         <Grid />
         <MultiList />
-        <Kanban />
 
       </div>
     );
