@@ -5,6 +5,7 @@ import Reorder, { reorderImmutable, reorderFromToImmutable } from '../../../src/
 import { classNames } from './styles';
 
 let listInt = 0;
+let itemInt = 0;
 
 export class Kanban extends Component {
   constructor () {
@@ -13,6 +14,17 @@ export class Kanban extends Component {
     this.state = {
       lists: Immutable.List([{id: 'list-' + listInt, items: Immutable.List()}])
     };
+  }
+
+  addItem (index) {
+    const list = this.state.lists.get(index, {id: 'list-' + listInt, items: Immutable.List()});
+    listInt += 1;
+    list.items = list.items.push({name: 'item-' + itemInt});
+    itemInt += 1;
+
+    this.setState({
+      lists: this.state.lists.set(index, list)
+    });
   }
 
   onReorderGroup (event, previousIndex, nextIndex, fromId, toId) {
@@ -45,45 +57,45 @@ export class Kanban extends Component {
           In this example users can add and remove lists
         </p>
 
-        {
-          this.state.lists.map(({id: listId, items}) => (
-            <div key={listId}>
-              <p>
-                {listId}
-              </p>
-              <Reorder
-                reorderId={listId}
-                reorderGroup="kanban"
-                component="ul"
-                className={[classNames.myList, classNames.multiList].join(' ')}
-                placeholderClassName={classNames.placeholder}
-                draggedClassName={classNames.dragged}
-                onReorder={this.onReorderGroup.bind(this)}
+        <div className={classNames.kanban}>
+          {
+            this.state.lists.map(({id: listId, items}, index) => (
+              <div
+                key={listId}
+                className={[classNames.clearfix, classNames.kanbanListOuter].join(' ')}
               >
-                {
-                  items.map(({name, color}) => (
-                    <li
-                      key={name}
-                      className={[classNames.listItem, classNames.multiListItem].join(' ')}
-                      style={{color: color}}
-                    >
-                      <div className={classNames.contentHolder}>
-                        <span className={classNames.itemName}>
+                <div className={classNames.kanbanHeader}>
+                  {listId}
+                </div>
+                <Reorder
+                  reorderId={listId}
+                  reorderGroup="kanban"
+                  component="ul"
+                  className={[classNames.myList, classNames.kanbanListInner].join(' ')}
+                  placeholderClassName={[classNames.placeholder, classNames.customPlaceholder].join(' ')}
+                  draggedClassName={classNames.dragged}
+                  onReorder={this.onReorderGroup.bind(this)}
+                >
+                  {
+                    items.map(({name}) => (
+                      <li
+                        key={name}
+                        className={[classNames.listItem, classNames.kanbanItem].join(' ')}
+                      >
+                        <div className={classNames.contentHolder}>
                           {name}
-                        </span>
-                        <input
-                          className={classNames.input}
-                          type="text"
-                          defaultValue="Change me, I  sort of retain this state!"
-                        />
-                      </div>
-                    </li>
-                  )).toArray()
-                }
-              </Reorder>
-            </div>
-          ))
-        }
+                        </div>
+                      </li>
+                    )).toArray()
+                  }
+                </Reorder>
+                <div className={classNames.kanbanFooter} onClick={this.addItem.bind(this, index)}>
+                  Add item +
+                </div>
+              </div>
+            ))
+          }
+        </div>
       </div>
     );
   }

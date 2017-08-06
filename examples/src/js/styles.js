@@ -126,5 +126,48 @@ export const classNames = ReactStyleSheets.createUniqueClassStyles({
   input: {
     display: 'table-cell',
     width: '100%'
+  },
+  kanban: {
+    overflowY: 'auto',
+    height: 500
+  },
+  kanbanListOuter: {
+    width: 200,
+    border: [1, 'solid', '#ddd'],
+    backgroundColor: '#fafafa',
+    borderRadius: 4
+  },
+  kanbanListInner: {
+    border: 'none',
+    width: '100%',
+    minHeight: 100,
+    maxHeight: 400,
+    overflowX: 'hidden',
+    overflowY: 'auto',
+    margin: 0
+  },
+  kanbanItem: {
+    borderRadius: 4,
+    border: [1, 'solid', '#ccc'],
+    backgroundColor: '#eee',
+    lastChild: {
+      marginBottom: 0
+    }
+  },
+  kanbanHeader: {
+    float: 'left',
+    width: '100%',
+    padding: 8,
+    borderBottom: [1, 'solid', '#ddd'],
+    backgroundColor: '#eee'
+  },
+  kanbanFooter: {
+    float: 'left',
+    width: '100%',
+    padding: 8,
+    borderTop: [1, 'solid', '#ddd'],
+    backgroundColor: '#eee',
+    cursor: 'pointer',
+    textAlign: 'center'
   }
 });
