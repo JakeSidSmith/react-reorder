@@ -78,7 +78,7 @@ export class Kanban extends Component {
                         />
                       </div>
                     </li>
-                  ))
+                  )).toArray()
                 }
               </Reorder>
             </div>
