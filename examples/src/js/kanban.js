@@ -89,7 +89,7 @@ export class Kanban extends Component {
           Kanban Board
         </h3>
         <p>
-          In this example users can add and remove lists
+          In this example users can add and remove lists and items, and drag items between lists
         </p>
 
         <div className={classNames.kanban}>
