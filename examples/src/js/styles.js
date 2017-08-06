@@ -130,7 +130,7 @@ export const classNames = ReactStyleSheets.createUniqueClassStyles({
   },
   kanban: {
     overflowY: 'auto',
-    height: 500,
+    height: 300,
     whiteSpace: 'nowrap'
   },
   kanbanListOuter: {
@@ -147,7 +147,7 @@ export const classNames = ReactStyleSheets.createUniqueClassStyles({
     border: 'none',
     width: '100%',
     minHeight: 100,
-    maxHeight: 400,
+    maxHeight: 200,
     overflowX: 'hidden',
     overflowY: 'auto',
     margin: 0
