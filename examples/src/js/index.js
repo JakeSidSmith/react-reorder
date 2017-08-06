@@ -7,6 +7,7 @@ import { LockHorizontal } from './lock-horizontal';
 import { LockVertical } from './lock-vertical';
 import { Grid } from './grid';
 import { MultiList } from './multi-list';
+import { Kanban } from './kanban';
 
 class Main extends Component {
   render () {
@@ -23,6 +24,7 @@ class Main extends Component {
         <LockVertical />
         <Grid />
         <MultiList />
+        <Kanban />
 
       </div>
     );
