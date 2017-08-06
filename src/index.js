@@ -13,8 +13,48 @@
   var mouseOffset = null;
   var mouseDownOffset = null;
 
+  function getScrollOffsetX (rect, node) {
+    var positionInScrollArea;
+    var scrollLeft = node.scrollLeft;
+    var scrollWidth = node.scrollWidth;
+
+    var scrollAreaX = Math.min(rect.width / 3, CONSTANTS.SCROLL_AREA_MAX);
+
+    if (scrollLeft > 0 && mouseOffset.clientX <= rect.left + scrollAreaX) {
+      positionInScrollArea = Math.min(Math.abs(rect.left + scrollAreaX - mouseOffset.clientX), scrollAreaX);
+      return -positionInScrollArea / scrollAreaX * CONSTANTS.SCROLL_SPEED;
+    }
+
+    if (scrollLeft < scrollWidth - rect.width && mouseOffset.clientX >= rect.right - scrollAreaX) {
+      positionInScrollArea = Math.min(Math.abs(rect.right - scrollAreaX - mouseOffset.clientX), scrollAreaX);
+      return positionInScrollArea / scrollAreaX * CONSTANTS.SCROLL_SPEED;
+    }
+
+    return 0;
+  }
+
+  function getScrollOffsetY (rect, node) {
+    var positionInScrollArea;
+    var scrollTop = node.scrollTop;
+    var scrollHeight = node.scrollHeight;
+
+    var scrollAreaY = Math.min(rect.height / 3, CONSTANTS.SCROLL_AREA_MAX);
+
+    if (scrollTop > 0 && mouseOffset.clientY <= rect.top + scrollAreaY) {
+      positionInScrollArea = Math.min(Math.abs(rect.top + scrollAreaY - mouseOffset.clientY), scrollAreaY);
+      return -positionInScrollArea / scrollAreaY * CONSTANTS.SCROLL_SPEED;
+    }
+
+    if (scrollTop < scrollHeight - rect.height && mouseOffset.clientY >= rect.bottom - scrollAreaY) {
+      positionInScrollArea = Math.min(Math.abs(rect.bottom - scrollAreaY - mouseOffset.clientY), scrollAreaY);
+      return positionInScrollArea / scrollAreaY * CONSTANTS.SCROLL_SPEED;
+    }
+
+    return 0;
+  }
+
   function Store () {
-    var activeGroup, draggedId, placedId, draggedElement;
+    var activeGroup, draggedId, placedId, draggedElement, scrollInterval, target;
 
     var draggedStyle = null;
     var draggedIndex = -1;
@@ -22,6 +62,28 @@
 
     var reorderComponents = {};
     var reorderGroups = {};
+
+    function autoScroll () {
+      if (target && target.props.autoScroll && target.rootNode) {
+        var rect = target.rootNode.getBoundingClientRect();
+
+        if (target.props.lock !== 'horizontal') {
+          var scrollOffsetX = getScrollOffsetX(rect, target.rootNode);
+
+          if (scrollOffsetX) {
+            target.rootNode.scrollLeft = target.rootNode.scrollLeft + scrollOffsetX;
+          }
+        }
+
+        if (target.props.lock !== 'vertical') {
+          var scrollOffsetY = getScrollOffsetY(rect, target.rootNode);
+
+          if (scrollOffsetY) {
+            target.rootNode.scrollTop = target.rootNode.scrollTop + scrollOffsetY;
+          }
+        }
+      }
+    }
 
     function getState () {
       return {
@@ -36,12 +98,12 @@
     }
 
     function trigger () {
-      reorderComponents[draggedId](getState());
+      reorderComponents[draggedId].setDragState(getState());
     }
 
     function triggerGroup () {
       for (var reorderId in reorderGroups[activeGroup]) {
-        reorderGroups[activeGroup][reorderId](getState());
+        reorderGroups[activeGroup][reorderId].setDragState(getState());
       }
     }
 
@@ -55,7 +117,10 @@
       }
     }
 
-    function registerReorderComponent (reorderId, reorderGroup, callback) {
+    function registerReorderComponent (component) {
+      var reorderId = component.props.reorderId;
+      var reorderGroup = component.props.reorderGroup;
+
       validateComponentIdAndGroup(reorderId, reorderGroup);
 
       if (typeof reorderGroup !== 'undefined') {
@@ -64,17 +129,20 @@
         }
 
         reorderGroups[reorderGroup] = reorderGroups[reorderGroup] || {};
-        reorderGroups[reorderGroup][reorderId] = callback;
+        reorderGroups[reorderGroup][reorderId] = component;
       } else {
         if (reorderId in reorderComponents) {
           throw new Error('Duplicate reorderId: ' + reorderId);
         }
 
-        reorderComponents[reorderId] = callback;
+        reorderComponents[reorderId] = component;
       }
     }
 
-    function unregisterReorderComponent (reorderId, reorderGroup) {
+    function unregisterReorderComponent (component) {
+      var reorderId = component.props.reorderId;
+      var reorderGroup = component.props.reorderGroup;
+
       validateComponentIdAndGroup(reorderId, reorderGroup);
 
       if (typeof reorderGroup !== 'undefined') {
@@ -96,7 +164,12 @@
       }
     }
 
-    function startDrag (reorderId, reorderGroup, index, element) {
+    function startDrag (reorderId, reorderGroup, index, element, component) {
+      target = component;
+
+      clearInterval(scrollInterval);
+      scrollInterval = setInterval(autoScroll, CONSTANTS.SCROLL_INTERVAL);
+
       validateComponentIdAndGroup(reorderId, reorderGroup);
 
       draggedIndex = index;
@@ -118,6 +191,10 @@
     }
 
     function stopDrag (reorderId, reorderGroup) {
+      target = undefined;
+
+      clearInterval(scrollInterval);
+
       validateComponentIdAndGroup(reorderId, reorderGroup);
 
       if (typeof activeGroup !== 'undefined') {
@@ -149,7 +226,9 @@
       }
     }
 
-    function setPlacedIndex (reorderId, reorderGroup, index) {
+    function setPlacedIndex (reorderId, reorderGroup, index, component) {
+      target = component;
+
       validateComponentIdAndGroup(reorderId, reorderGroup);
 
       if (typeof reorderGroup !== 'undefined') {
@@ -345,71 +424,8 @@
         return parseInt(this.props.holdTime, 10) || 0;
       },
 
-      getScrollOffsetX: function (rect, node) {
-        var positionInScrollArea;
-        var scrollLeft = node.scrollLeft;
-        var scrollWidth = node.scrollWidth;
-
-        var scrollAreaX = Math.min(rect.width / 3, CONSTANTS.SCROLL_AREA_MAX);
-
-        if (scrollLeft > 0 && mouseOffset.clientX <= rect.left + scrollAreaX) {
-          positionInScrollArea = Math.min(Math.abs(rect.left + scrollAreaX - mouseOffset.clientX), scrollAreaX);
-          return -positionInScrollArea / scrollAreaX * CONSTANTS.SCROLL_SPEED;
-        }
-
-        if (scrollLeft < scrollWidth - rect.width && mouseOffset.clientX >= rect.right - scrollAreaX) {
-          positionInScrollArea = Math.min(Math.abs(rect.right - scrollAreaX - mouseOffset.clientX), scrollAreaX);
-          return positionInScrollArea / scrollAreaX * CONSTANTS.SCROLL_SPEED;
-        }
-
-        return 0;
-      },
-
-      getScrollOffsetY: function (rect, node) {
-        var positionInScrollArea;
-        var scrollTop = node.scrollTop;
-        var scrollHeight = node.scrollHeight;
-
-        var scrollAreaY = Math.min(rect.height / 3, CONSTANTS.SCROLL_AREA_MAX);
-
-        if (scrollTop > 0 && mouseOffset.clientY <= rect.top + scrollAreaY) {
-          positionInScrollArea = Math.min(Math.abs(rect.top + scrollAreaY - mouseOffset.clientY), scrollAreaY);
-          return -positionInScrollArea / scrollAreaY * CONSTANTS.SCROLL_SPEED;
-        }
-
-        if (scrollTop < scrollHeight - rect.height && mouseOffset.clientY >= rect.bottom - scrollAreaY) {
-          positionInScrollArea = Math.min(Math.abs(rect.bottom - scrollAreaY - mouseOffset.clientY), scrollAreaY);
-          return positionInScrollArea / scrollAreaY * CONSTANTS.SCROLL_SPEED;
-        }
-
-        return 0;
-      },
-
-      autoScroll: function () {
-        if (this.props.autoScroll) {
-          var rect = this.rootNode.getBoundingClientRect();
-
-          if (this.props.lock !== 'horizontal') {
-            var scrollOffsetX = this.getScrollOffsetX(rect, this.rootNode);
-
-            if (scrollOffsetX) {
-              this.rootNode.scrollLeft = this.rootNode.scrollLeft + scrollOffsetX;
-            }
-          }
-
-          if (this.props.lock !== 'vertical') {
-            var scrollOffsetY = this.getScrollOffsetY(rect, this.rootNode);
-
-            if (scrollOffsetY) {
-              this.rootNode.scrollTop = this.rootNode.scrollTop + scrollOffsetY;
-            }
-          }
-        }
-      },
-
       startDrag: function (event, target, index) {
         if (!this.moved) {
-          this.scrollInterval = setInterval(this.autoScroll, CONSTANTS.SCROLL_INTERVAL);
           var rect = target.getBoundingClientRect();
 
           var draggedStyle = {
@@ -420,7 +436,7 @@
             height: rect.height
           };
 
-          store.startDrag(this.props.reorderId, this.props.reorderGroup, index, this.props.children[index]);
+          store.startDrag(this.props.reorderId, this.props.reorderGroup, index, this.props.children[index], this);
           store.setDraggedStyle(this.props.reorderId, this.props.reorderGroup, draggedStyle);
 
           mouseOffset = {
@@ -467,7 +483,6 @@
       // Stop dragging - reset style & draggedIndex, handle reorder
       onWindowUp: function (event) {
         clearTimeout(this.holdTimeout);
-        clearInterval(this.scrollInterval);
 
         if (this.isDraggingFrom() && this.isDragging()) {
           var fromIndex = this.state.draggedIndex;
@@ -526,7 +541,7 @@
             collisionIndex <= this.props.children.length &&
             collisionIndex >= 0
           ) {
-            store.setPlacedIndex(this.props.reorderId, this.props.reorderGroup, collisionIndex);
+            store.setPlacedIndex(this.props.reorderId, this.props.reorderGroup, collisionIndex, this);
           } else if (
             typeof this.props.reorderGroup !== 'undefined' && // Is part of a group
             (
@@ -535,7 +550,7 @@
             ) &&
             this.collidesWithElement(event, element)
           ) {
-            store.setPlacedIndex(this.props.reorderId, this.props.reorderGroup, 0);
+            store.setPlacedIndex(this.props.reorderId, this.props.reorderGroup, 0, this);
           }
 
           store.setDraggedStyle(this.props.reorderId, this.props.reorderGroup, draggedStyle);
@@ -553,7 +568,7 @@
 
       // Add listeners
       componentWillMount: function () {
-        store.registerReorderComponent(this.props.reorderId, this.props.reorderGroup, this.setDragState);
+        store.registerReorderComponent(this);
         window.addEventListener('mouseup', this.onWindowUp, {passive: false});
         window.addEventListener('touchend', this.onWindowUp, {passive: false});
         window.addEventListener('mousemove', this.onWindowMove, {passive: false});
@@ -563,9 +578,8 @@
 
       // Remove listeners
       componentWillUnmount: function () {
-        store.unregisterReorderComponent(this.props.reorderId, this.props.reorderGroup);
+        store.unregisterReorderComponent(this);
         clearTimeout(this.holdTimeout);
-        clearInterval(this.scrollInterval);
 
         window.removeEventListener('mouseup', this.onWindowUp);
         window.removeEventListener('touchend', this.onWindowUp);
