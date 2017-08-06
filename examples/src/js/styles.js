@@ -159,7 +159,8 @@ export const classNames = ReactStyleSheets.createUniqueClassStyles({
     width: '100%',
     padding: 8,
     borderBottom: [1, 'solid', '#ddd'],
-    backgroundColor: '#eee'
+    backgroundColor: '#eee',
+    fontWeight: 'bold'
   },
   kanbanFooter: {
     float: 'left',
