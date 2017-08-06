@@ -1,6 +1,6 @@
 {
   "name": "react-reorder",
-  "version": "2.2.0",
+  "version": "2.2.1",
   "description": "Drag & drop, touch enabled, reorderable / sortable list, React component",
   "author": "Jake 'Sid' Smith",
   "license": "MIT",
@@ -31,7 +31,7 @@
     "touch"
   ],
   "dependencies": {
-    "create-react-class": "~15.5.2"
+    "create-react-class": "^15.5.2"
   },
   "devDependencies": {
     "browserify": "=12.0.1",
