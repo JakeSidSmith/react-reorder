@@ -40,6 +40,18 @@ export const classNames = ReactStyleSheets.createUniqueClassStyles({
     margin: 'auto',
     padding: 8
   },
+  clearfix: {
+    before: {
+      content: '\'\'',
+      display: 'table',
+      clear: 'both'
+    },
+    after: {
+      content: '\'\'',
+      display: 'table',
+      clear: 'both'
+    }
+  },
   myList: {
     float: 'left',
     width: '100%',

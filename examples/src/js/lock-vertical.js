@@ -43,7 +43,7 @@ export class LockVertical extends Component {
 
   render () {
     return (
-      <div>
+      <div className={classNames.clearfix}>
         <h3>
           Lock vertical
         </h3>

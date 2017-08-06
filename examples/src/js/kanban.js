@@ -37,7 +37,7 @@ export class Kanban extends Component {
 
   render () {
     return (
-      <div>
+      <div className={classNames.clearfix}>
         <h3>
           Kanban Board
         </h3>

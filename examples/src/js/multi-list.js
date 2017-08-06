@@ -46,7 +46,7 @@ export class MultiList extends Component {
 
   render () {
     return (
-      <div>
+      <div className={classNames.clearfix}>
         <h3>
           Drag between lists
         </h3>

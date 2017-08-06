@@ -28,7 +28,7 @@ export class Grid extends Component {
 
   render () {
     return (
-      <div>
+      <div className={classNames.clearfix}>
         <h3>
           No lock (grid)
         </h3>
