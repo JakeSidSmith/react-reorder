@@ -4,45 +4,59 @@ import Reorder, { reorderImmutable, reorderFromToImmutable } from '../../../src/
 
 import { classNames } from './styles';
 
-let listInt = 0;
-let itemInt = 0;
+let listInt = 1;
+let itemInt = 1;
 
 export class Kanban extends Component {
   constructor () {
     super();
 
     this.state = {
-      lists: Immutable.List([{id: 'list-' + listInt, items: Immutable.List()}])
+      lists: Immutable.List.of(
+        Immutable.Map({
+          id: 'list-' + listInt,
+          items: Immutable.List.of(
+            Immutable.Map({
+              name: 'item-' + itemInt
+            })
+          )
+        })
+      )
     };
   }
 
   addItem (index) {
-    const list = this.state.lists.get(index, {id: 'list-' + listInt, items: Immutable.List()});
-    listInt += 1;
-    list.items = list.items.push({name: 'item-' + itemInt});
-    itemInt += 1;
+    let list = this.state.lists.getIn([index, 'items']);
+    list = list.push(Immutable.Map({name: 'item-' + (itemInt += 1)}));
 
     this.setState({
-      lists: this.state.lists.set(index, list)
+      lists: this.state.lists.setIn([index, 'items'], list)
     });
   }
 
   onReorderGroup (event, previousIndex, nextIndex, fromId, toId) {
     if (fromId === toId) {
-      const list = reorderImmutable(this.state[fromId], previousIndex, nextIndex);
+      const index = this.state.lists.findIndex((list) => list.get('id') === fromId);
+      let list = this.state.lists.getIn([index, 'items']);
+      list = reorderImmutable(list, previousIndex, nextIndex);
 
       this.setState({
-        [fromId]: list
+        lists: this.state.lists.setIn([index, 'items'], list)
       });
     } else {
+      const fromIndex = this.state.lists.findIndex((list) => list.get('id') === fromId);
+      const toIndex = this.state.lists.findIndex((list) => list.get('id') === toId);
+
+      let fromList = this.state.lists.getIn([fromIndex, 'items']);
+      let toList = this.state.lists.getIn([toIndex, 'items']);
+
       const lists = reorderFromToImmutable({
-        from: this.state[fromId],
-        to: this.state[toId]
+        from: fromList,
+        to: toList
       }, previousIndex, nextIndex);
 
       this.setState({
-        [fromId]: lists.from,
-        [toId]: lists.to
+        lists: this.state.lists.setIn([fromIndex, 'items'], lists.from).setIn([toIndex, 'items'], lists.to)
       });
     }
   }
@@ -59,16 +73,16 @@ export class Kanban extends Component {
 
         <div className={classNames.kanban}>
           {
-            this.state.lists.map(({id: listId, items}, index) => (
+            this.state.lists.map((list, index) => (
               <div
-                key={listId}
+                key={list.get('id')}
                 className={[classNames.clearfix, classNames.kanbanListOuter].join(' ')}
               >
                 <div className={classNames.kanbanHeader}>
-                  {listId}
+                  {list.get('id')}
                 </div>
                 <Reorder
-                  reorderId={listId}
+                  reorderId={list.get('id')}
                   reorderGroup="kanban"
                   component="ul"
                   className={[classNames.myList, classNames.kanbanListInner].join(' ')}
@@ -77,13 +91,13 @@ export class Kanban extends Component {
                   onReorder={this.onReorderGroup.bind(this)}
                 >
                   {
-                    items.map(({name}) => (
+                    list.get('items').map((item) => (
                       <li
-                        key={name}
+                        key={item.get('name')}
                         className={[classNames.listItem, classNames.kanbanItem].join(' ')}
                       >
                         <div className={classNames.contentHolder}>
-                          {name}
+                          {item.get('name')}
                         </div>
                       </li>
                     )).toArray()

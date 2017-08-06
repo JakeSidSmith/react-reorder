@@ -149,10 +149,7 @@ export const classNames = ReactStyleSheets.createUniqueClassStyles({
   kanbanItem: {
     borderRadius: 4,
     border: [1, 'solid', '#ccc'],
-    backgroundColor: '#eee',
-    lastChild: {
-      marginBottom: 0
-    }
+    backgroundColor: '#eee'
   },
   kanbanHeader: {
     float: 'left',
