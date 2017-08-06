@@ -64,26 +64,24 @@ export class MultiList extends Component {
           onReorder={this.onReorderGroup.bind(this)}
         >
           {
-            this.state.listA.map(function (item) {
-              return (
-                <li
-                  key={item.name}
-                  className={[classNames.listItem, classNames.multiListItem].join(' ')}
-                  style={{color: item.color}}
-                >
-                  <div className={classNames.contentHolder}>
-                    <span className={classNames.itemName}>
-                      {item.name}
-                    </span>
-                    <input
-                      className={classNames.input}
-                      type="text"
-                      defaultValue="Change me, I  sort of retain this state!"
-                    />
-                  </div>
-                </li>
-              );
-            }.bind(this)).toArray()
+            this.state.listA.map(({name, color}) => (
+              <li
+                key={name}
+                className={[classNames.listItem, classNames.multiListItem].join(' ')}
+                style={{color: color}}
+              >
+                <div className={classNames.contentHolder}>
+                  <span className={classNames.itemName}>
+                    {name}
+                  </span>
+                  <input
+                    className={classNames.input}
+                    type="text"
+                    defaultValue="Change me, I  sort of retain this state!"
+                  />
+                </div>
+              </li>
+            )).toArray()
           }
         </Reorder>
 
@@ -97,26 +95,24 @@ export class MultiList extends Component {
           onReorder={this.onReorderGroup.bind(this)}
         >
           {
-            this.state.listB.map(function (item) {
-              return (
-                <li
-                  key={item.name}
-                  className={[classNames.listItem, classNames.multiListItem].join(' ')}
-                  style={{color: item.color}}
-                >
-                  <div className={classNames.contentHolder}>
-                    <span className={classNames.itemName}>
-                      {item.name}
-                    </span>
-                    <input
-                      className={classNames.input}
-                      type="text"
-                      defaultValue="Change me, I  sort of retain this state!"
-                    />
-                  </div>
-                </li>
-              );
-            }.bind(this)).toArray()
+            this.state.listB.map(({name, color}) => (
+              <li
+                key={name}
+                className={[classNames.listItem, classNames.multiListItem].join(' ')}
+                style={{color: color}}
+              >
+                <div className={classNames.contentHolder}>
+                  <span className={classNames.itemName}>
+                    {name}
+                  </span>
+                  <input
+                    className={classNames.input}
+                    type="text"
+                    defaultValue="Change me, I  sort of retain this state!"
+                  />
+                </div>
+              </li>
+            )).toArray()
           }
         </Reorder>
       </div>

@@ -65,26 +65,24 @@ export class LockHorizontal extends Component {
           placeholder={<div className={[classNames.listItem, classNames.customPlaceholder].join(' ')} />}
         >
           {
-            this.state.list.map(function (item) {
-              return (
-                <li
-                  key={item.name}
-                  className={classNames.listItem}
-                  style={{ color: item.color }}
-                >
-                  <div className={classNames.contentHolder}>
-                    <span className={classNames.itemName}>
-                      {this.state.prefix} {item.name}
-                    </span>
-                    <input
-                      className={classNames.input}
-                      type="text"
-                      defaultValue="Change me, I retain this state!"
-                    />
-                  </div>
-                </li>
-              );
-            }.bind(this)).toArray()
+            this.state.list.map(({name, color}) => (
+              <li
+                key={name}
+                className={classNames.listItem}
+                style={{ color: color }}
+              >
+                <div className={classNames.contentHolder}>
+                  <span className={classNames.itemName}>
+                    {this.state.prefix} {name}
+                  </span>
+                  <input
+                    className={classNames.input}
+                    type="text"
+                    defaultValue="Change me, I retain this state!"
+                  />
+                </div>
+              </li>
+            )).toArray()
           }
         </Reorder>
       </div>

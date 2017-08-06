@@ -72,17 +72,15 @@ export class LockVertical extends Component {
           disabled={this.state.disableReorder}
         >
           {
-            this.state.list.map(function (item) {
-              return (
-                <li
-                  key={item.name}
-                  className={[classNames.listItem, classNames.listItem2].join(' ')}
-                  style={{color: item.color}}
-                >
-                  {item.name}
-                </li>
-              );
-            }.bind(this)).toArray()
+            this.state.list.map(({name, color}) => (
+              <li
+                key={name}
+                className={[classNames.listItem, classNames.listItem2].join(' ')}
+                style={{color: color}}
+              >
+                {name}
+              </li>
+            )).toArray()
           }
         </Reorder>
       </div>

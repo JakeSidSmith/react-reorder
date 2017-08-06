@@ -45,17 +45,15 @@ export class Grid extends Component {
           onReorder={this.onReorder.bind(this)}
         >
           {
-            this.state.list.map(function (item) {
-              return (
-                <li
-                  key={item.name}
-                  className={[classNames.listItem, classNames.listItem3].join(' ')}
-                  style={{color: item.color}}
-                >
-                  {item.name}
-                </li>
-              );
-            }.bind(this)).toArray()
+            this.state.list.map(({name, color}) => (
+              <li
+                key={name}
+                className={[classNames.listItem, classNames.listItem3].join(' ')}
+                style={{color: color}}
+              >
+                {name}
+              </li>
+            )).toArray()
           }
         </Reorder>
       </div>
