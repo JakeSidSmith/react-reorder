@@ -168,5 +168,10 @@ export const classNames = ReactStyleSheets.createUniqueClassStyles({
     backgroundColor: '#eee',
     cursor: 'pointer',
     textAlign: 'center'
+  },
+  delete: {
+    float: 'right',
+    color: '#888',
+    cursor: 'pointer'
   }
 });

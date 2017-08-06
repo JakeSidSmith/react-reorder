@@ -25,6 +25,12 @@ export class Kanban extends Component {
     };
   }
 
+  deleteList (index) {
+    this.setState({
+      lists: this.state.lists.delete(index)
+    });
+  }
+
   addItem (index) {
     let list = this.state.lists.getIn([index, 'items']);
     list = list.push(Immutable.Map({name: 'item-' + (itemInt += 1)}));
@@ -80,6 +86,9 @@ export class Kanban extends Component {
               >
                 <div className={classNames.kanbanHeader}>
                   {list.get('id')}
+                  <span className={classNames.delete} onClick={this.deleteList.bind(this, index)}>
+                    X
+                  </span>
                 </div>
                 <Reorder
                   reorderId={list.get('id')}
