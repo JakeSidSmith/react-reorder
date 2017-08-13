@@ -53,6 +53,44 @@
     return 0;
   }
 
+  function scrollParentsX (node) {
+    var parent = node.parentNode;
+
+    while (parent && parent !== document) {
+      var rect = parent.getBoundingClientRect();
+
+      var scrollOffsetX = getScrollOffsetX(rect, parent);
+
+      if (!scrollOffsetX) {
+        scrollParentsX(parent);
+      } else if (scrollOffsetX) {
+        parent.scrollLeft = parent.scrollLeft + scrollOffsetX;
+        return;
+      }
+
+      parent = parent.parentNode;
+    }
+  }
+
+  function scrollParentsY (node) {
+    var parent = node.parentNode;
+
+    while (parent && parent !== document) {
+      var rect = parent.getBoundingClientRect();
+
+      var scrollOffsetY = getScrollOffsetY(rect, parent);
+
+      if (!scrollOffsetY) {
+        scrollParentsX(parent);
+      } else if (scrollOffsetY) {
+        parent.scrollTop = parent.scrollTop + scrollOffsetY;
+        return;
+      }
+
+      parent = parent.parentNode;
+    }
+  }
+
   function Store () {
     var activeGroup, draggedId, placedId, draggedElement, scrollInterval, target;
 
@@ -70,7 +108,9 @@
         if (target.props.lock !== 'horizontal') {
           var scrollOffsetX = getScrollOffsetX(rect, target.rootNode);
 
-          if (scrollOffsetX) {
+          if (target.props.autoScrollParents && !scrollOffsetX) {
+            scrollParentsX(target.rootNode);
+          } else if (scrollOffsetX) {
             target.rootNode.scrollLeft = target.rootNode.scrollLeft + scrollOffsetX;
           }
         }
@@ -78,7 +118,9 @@
         if (target.props.lock !== 'vertical') {
           var scrollOffsetY = getScrollOffsetY(rect, target.rootNode);
 
-          if (scrollOffsetY) {
+          if (target.props.autoScrollParents && !scrollOffsetY) {
+            scrollParentsY(target.rootNode);
+          } else if (scrollOffsetY) {
             target.rootNode.scrollTop = target.rootNode.scrollTop + scrollOffsetY;
           }
         }
@@ -670,6 +712,7 @@
       onReorder: PropTypes.func,
       placeholder: PropTypes.element,
       autoScroll: PropTypes.bool,
+      autoScrollParents: PropTypes.bool,
       disabled: PropTypes.bool,
       disableContextMenus: PropTypes.bool
     };
@@ -688,6 +731,7 @@
       // onReorder: function,
       // placeholder: react element
       autoScroll: true,
+      autoScrollParents: true,
       disabled: false,
       disableContextMenus: true
     };
