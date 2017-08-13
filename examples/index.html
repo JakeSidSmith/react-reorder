@@ -32,7 +32,9 @@
     <p><small>Please enable javascript</small></p>
     <script charset="utf-8" type="text/javascript">
     (function () {
-      document.getElementById('loading').remove();
+      var element = document.getElementById('loading');
+      var parent = element.parentNode;
+      parent.removeChild(element);
     })();
     </script>
   </div>
