@@ -33,6 +33,7 @@
     "touch"
   ],
   "dependencies": {
+    "create-react-class": "^15.6.2",
     "lodash.assign": "*"
   },
   "devDependencies": {
