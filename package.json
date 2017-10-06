@@ -33,7 +33,6 @@
     "touch"
   ],
   "dependencies": {
-    "create-react-class": "^15.6.2",
     "lodash.assign": "*"
   },
   "devDependencies": {
@@ -58,7 +57,9 @@
     "react-style-sheets": "0.1.0",
     "sinon": "1.17.6",
     "sinon-chai": "2.8.0",
-    "watchify": "3.6.1"
+    "watchify": "3.6.1",
+    "create-react-class": "^15.6.2",
+    "prop-types": "^15.6.0"
   },
   "peerDependencies": {
     "react": "*"

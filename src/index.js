@@ -749,14 +749,20 @@
     if (!React.createClass) {
       React.createClass = require('create-react-class'); // eslint-disable-line no-undef
     }
+    if (!React.PropTypes) {
+      React.PropTypes = require('prop-types');
+    }
     var assign = require('lodash.assign'); // eslint-disable-line no-undef
     module.exports = withReorderMethods(getReorderComponent(React, ReactDOM, assign)); // eslint-disable-line no-undef
   // Export for amd / require
   } else if (typeof define === 'function' && define.amd) { // eslint-disable-line no-undef
-    define(['react', 'react-dom', 'lodash.assign', 'create-react-class'], // eslint-disable-line no-undef
-    function (ReactAMD, ReactDOMAMD, assignAMD, createClassAMD) {
+    define(['react', 'react-dom', 'lodash.assign', 'create-react-class', 'prop-types'], // eslint-disable-line no-undef
+    function (ReactAMD, ReactDOMAMD, assignAMD, createClassAMD, propTypesAMD) {
       if (!ReactAMD.createClass) {
         ReactAMD.createClass = createClassAMD; // eslint-disable-line no-undef
+      }
+      if (!ReactAMD.PropTypes) {
+        ReactAMD.PropTypes = propTypesAMD;
       }
       return withReorderMethods(getReorderComponent(ReactAMD, ReactDOMAMD, assignAMD));
     });
@@ -777,6 +783,11 @@
     if (!root.React.createClass) {
       root.React.createClass = root.createClass;
     }
+
+    if (!root.React.PropTypes) {
+      root.React.PropTypes = root.PropTypes;
+    }
+
 
     root.Reorder = withReorderMethods(getReorderComponent(root.React, root.ReactDOM, root.assign));
   }
