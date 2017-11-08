@@ -1,6 +1,8 @@
-# React Reorder
+# React Reorder (v2)
 
 __Drag & drop, touch enabled, reorder / sortable list, React component__
+
+If you are using v3 alpha, please refer to [this documentation](https://github.com/JakeSidSmith/react-reorder/blob/rework/README.md).
 
 ## About
 
