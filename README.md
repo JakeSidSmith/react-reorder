@@ -1,6 +1,10 @@
-# React Reorder [![CircleCI](https://circleci.com/gh/JakeSidSmith/react-reorder.svg?style=svg)](https://circleci.com/gh/JakeSidSmith/react-reorder)
+# React Reorder
 
 __Drag & drop, touch enabled, reorder / sortable list, React component__
+
+[![CircleCI](https://circleci.com/gh/JakeSidSmith/react-reorder.svg?style=svg)](https://circleci.com/gh/JakeSidSmith/react-reorder)
+
+If you are using v2, please refer to [this documentation](https://github.com/JakeSidSmith/react-reorder/blob/609de5a6be9ae7ea4b032b0b260b08bc524b362e/README.md).
 
 ## About
 
