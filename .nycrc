@@ -1,0 +1,26 @@
+{
+  "lines": 100,
+  "statements": 100,
+  "functions": 100,
+  "branches": 100,
+  "require": [],
+  "include": [
+    "src/**/*.js",
+    "tests/helpers/mount.js",
+    "tests/helpers/children-stub.js"
+  ],
+  "exclude": [],
+  "extension": [
+    ".js"
+  ],
+  "reporter": [
+    "lcov",
+    "text-summary"
+  ],
+  "cache": true,
+  "all": true,
+  "check-coverage": false,
+  "sourceMap": false,
+  "instrument": false,
+  "report-dir": "coverage"
+}

@@ -1,0 +1,4 @@
+--require babel-core/register
+--require tests/helpers/test-setup.js
+--bail
+--recursive

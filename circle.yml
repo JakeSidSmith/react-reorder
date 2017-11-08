@@ -1,0 +1,15 @@
+machine:
+  node:
+    version: 6.9.1
+
+general:
+  branches:
+    ignore:
+      - gh-pages
+
+deployment:
+  master:
+    branch: master
+    commands:
+      - npm run build
+      - scripts/deploy.sh

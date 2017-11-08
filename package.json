@@ -1,18 +1,20 @@
 {
   "name": "react-reorder",
-  "version": "2.2.1",
+  "version": "3.0.0-alpha.2",
   "description": "Drag & drop, touch enabled, reorderable / sortable list, React component",
   "author": "Jake 'Sid' Smith",
   "license": "MIT",
-  "main": "index.js",
+  "main": "src/index.js",
   "scripts": {
-    "start": "http-server examples/ -c-1 -o",
-    "build-less": "lessc examples/src/less/index.less examples/build/css/index.css && echo 'Less compiled'",
-    "build-js": "browserify examples/src/js/index.js -o examples/build/js/index.js",
-    "watch-js": "watchify examples/src/js/index.js -o examples/build/js/index.js -v",
-    "build-dirs": "mkdir -p examples/build/css/ && mkdir -p examples/build/js/",
-    "build": "npm run build-dirs && npm run build-less && npm run build-js",
-    "watch": "npm run watch-js"
+    "start": "./scripts/start",
+    "build-js": "browserify -t babelify examples/src/js/index.js -o examples/build/js/index.js",
+    "watch-js": "watchify -t babelify examples/src/js/index.js -o examples/build/js/index.js -v",
+    "build-dirs": "mkdir -p examples/build/js/",
+    "build": "npm run build-dirs && npm run build-js",
+    "watch": "npm run watch-js",
+    "lint": "eslint src/ tests/ examples/js/",
+    "mocha": "BABEL_ENV=mocha nyc mocha --opts .mocharc 'tests/**/*.test.js'",
+    "test": "npm run lint && npm run mocha"
   },
   "bugs": "https://github.com/JakeSidSmith/react-reorder/issues",
   "repository": {
@@ -31,18 +33,33 @@
     "touch"
   ],
   "dependencies": {
-    "create-react-class": "^15.5.2"
+    "lodash.assign": "*"
   },
   "devDependencies": {
-    "browserify": "=12.0.1",
-    "http-server": "=0.8.5",
-    "less": "=2.7.2",
-    "react": ">=0.14.7",
-    "react-dom": ">=0.14.7",
-    "watchify": "=3.6.1"
+    "babel-plugin-istanbul": "4.0.0",
+    "babel-preset-es2015": "6.18.0",
+    "babel-preset-react": "6.11.1",
+    "babelify": "7.3.0",
+    "browserify": "12.0.1",
+    "chai": "3.5.0",
+    "concurrently": "3.5.0",
+    "eslintrc": "git+https://github.com/JakeSidSmith/eslintrc.git#v2.1.0",
+    "http-server": "0.8.5",
+    "immutable": "3.8.1",
+    "jquery": "3.1.1",
+    "jsdom": "9.8.3",
+    "lodash.assign": "4.2.0",
+    "mocha": "3.2.0",
+    "nyc": "10.0.0",
+    "react": "15.4.1",
+    "react-addons-test-utils": "15.4.1",
+    "react-dom": "15.4.1",
+    "react-style-sheets": "0.1.0",
+    "sinon": "1.17.6",
+    "sinon-chai": "2.8.0",
+    "watchify": "3.6.1"
   },
   "peerDependencies": {
-    "react": "*",
-    "react-dom": "*"
+    "react": "*"
   }
 }
