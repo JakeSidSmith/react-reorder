@@ -59,95 +59,95 @@ __[Demo](http://jakesidsmith.github.io/react-reorder/)__
 
     **Note: If your array is an array of primitives (e.g. strings) then `itemKey` is not required as the string itself will be used as the key, however item keys must be unique in any case**
 
-  1. Using JSX
+      1. Using JSX
 
-      ```javascript
-      <Reorder
-        // The key of each object in your list to use as the element key
-        itemKey='name'
-        // Lock horizontal to have a vertical list
-        lock='horizontal'
-        // The milliseconds to hold an item for before dragging begins
-        holdTime='500'
-        // The list to display
-        list={[
-          {name: 'Item 1'},
-          {name: 'Item 2'},
-          {name: 'Item 3'}
-        ]}
-        // A template to display for each list item
-        template={ListItem}
-        // Function that is called once a reorder has been performed
-        callback={this.callback}
-        // Class to be applied to the outer list element
-        listClass='my-list'
-        // Class to be applied to each list item's wrapper element
-        itemClass='list-item'
-        // A function to be called if a list item is clicked (before hold time is up)
-        itemClicked={this.itemClicked}
-        // The item to be selected (adds 'selected' class)
-        selected={this.state.selected}
-        // The key to compare from the selected item object with each item object
-        selectedKey='uuid'
-        // Allows reordering to be disabled
-        disableReorder={false}
-      />
-      ```
+          ```javascript
+          <Reorder
+            // The key of each object in your list to use as the element key
+            itemKey='name'
+            // Lock horizontal to have a vertical list
+            lock='horizontal'
+            // The milliseconds to hold an item for before dragging begins
+            holdTime='500'
+            // The list to display
+            list={[
+              {name: 'Item 1'},
+              {name: 'Item 2'},
+              {name: 'Item 3'}
+            ]}
+            // A template to display for each list item
+            template={ListItem}
+            // Function that is called once a reorder has been performed
+            callback={this.callback}
+            // Class to be applied to the outer list element
+            listClass='my-list'
+            // Class to be applied to each list item's wrapper element
+            itemClass='list-item'
+            // A function to be called if a list item is clicked (before hold time is up)
+            itemClicked={this.itemClicked}
+            // The item to be selected (adds 'selected' class)
+            selected={this.state.selected}
+            // The key to compare from the selected item object with each item object
+            selectedKey='uuid'
+            // Allows reordering to be disabled
+            disableReorder={false}
+          />
+          ```
 
-  2. Using standard Javascript
+      2. Using standard Javascript
 
-      ```javascript
-      React.createElement(Reorder, {
-        // The key of each object in your list to use as the element key
-        itemKey: 'name',
-        // Lock horizontal to have a vertical list
-        lock: 'horizontal',
-        // The milliseconds to hold an item for before dragging begins
-        holdTime: '500',
-        // The list to display
-        list: [
-          {name: 'Item 1'},
-          {name: 'Item 2'},
-          {name: 'Item 3'}
-        ],
-        // A template to display for each list item
-        template: ListItem,
-        // Function that is called once a reorder has been performed
-        callback: this.callback,
-        // Class to be applied to the outer list element
-        listClass: 'my-list',
-        // Class to be applied to each list item's wrapper element
-        itemClass: 'list-item',
-        // A function to be called if a list item is clicked (before hold time is up)
-        itemClicked: this.itemClicked,
-        // The item to be selected (adds 'selected' class)
-        selected: this.state.selected,
-        // The key to compare from the selected item object with each item object
-        selectedKey: 'uuid',
-        // Allows reordering to be disabled
-        disableReorder: false
-      })
-      ```
+          ```javascript
+          React.createElement(Reorder, {
+            // The key of each object in your list to use as the element key
+            itemKey: 'name',
+            // Lock horizontal to have a vertical list
+            lock: 'horizontal',
+            // The milliseconds to hold an item for before dragging begins
+            holdTime: '500',
+            // The list to display
+            list: [
+              {name: 'Item 1'},
+              {name: 'Item 2'},
+              {name: 'Item 3'}
+            ],
+            // A template to display for each list item
+            template: ListItem,
+            // Function that is called once a reorder has been performed
+            callback: this.callback,
+            // Class to be applied to the outer list element
+            listClass: 'my-list',
+            // Class to be applied to each list item's wrapper element
+            itemClass: 'list-item',
+            // A function to be called if a list item is clicked (before hold time is up)
+            itemClicked: this.itemClicked,
+            // The item to be selected (adds 'selected' class)
+            selected: this.state.selected,
+            // The key to compare from the selected item object with each item object
+            selectedKey: 'uuid',
+            // Allows reordering to be disabled
+            disableReorder: false
+          })
+          ```
 
-5. Callback functions
+4. Callback functions
 
-  1. The `callback` function that is called once a reorder has been performed
+      1. The `callback` function that is called once a reorder has been performed
 
-      ```javascript
-      function callback(event, itemThatHasBeenMoved, itemsPreviousIndex, itemsNewIndex, reorderedArray) {
-        // ...
-      }
-      ```
+          ```javascript
+          function callback(event, itemThatHasBeenMoved, itemsPreviousIndex, itemsNewIndex, reorderedArray) {
+            // ...
+          }
+          ```
 
-  2. The `itemClicked` function that is called when an item is clicked before any dragging begins
+      2. The `itemClicked` function that is called when an item is clicked before any dragging begins
 
-      ```javascript
-      function itemClicked(event, itemThatHasBeenClicked, itemsIndex) {
-        // ...
-      }
-      ```
+          ```javascript
+          function itemClicked(event, itemThatHasBeenClicked, itemsIndex) {
+            // ...
+          }
+          ```
 
-      **Note: `event` will be the synthetic React event for either `mouseup` or `touchend`, and both contain `clientX` & `clientY` values (for ease of use)**
+          **Note: `event` will be the synthetic React event for either `mouseup` or `touchend`, and both contain `clientX` & `clientY` values (for ease of use)**
 
 ## Compatibility / Requirements
 
