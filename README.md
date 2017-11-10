@@ -57,7 +57,7 @@ __[Demo](http://jakesidsmith.github.io/react-reorder/)__
 
 3. Configuration
 
-  **Note: If your array is an array of primitives (e.g. strings) then `itemKey` is not required as the string itself will be used as the key, however item keys must be unique in any case**
+    **Note: If your array is an array of primitives (e.g. strings) then `itemKey` is not required as the string itself will be used as the key, however item keys must be unique in any case**
 
   1. Using JSX
 
