@@ -19,41 +19,41 @@ __[Demo](http://jakesidsmith.github.io/react-reorder/)__
 ## Installation
 
 * Using npm
-  ```shell
-  npm install react-reorder
-  ```
+    ```shell
+    npm install react-reorder
+    ```
     Add `--save` or `-S` to update your package.json
 
 * Using bower
-  ```shell
-  bower install react-reorder
-  ```
+    ```shell
+    bower install react-reorder
+    ```
     Add `--save` or `-S` to update your bower.json
 
 ## Example
 
 1. If using requirejs: add `react-reorder` to your `require.config`
 
-  ```javascript
-  paths:
-    // <name> : <path/to/module>
-    'react-reorder': 'react-reorder/reorder'
-  }
-  ```
+    ```javascript
+    paths:
+      // <name> : <path/to/module>
+      'react-reorder': 'react-reorder/reorder'
+    }
+    ```
 
 2. If using a module loader (requirejs / browserfiy / commonjs): require `react-reorder` where it will be used in your project
 
-  ```javascript
-  var Reorder = require('react-reorder');
-  ```
+    ```javascript
+    var Reorder = require('react-reorder');
+    ```
 
   If using requirejs you'll probably want to wrap your module e.g.
 
-  ```javascript
-  define(function (require) {
-    // Require react-reorder here
-  });
-  ```
+    ```javascript
+    define(function (require) {
+      // Require react-reorder here
+    });
+    ```
 
 3. Configuration
 
