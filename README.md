@@ -147,7 +147,7 @@ __[Demo](http://jakesidsmith.github.io/react-reorder/)__
       }
       ```
 
-    **Note: `event` will be the synthetic React event for either `mouseup` or `touchend`, and both contain `clientX` & `clientY` values (for ease of use)**
+      **Note: `event` will be the synthetic React event for either `mouseup` or `touchend`, and both contain `clientX` & `clientY` values (for ease of use)**
 
 ## Compatibility / Requirements
 
