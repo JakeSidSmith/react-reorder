@@ -47,7 +47,7 @@ __[Demo](http://jakesidsmith.github.io/react-reorder/)__
     var Reorder = require('react-reorder');
     ```
 
-  If using requirejs you'll probably want to wrap your module e.g.
+    If using requirejs you'll probably want to wrap your module e.g.
 
     ```javascript
     define(function (require) {
