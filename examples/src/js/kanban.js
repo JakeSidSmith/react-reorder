@@ -4,8 +4,8 @@ import Reorder, { reorderImmutable, reorderFromToImmutable } from '../../../src/
 
 import { classNames } from './styles';
 
-let listInt = 1;
-let itemInt = 1;
+let listInt = 0;
+let itemInt = 0;
 
 const Wrapper = (props) => (
   <ul {...props}>
@@ -18,16 +18,19 @@ export class Kanban extends Component {
     super();
 
     this.state = {
-      lists: Immutable.List.of(
-        Immutable.Map({
+      lists: Immutable.Range(0, 30).toList().map(function () {
+        listInt += 1;
+        itemInt += 1;
+
+        return Immutable.Map({
           id: 'list-' + listInt,
           items: Immutable.List.of(
             Immutable.Map({
               name: 'item-' + itemInt
             })
           )
-        })
-      )
+        });
+      })
     };
   }
 
