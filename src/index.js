@@ -92,7 +92,12 @@
   }
 
   function Store () {
-    var activeGroup, draggedId, placedId, draggedElement, scrollInterval, target;
+    var activeGroup = null;
+    var draggedId = null;
+    var placedId = null;
+    var draggedElement = null;
+    var scrollInterval = null;
+    var target = null;
 
     var draggedStyle = null;
     var draggedIndex = -1;
@@ -139,13 +144,29 @@
       };
     }
 
-    function trigger () {
-      reorderComponents[draggedId].setDragState(getState());
+    function trigger (clear) {
+      var state = getState();
+
+      if (clear) {
+        for (var i = 0; i < clear.length; i += 1) {
+          state[clear[i]] = null;
+        }
+      }
+
+      reorderComponents[draggedId].setDragState(state);
     }
 
-    function triggerGroup () {
+    function triggerGroup (clear) {
+      var state = getState();
+
+      if (clear) {
+        for (var i = 0; i < clear.length; i += 1) {
+          state[clear[i]] = null;
+        }
+      }
+
       for (var reorderId in reorderGroups[activeGroup]) {
-        reorderGroups[activeGroup][reorderId].setDragState(getState());
+        reorderGroups[activeGroup][reorderId].setDragState(state);
       }
     }
 
@@ -221,50 +242,48 @@
 
       draggedId = reorderId;
       placedId = reorderId;
-      activeGroup = undefined;
+      activeGroup = null;
 
       if (typeof reorderGroup !== 'undefined') {
         activeGroup = reorderGroup;
 
         triggerGroup();
-      } else if (typeof draggedId !== 'undefined' && reorderId === draggedId) {
+      } else if (draggedId !== null && reorderId === draggedId) {
         trigger();
       }
     }
 
     function stopDrag (reorderId, reorderGroup) {
-      target = undefined;
+      target = null;
 
       clearInterval(scrollInterval);
 
       validateComponentIdAndGroup(reorderId, reorderGroup);
 
-      if (typeof activeGroup !== 'undefined') {
+      if (activeGroup !== null) {
         if (reorderGroup === activeGroup) {
           draggedIndex = -1;
           placedIndex = -1;
           draggedStyle = null;
-          draggedElement = undefined;
+          draggedElement = null;
 
-          triggerGroup();
+          triggerGroup(['activeGroup']);
 
-          // These need to be cleared after trigger to allow state updates to these components
-          draggedId = undefined;
-          placedId = undefined;
-          activeGroup = undefined;
+          draggedId = null;
+          placedId = null;
+          activeGroup = null;
         }
-      } else if (typeof draggedId !== 'undefined' && reorderId === draggedId) {
+      } else if (draggedId !== null && reorderId === draggedId) {
         draggedIndex = -1;
         placedIndex = -1;
         draggedStyle = null;
-        draggedElement = undefined;
+        draggedElement = null;
 
-        trigger();
+        trigger(['activeGroup']);
 
-        // These need to be cleared after trigger to allow state updates to these components
-        draggedId = undefined;
-        placedId = undefined;
-        activeGroup = undefined;
+        draggedId = null;
+        placedId = null;
+        activeGroup = null;
       }
     }
 
@@ -280,7 +299,7 @@
 
           triggerGroup();
         }
-      } else if (typeof draggedId !== 'undefined' && reorderId === draggedId) {
+      } else if (draggedId !== null && reorderId === draggedId) {
         placedIndex = index;
 
         trigger();
@@ -296,7 +315,7 @@
 
           triggerGroup();
         }
-      } else if (typeof draggedId !== 'undefined' && reorderId === draggedId) {
+      } else if (draggedId !== null && reorderId === draggedId) {
         draggedStyle = style;
 
         trigger();
@@ -526,7 +545,7 @@
       onWindowUp: function (event) {
         clearTimeout(this.holdTimeout);
 
-        if (this.isDraggingFrom() && this.isDragging()) {
+        if (this.isDragging() && this.isDraggingFrom()) {
           var fromIndex = this.state.draggedIndex;
           var toIndex = this.state.placedIndex;
 
@@ -609,7 +628,30 @@
       },
 
       setDragState: function (state) {
-        this.setState(state);
+        var isPartOfGroup = this.props.reorderGroup;
+        var isGroupDragged = state.activeGroup;
+        var storedActiveGroup = this.state.activeGroup;
+
+        var wasGroupDragged = !isGroupDragged && storedActiveGroup;
+
+
+        var isActiveGroup = isPartOfGroup && isGroupDragged &&
+          state.activeGroup === this.props.reorderGroup;
+
+        var isDragged = this.props.reorderId === state.draggedId;
+        var isPlaced = this.props.reorderId === state.placedId;
+        var wasPlaced = this.props.reorderId === this.state.placedId;
+
+        // This check is like a shouldComponentUpdate but specific to our store state
+        // Allowing prop changes to update the component
+        if (
+          (!isGroupDragged && !isPartOfGroup && (isDragged || isPlaced)) ||
+          (isPartOfGroup && (!storedActiveGroup || wasGroupDragged)) ||
+          wasGroupDragged ||
+          (isActiveGroup && (isDragged || isPlaced || wasPlaced))
+        ) {
+          this.setState(state);
+        }
       },
 
       // Add listeners
