@@ -1,6 +1,6 @@
 {
   "name": "react-reorder",
-  "version": "3.0.0-alpha.2",
+  "version": "3.0.0-alpha.3",
   "description": "Drag & drop, touch enabled, reorderable / sortable list, React component",
   "author": "Jake 'Sid' Smith",
   "license": "MIT",
