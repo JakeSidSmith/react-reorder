@@ -267,6 +267,7 @@
           draggedStyle = null;
           draggedElement = null;
 
+          // These need to be cleared after trigger to allow state updates to these components
           triggerGroup(['activeGroup']);
 
           draggedId = null;
@@ -279,6 +280,7 @@
         draggedStyle = null;
         draggedElement = null;
 
+        // These need to be cleared after trigger to allow state updates to these components
         trigger(['activeGroup']);
 
         draggedId = null;
@@ -633,7 +635,6 @@
         var storedActiveGroup = this.state.activeGroup;
 
         var wasGroupDragged = !isGroupDragged && storedActiveGroup;
-
 
         var isActiveGroup = isPartOfGroup && isGroupDragged &&
           state.activeGroup === this.props.reorderGroup;
