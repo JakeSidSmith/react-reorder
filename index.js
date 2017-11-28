@@ -47,6 +47,13 @@
         var target = event.currentTarget;
         var rect = target.getBoundingClientRect();
 
+        // Allow Drag
+        if (typeof this.props.allowDrag === 'function') {
+          if (this.props.allowDrag(item, index) === false) {
+            return;
+          };
+        }
+
         this.setState({
           held: false,
           moved: false
@@ -252,6 +259,13 @@
           if (collision) {
             var previousIndex = listElements.indexOf(this.state.dragged.target);
             var newIndex = listElements.indexOf(collision);
+
+            // Allow Drop
+            if (typeof this.props.allowDrop === 'function') {
+              if (this.props.allowDrop(this.state.list[previousIndex], this.state.list[newIndex], newIndex, this.state.list) === false) {
+                return;
+              };
+            }
 
             this.state.list.splice(newIndex, 0, this.state.list.splice(previousIndex, 1)[0]);
             this.setState({list: this.state.list});
