@@ -17,9 +17,7 @@
     var top = (!props.lock || props.lock === 'horizontal') ? mouseOffset.clientY - mouseDown.clientY : 0;
     var left = (!props.lock || props.lock === 'vertical') ? mouseOffset.clientX - mouseDown.clientX : 0;
 
-    return {
-      transform: 'translate(' + left + 'px,' + top + 'px)'
-    };
+    return 'translate(' + left + 'px,' + top + 'px)';
   }
 
   function getScrollOffsetX (rect, node) {
@@ -622,8 +620,8 @@
 
           }
 
-          var draggedStyle = assign({}, this.state.draggedStyle, createOffsetStyles(event, this.props));
-          store.setDraggedStyle(this.props.reorderId, this.props.reorderGroup, draggedStyle);
+          this.state.draggedStyle.transform = createOffsetStyles(event, this.props);
+          store.setDraggedStyle(this.props.reorderId, this.props.reorderGroup, this.state.draggedStyle);
 
           mouseOffset = {
             clientX: event.clientX,
