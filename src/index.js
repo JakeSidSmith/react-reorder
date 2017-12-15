@@ -386,9 +386,9 @@
     return Reorder;
   }
 
-  function getReorderComponent (React, ReactDOM, assign) {
+  function getReorderComponent (React, ReactDOM, createReactClass, assign) {
 
-    var Reorder = React.createClass({
+    var Reorder = createReactClass({
       displayName: 'Reorder',
 
       getInitialState: function () {
@@ -790,13 +790,17 @@
   if (typeof exports === 'object' && typeof module !== 'undefined') {
     var React = require('react'); // eslint-disable-line no-undef
     var ReactDOM = require('react-dom'); // eslint-disable-line no-undef
+    var createReactClass = require('create-react-class'); // eslint-disable-line no-undef
     var assign = require('lodash.assign'); // eslint-disable-line no-undef
-    module.exports = withReorderMethods(getReorderComponent(React, ReactDOM, assign)); // eslint-disable-line no-undef
+    module.exports = withReorderMethods(getReorderComponent(React, ReactDOM, createReactClass, assign)); // eslint-disable-line no-undef
   // Export for amd / require
   } else if (typeof define === 'function' && define.amd) { // eslint-disable-line no-undef
-    define(['react', 'react-dom', 'lodash.assign'], function (ReactAMD, ReactDOMAMD, assignAMD) { // eslint-disable-line no-undef
-      return withReorderMethods(getReorderComponent(ReactAMD, ReactDOMAMD, assignAMD));
-    });
+    define( // eslint-disable-line no-undef
+      ['react', 'react-dom', 'create-react-class', 'lodash.assign'],
+      function (ReactAMD, ReactDOMAMD, createReactClassAMD, assignAMD) {
+        return withReorderMethods(getReorderComponent(ReactAMD, ReactDOMAMD, createReactClassAMD, assignAMD));
+      }
+    );
   // Export globally
   } else {
     var root;
@@ -811,7 +815,9 @@
       root = this;
     }
 
-    root.Reorder = withReorderMethods(getReorderComponent(root.React, root.ReactDOM, root.assign));
+    root.Reorder = withReorderMethods(
+      getReorderComponent(root.React, root.ReactDOM, root.createReactClass, root.assign)
+    );
   }
 
 })();

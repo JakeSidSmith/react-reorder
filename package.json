@@ -1,6 +1,6 @@
 {
   "name": "react-reorder",
-  "version": "3.0.0-alpha.4",
+  "version": "3.0.0-alpha.5",
   "description": "Drag & drop, touch enabled, reorderable / sortable list, React component",
   "author": "Jake 'Sid' Smith",
   "license": "MIT",
@@ -33,6 +33,7 @@
     "touch"
   ],
   "dependencies": {
+    "create-react-class": "*",
     "lodash.assign": "*"
   },
   "devDependencies": {
