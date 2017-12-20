@@ -666,6 +666,11 @@
         window.addEventListener('contextmenu', this.preventContextMenu, {passive: false});
       },
 
+      // Store root node
+      componentDidMount: function () {
+        this.storeRootNode();
+      },
+
       // Remove listeners
       componentWillUnmount: function () {
         store.unregisterReorderComponent(this);
@@ -678,8 +683,8 @@
         window.removeEventListener('contextmenu', this.preventContextMenu);
       },
 
-      storeRootNode: function (element) {
-        element = element || ReactDOM.findDOMNode(this);
+      storeRootNode: function () {
+        var element = ReactDOM.findDOMNode(this);
         this.rootNode = element;
 
         if (typeof this.props.getRef === 'function') {
@@ -731,10 +736,7 @@
             className: this.props.className,
             id: this.props.id,
             style: this.props.style,
-            onClick: this.props.onClick,
-            ref: this.props.component &&
-              (typeof this.props.component === 'string' || this.props.component.prototype instanceof React.Component) ?
-              this.storeRootNode : undefined
+            onClick: this.props.onClick
           },
           children
         );
