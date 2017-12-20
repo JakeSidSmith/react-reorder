@@ -44,7 +44,7 @@
     "browserify": "12.0.1",
     "chai": "3.5.0",
     "concurrently": "3.5.0",
-    "eslintrc": "git+https://github.com/JakeSidSmith/eslintrc.git#v2.1.0",
+    "eslint-config-jakesidsmith": "github:jakesidsmith/eslint-config-jakesidsmith#v2.1.0",
     "http-server": "0.8.5",
     "immutable": "3.8.1",
     "jquery": "3.1.1",
