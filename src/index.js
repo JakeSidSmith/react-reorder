@@ -386,7 +386,7 @@
     return Reorder;
   }
 
-  function getReorderComponent (React, ReactDOM, createReactClass, assign) {
+  function getReorderComponent (React, ReactDOM, createReactClass, PropTypes, assign) {
 
     var Reorder = createReactClass({
       displayName: 'Reorder',
@@ -732,15 +732,15 @@
             id: this.props.id,
             style: this.props.style,
             onClick: this.props.onClick,
-            ref: this.storeRootNode
+            ref: this.props.component &&
+              (typeof this.props.component === 'string' || this.props.component.prototype instanceof React.Component) ?
+              this.storeRootNode : undefined
           },
           children
         );
       }
 
     });
-
-    var PropTypes = React.PropTypes;
 
     Reorder.propTypes = {
       component: PropTypes.oneOfType([PropTypes.func, PropTypes.string]),
@@ -791,14 +791,19 @@
     var React = require('react'); // eslint-disable-line no-undef
     var ReactDOM = require('react-dom'); // eslint-disable-line no-undef
     var createReactClass = require('create-react-class'); // eslint-disable-line no-undef
+    var PropTypes = require('prop-types'); // eslint-disable-line no-undef
     var assign = require('lodash.assign'); // eslint-disable-line no-undef
-    module.exports = withReorderMethods(getReorderComponent(React, ReactDOM, createReactClass, assign)); // eslint-disable-line no-undef
+    module.exports = withReorderMethods( // eslint-disable-line no-undef
+      getReorderComponent(React, ReactDOM, createReactClass, PropTypes, assign)
+    );
   // Export for amd / require
   } else if (typeof define === 'function' && define.amd) { // eslint-disable-line no-undef
     define( // eslint-disable-line no-undef
-      ['react', 'react-dom', 'create-react-class', 'lodash.assign'],
-      function (ReactAMD, ReactDOMAMD, createReactClassAMD, assignAMD) {
-        return withReorderMethods(getReorderComponent(ReactAMD, ReactDOMAMD, createReactClassAMD, assignAMD));
+      ['react', 'react-dom', 'create-react-class', 'prop-types', 'lodash.assign'],
+      function (ReactAMD, ReactDOMAMD, createReactClassAMD, PropTypesAMD, assignAMD) {
+        return withReorderMethods(
+          getReorderComponent(ReactAMD, ReactDOMAMD, createReactClassAMD, PropTypesAMD, assignAMD)
+        );
       }
     );
   // Export globally
@@ -816,7 +821,7 @@
     }
 
     root.Reorder = withReorderMethods(
-      getReorderComponent(root.React, root.ReactDOM, root.createReactClass, root.assign)
+      getReorderComponent(root.React, root.ReactDOM, root.createReactClass, root.PropTypes, root.assign)
     );
   }
 
