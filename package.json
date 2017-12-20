@@ -34,7 +34,6 @@
   ],
   "dependencies": {
     "create-react-class": "*",
-    "lodash.assign": "*",
     "prop-types": "*"
   },
   "devDependencies": {
@@ -50,7 +49,6 @@
     "immutable": "3.8.1",
     "jquery": "3.1.1",
     "jsdom": "9.8.3",
-    "lodash.assign": "4.2.0",
     "mocha": "3.2.0",
     "nyc": "10.0.0",
     "prop-types": "15.6.0",

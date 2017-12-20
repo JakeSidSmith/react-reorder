@@ -386,7 +386,31 @@
     return Reorder;
   }
 
-  function getReorderComponent (React, ReactDOM, createReactClass, PropTypes, assign) {
+  function assign () {
+    var args = Array.prototype.slice.call(arguments);
+
+    if (!args.length) {
+      return undefined;
+    }
+
+    if (args.length === 1) {
+      return args[0];
+    }
+
+    var obj = args.shift();
+
+    while (args.length) {
+      var arg = args.shift();
+
+      for (var key in arg) {
+        obj[key] = arg[key];
+      }
+    }
+
+    return obj;
+  }
+
+  function getReorderComponent (React, ReactDOM, createReactClass, PropTypes) {
 
     var Reorder = createReactClass({
       displayName: 'Reorder',
@@ -794,17 +818,16 @@
     var ReactDOM = require('react-dom'); // eslint-disable-line no-undef
     var createReactClass = require('create-react-class'); // eslint-disable-line no-undef
     var PropTypes = require('prop-types'); // eslint-disable-line no-undef
-    var assign = require('lodash.assign'); // eslint-disable-line no-undef
     module.exports = withReorderMethods( // eslint-disable-line no-undef
-      getReorderComponent(React, ReactDOM, createReactClass, PropTypes, assign)
+      getReorderComponent(React, ReactDOM, createReactClass, PropTypes)
     );
   // Export for amd / require
   } else if (typeof define === 'function' && define.amd) { // eslint-disable-line no-undef
     define( // eslint-disable-line no-undef
-      ['react', 'react-dom', 'create-react-class', 'prop-types', 'lodash.assign'],
-      function (ReactAMD, ReactDOMAMD, createReactClassAMD, PropTypesAMD, assignAMD) {
+      ['react', 'react-dom', 'create-react-class', 'prop-types'],
+      function (ReactAMD, ReactDOMAMD, createReactClassAMD, PropTypesAMD) {
         return withReorderMethods(
-          getReorderComponent(ReactAMD, ReactDOMAMD, createReactClassAMD, PropTypesAMD, assignAMD)
+          getReorderComponent(ReactAMD, ReactDOMAMD, createReactClassAMD, PropTypesAMD)
         );
       }
     );
@@ -823,7 +846,7 @@
     }
 
     root.Reorder = withReorderMethods(
-      getReorderComponent(root.React, root.ReactDOM, root.createReactClass, root.PropTypes, root.assign)
+      getReorderComponent(root.React, root.ReactDOM, root.createReactClass, root.PropTypes)
     );
   }
 
