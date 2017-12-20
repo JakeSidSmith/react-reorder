@@ -172,12 +172,9 @@ describe('basic', function () {
 
       const wrapper = mount(<Reorder reorderId="id" />);
 
-      expect(addEventListenerSpy).to.have.been.called;
-      expect(removeEventListenerSpy).not.to.have.been.called;
-      expect(addEventListenerSpy.callCount).to.equal(events.length);
-
       events.forEach(function (event) {
         expect(addEventListenerSpy).to.have.been.calledWith(event);
+        expect(removeEventListenerSpy).not.to.have.been.calledWith(event);
       });
 
       addEventListenerSpy.reset();
@@ -185,11 +182,8 @@ describe('basic', function () {
 
       wrapper.unmount();
 
-      expect(addEventListenerSpy).not.to.have.been.called;
-      expect(removeEventListenerSpy).to.have.been.called;
-      expect(removeEventListenerSpy.callCount).to.equal(events.length);
-
       events.forEach(function (event) {
+        expect(addEventListenerSpy).not.to.have.been.calledWith(event);
         expect(removeEventListenerSpy).to.have.been.calledWith(event);
       });
 

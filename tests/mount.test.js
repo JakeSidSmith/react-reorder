@@ -1,5 +1,6 @@
 import { expect } from 'chai';
 import { spy } from 'sinon';
+import createReactClass from 'create-react-class';
 import mount from './helpers/mount';
 import React, { Component } from 'react';
 
@@ -43,7 +44,7 @@ describe('mount', function () {
     }
   }
 
-  const AnotherComponent = React.createClass({
+  const AnotherComponent = createReactClass({
     render: function () {
       return <div />;
     }
