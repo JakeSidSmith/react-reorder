@@ -15,7 +15,8 @@ export class LockHorizontal extends Component {
           color: ['rgb(', (value + 1) * 25, ',', 250 - ((value + 1) * 25), ',0)'].join('')
         };
       })),
-      prefix: 'Prefix'
+      prefix: 'Prefix',
+      clickedItem: null
     };
   }
 
@@ -35,6 +36,12 @@ export class LockHorizontal extends Component {
     });
   }
 
+  onClickItem (name) {
+    this.setState({
+      clickedItem: name
+    });
+  }
+
   render () {
     return (
       <div className={classNames.clearfix}>
@@ -50,7 +57,12 @@ export class LockHorizontal extends Component {
         </p>
         <p>
           {'Prefix: '}
-          <input type="text" value={this.state.prefix} onChange={this.onPrefixChange.bind(this)} />
+          <input
+            type="text"
+            value={this.state.prefix}
+            onChange={this.onPrefixChange.bind(this)}
+          />{' '}
+          Last item clicked: {this.state.clickedItem}
         </p>
 
         <Reorder
@@ -70,6 +82,7 @@ export class LockHorizontal extends Component {
                 key={name}
                 className={classNames.listItem}
                 style={{ color: color }}
+                onClick={this.onClickItem.bind(this, name)}
               >
                 <div className={classNames.contentHolder}>
                   <span className={classNames.itemName}>

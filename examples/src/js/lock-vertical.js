@@ -15,7 +15,8 @@ export class LockVertical extends Component {
           color: ['rgb(', (value + 1) * 25, ',', 250 - ((value + 1) * 25), ',0)'].join('')
         };
       })),
-      prefix: 'Prefix'
+      prefix: 'Prefix',
+      clickedItem: null
     };
   }
 
@@ -41,6 +42,12 @@ export class LockVertical extends Component {
     });
   }
 
+  onClickItem (name) {
+    this.setState({
+      clickedItem: name
+    });
+  }
+
   render () {
     return (
       <div className={classNames.clearfix}>
@@ -56,8 +63,8 @@ export class LockVertical extends Component {
             type="checkbox"
             value={this.state.disableReorder || false}
             onChange={this.onDisableToggle.bind(this)}
-          />
-          Last item clicked: {this.state.clickedItem2 ? this.state.clickedItem2.name : undefined}
+          />{' '}
+          Last item clicked: {this.state.clickedItem}
         </p>
 
         <Reorder
@@ -77,6 +84,7 @@ export class LockVertical extends Component {
                 key={name}
                 className={[classNames.listItem, classNames.listItem2].join(' ')}
                 style={{color: color}}
+                onClick={this.onClickItem.bind(this, name)}
               >
                 {name}
               </li>
