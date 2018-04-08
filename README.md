@@ -102,7 +102,7 @@ import { reorder, reorderImmutable, reorderFromTo, reorderFromToImmutable } from
 
 onReorder (event, previousIndex, nextIndex, fromId, toId) {
   this.setState({
-    myList: reorder(this.state.myList, fromIndex, toIndex);
+    myList: reorder(this.state.myList, previousIndex, nextIndex);
   });
 }
 
