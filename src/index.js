@@ -680,18 +680,14 @@
         }
       },
 
-      // Add listeners
-      componentWillMount: function () {
+      // Add listeners and store root node
+      componentDidMount: function () {
         store.registerReorderComponent(this);
         window.addEventListener('mouseup', this.onWindowUp, {passive: false});
         window.addEventListener('touchend', this.onWindowUp, {passive: false});
         window.addEventListener('mousemove', this.onWindowMove, {passive: false});
         window.addEventListener('touchmove', this.onWindowMove, {passive: false});
         window.addEventListener('contextmenu', this.preventContextMenu, {passive: false});
-      },
-
-      // Store root node
-      componentDidMount: function () {
         this.storeRootNode();
       },
 
