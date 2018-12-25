@@ -10,7 +10,7 @@
     "build-less": "lessc examples/src/less/index.less examples/build/css/index.css && echo 'Less compiled'",
     "build-js": "browserify examples/src/js/index.js -o examples/build/js/index.js",
     "watch-js": "watchify examples/src/js/index.js -o examples/build/js/index.js -v",
-    "build-dirs": "mkdir -p examples/build/css/ && mkdir -p examples/build/js/",
+    "build-dirs": "mkdirp examples/build/css/ && mkdirp examples/build/js/",
     "build": "npm run build-dirs && npm run build-less && npm run build-js",
     "watch": "npm run watch-js"
   },
@@ -37,6 +37,7 @@
     "browserify": "=12.0.1",
     "http-server": "=0.8.5",
     "less": "=2.7.2",
+    "mkdirp": "^0.5.1",
     "react": ">=0.14.7",
     "react-dom": ">=0.14.7",
     "watchify": "=3.6.1"
