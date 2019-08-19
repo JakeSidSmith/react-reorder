@@ -520,7 +520,9 @@
 
       startDrag: function (event, target, index) {
         if (!this.moved) {
-          this.props.startDrag()
+          if (this.props.startDrag)
+            this.props.startDrag()
+          
           var rect = target.getBoundingClientRect();
 
           var draggedStyle = {
@@ -579,7 +581,8 @@
       onWindowUp: function (event) {
         clearTimeout(this.holdTimeout);
         
-        this.props.stopDrag()
+        if (this.props.stopDrag)
+          this.props.stopDrag()
 
         if (this.isDragging() && this.isDraggingFrom()) {
           var fromIndex = this.state.draggedIndex;
