@@ -1,0 +1,12 @@
+{
+  "presets": [
+    "react"
+  ],
+  "env": {
+    "mocha": {
+      "plugins": [
+        "istanbul"
+      ]
+    }
+  }
+}
