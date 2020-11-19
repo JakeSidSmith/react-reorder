@@ -527,7 +527,8 @@
             top: rect.top,
             left: rect.left,
             width: rect.width,
-            height: rect.height
+            height: rect.height,
+            zIndex: 100,
           };
 
           store.startDrag(this.props.reorderId, this.props.reorderGroup, index, this.props.children[index], this);
