@@ -130,3 +130,7 @@ onReorderGroup (event, previousIndex, nextIndex, fromId, toId) {
 ## Compatibility / Requirements
 
 * Version `3.x` tested and working with React `15`, but should be backward compatible at least a couple of versions.
+
+## Weird Scrolling Behavior?
+
+It is recommended that you apply `overflow-anchor: none;` to any parent elements with overflow auto (including on either of just the x/y axis) to prevent unwanted auto-scrolling, or surprisingly fast auto-scrolling.
