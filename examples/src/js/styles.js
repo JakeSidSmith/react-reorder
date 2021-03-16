@@ -64,10 +64,12 @@ export const classNames = ReactStyleSheets.createUniqueClassStyles({
   myList1: {
     height: 200,
     overflow: 'auto',
+    overflowAnchor: 'none',
     paddingBottom: 0
   },
   myList2: {
     overflowX: 'auto',
+    overflowAnchor: 'none',
     overflowY: 'hidden',
     height: 62,
     whiteSpace: 'nowrap'
@@ -78,7 +80,8 @@ export const classNames = ReactStyleSheets.createUniqueClassStyles({
     minHeight: 100,
     maxHeight: 400,
     overflowX: 'hidden',
-    overflowY: 'auto'
+    overflowY: 'auto',
+    overflowAnchor: 'none'
   },
   listItem: {
     float: 'left',
@@ -131,7 +134,8 @@ export const classNames = ReactStyleSheets.createUniqueClassStyles({
   kanban: {
     overflowY: 'auto',
     height: 300,
-    whiteSpace: 'nowrap'
+    whiteSpace: 'nowrap',
+    overflowAnchor: 'none'
   },
   kanbanListOuter: {
     width: 200,
@@ -150,6 +154,7 @@ export const classNames = ReactStyleSheets.createUniqueClassStyles({
     maxHeight: 200,
     overflowX: 'hidden',
     overflowY: 'auto',
+    overflowAnchor: 'none',
     margin: 0
   },
   kanbanItem: {
