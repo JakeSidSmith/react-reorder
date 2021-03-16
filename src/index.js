@@ -520,6 +520,9 @@
 
       startDrag: function (event, target, index) {
         if (!this.moved) {
+          if (this.props.startDrag)
+            this.props.startDrag()
+          
           var rect = target.getBoundingClientRect();
 
           var draggedStyle = {
@@ -577,6 +580,9 @@
       // Stop dragging - reset style & draggedIndex, handle reorder
       onWindowUp: function (event) {
         clearTimeout(this.holdTimeout);
+        
+        if (this.props.stopDrag)
+          this.props.stopDrag()
 
         if (this.isDragging() && this.isDraggingFrom()) {
           var fromIndex = this.state.draggedIndex;
@@ -780,7 +786,9 @@
       autoScroll: PropTypes.bool,
       autoScrollParents: PropTypes.bool,
       disabled: PropTypes.bool,
-      disableContextMenus: PropTypes.bool
+      disableContextMenus: PropTypes.bool,
+      startDrag: PropTypes.func,
+      stopDrag: PropTypes.func
     };
 
     Reorder.defaultProps = {
