@@ -13,11 +13,22 @@
   var mouseOffset = null;
   var mouseDown = null;
 
+  function throttle (fn, delay) {
+    var throttleTime = 0;
+    return function () {
+      var now = new Date();
+      if (now - throttleTime >= delay) {
+        fn.apply(this, arguments);
+        throttleTime = now;
+      }
+    };
+  }
+
   function createOffsetStyles (event, props) {
     var top = (!props.lock || props.lock === 'horizontal') ? mouseOffset.clientY - mouseDown.clientY : 0;
     var left = (!props.lock || props.lock === 'vertical') ? mouseOffset.clientX - mouseDown.clientX : 0;
 
-    return 'translate(' + left + 'px,' + top + 'px)';
+    return 'translate3d(' + left + 'px,' + top + 'px, 0px)';
   }
 
   function getScrollOffsetX (rect, node) {
@@ -68,13 +79,12 @@
 
       var scrollOffsetX = getScrollOffsetX(rect, parent);
 
-      if (!scrollOffsetX) {
-        scrollParentsX(parent);
-      } else if (scrollOffsetX) {
+      if (scrollOffsetX) {
         parent.scrollLeft = parent.scrollLeft + scrollOffsetX;
         return;
       }
-
+        
+      scrollParentsX(parent);
       parent = parent.parentNode;
     }
   }
@@ -87,13 +97,12 @@
 
       var scrollOffsetY = getScrollOffsetY(rect, parent);
 
-      if (!scrollOffsetY) {
-        scrollParentsX(parent);
-      } else if (scrollOffsetY) {
+      if (scrollOffsetY) {
         parent.scrollTop = parent.scrollTop + scrollOffsetY;
         return;
       }
-
+   
+      scrollParentsX(parent);
       parent = parent.parentNode;
     }
   }
@@ -528,7 +537,7 @@
             left: rect.left,
             width: rect.width,
             height: rect.height,
-            zIndex: 100,
+            zIndex: 100
           };
 
           store.startDrag(this.props.reorderId, this.props.reorderGroup, index, this.props.children[index], this);
@@ -606,7 +615,7 @@
       },
 
       // Update dragged position & placeholder index, invalidate drag if moved
-      onWindowMove: function (event) {
+      onWindowMoveHandler: function (event) {
         this.copyTouchKeys(event);
 
         if (
@@ -624,7 +633,6 @@
           var element = this.rootNode;
 
           if (this.collidesWithElement(event, element)) {
-
             var children = element.childNodes;
             var collisionIndex = this.findCollisionIndex(event, children);
 
@@ -642,7 +650,6 @@
             ) {
               store.setPlacedIndex(this.props.reorderId, this.props.reorderGroup, 0, this);
             }
-
           }
 
           this.state.draggedStyle.transform = createOffsetStyles(event, this.props);
@@ -653,6 +660,10 @@
             clientY: event.clientY
           };
         }
+      },
+
+      onWindowMove: function (event) {
+        return throttle(this.onWindowMoveHandler(event).bind(this), 20);
       },
 
       setDragState: function (state) {
@@ -684,6 +695,7 @@
       // Add listeners and store root node
       componentDidMount: function () {
         store.registerReorderComponent(this);
+
         window.addEventListener('mouseup', this.onWindowUp, {passive: false});
         window.addEventListener('touchend', this.onWindowUp, {passive: false});
         window.addEventListener('mousemove', this.onWindowMove, {passive: false});
@@ -798,7 +810,9 @@
       // onReorder: function,
       // placeholder: react element
       autoScroll: true,
-      autoScrollParents: true,
+
+      // This is very slow if nested > 8 levels deep in DOM, avoid using
+      autoScrollParents: false,
       disabled: false,
       disableContextMenus: true
     };
