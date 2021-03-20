@@ -663,7 +663,7 @@
       },
 
       onWindowMove: function (event) {
-        return throttle(this.onWindowMoveHandler(event).bind(this), 20);
+        return throttle(this.onWindowMoveHandler(event), 20);
       },
 
       setDragState: function (state) {
@@ -778,7 +778,11 @@
     });
 
     Reorder.propTypes = {
-      component: PropTypes.oneOfType([PropTypes.func, PropTypes.string]),
+      component: PropTypes.oneOfType([
+        PropTypes.func, 
+        PropTypes.object, 
+        PropTypes.string,
+      ]),
       getRef: PropTypes.func,
       reorderId: PropTypes.string,
       reorderGroup: PropTypes.string,
