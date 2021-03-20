@@ -20,11 +20,17 @@ class Main extends Component {
           Examples
         </h2>
 
-        <Kanban />
-        <LockHorizontal />
-        <LockVertical />
-        <Grid />
-        <MultiList />
+        <p>
+          Adding extra nesting levels to identify performance impact
+          (i.e. when autoScrollParents = true)
+        </p>
+        <div><div><div><div><div><div><div><div><div><div>
+          <Kanban />
+          <LockHorizontal />
+          <LockVertical />
+          <Grid />
+          <MultiList />
+        </div></div></div></div></div></div></div></div></div></div>
 
       </div>
     );
