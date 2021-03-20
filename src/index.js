@@ -554,7 +554,9 @@
         if (event.button === 2 || this.props.disabled) {
           return;
         }
-
+        
+        event.stopPropagation()
+        
         this.copyTouchKeys(event);
 
         this.moved = false;
