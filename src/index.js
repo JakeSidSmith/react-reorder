@@ -663,7 +663,7 @@
       },
 
       onWindowMove: function (event) {
-        return throttle(this.onWindowMoveHandler(event).bind(this), 20);
+        return throttle(this.onWindowMoveHandler(event), 20);
       },
 
       setDragState: function (state) {
