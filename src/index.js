@@ -246,6 +246,11 @@
     function startDrag (reorderId, reorderGroup, index, element, component) {
       target = component;
 
+      // Disable draggin for items with [disabled] props
+      if (element.props.disabled) {
+        return;
+      }
+
       clearInterval(scrollInterval);
       scrollInterval = setInterval(autoScroll, CONSTANTS.SCROLL_INTERVAL);
 
@@ -483,7 +488,11 @@
 
       findCollisionIndex: function (event, listElements) {
         for (var i = 0; i < listElements.length; i += 1) {
-          if (!listElements[i].getAttribute('data-placeholder') && !listElements[i].getAttribute('data-dragged')) {
+          if (
+            !listElements[i].getAttribute('data-placeholder')
+            && !listElements[i].getAttribute('data-dragged')
+            && !listElements[i].hasAttribute('disabled')
+          ) {
 
             var rect = listElements[i].getBoundingClientRect();
 
@@ -751,8 +760,8 @@
         var placeholderElement = this.props.placeholder || this.state.draggedElement;
 
         if (this.props.disableDrop) {
-          // Render item clone at the same position
-          if (this.isPlacing()) {
+          // Only render item clone at the same position when draggin from the list
+          if (this.isPlacing() && this.isDraggingFrom()) {
             var placeholder = React.cloneElement(
               this.state.draggedElement,
               {

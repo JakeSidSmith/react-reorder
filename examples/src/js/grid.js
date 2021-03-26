@@ -45,13 +45,15 @@ export class Grid extends Component {
           onReorder={this.onReorder.bind(this)}
         >
           {
-            this.state.list.map(({name, color}) => (
+            this.state.list.map(({name, color}, idx) => (
               <li
+                disabled={idx === 0 || idx === 9}
                 key={name}
                 className={[classNames.listItem, classNames.listItem3].join(' ')}
                 style={{color: color}}
               >
                 {name}
+                {(idx === 0 || idx === 9) && ' (disabled)'}
               </li>
             )).toArray()
           }
