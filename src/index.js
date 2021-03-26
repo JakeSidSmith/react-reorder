@@ -627,7 +627,7 @@
           this.moved = true;
         }
 
-        if (this.isDragging() && this.isInvolvedInDragging()) {
+        if (!this.props.disableDrop && this.isDragging() && this.isInvolvedInDragging()) {
           this.preventNativeScrolling(event);
 
           var element = this.rootNode;
@@ -750,17 +750,33 @@
 
         var placeholderElement = this.props.placeholder || this.state.draggedElement;
 
-        if (this.isPlacing() && this.isPlacingTo() && placeholderElement) {
-          var placeholder = React.cloneElement(
-            placeholderElement,
-            {
-              key: 'react-reorder-placeholder',
-              className: [placeholderElement.props.className || '', this.props.placeholderClassName].join(' '),
-              'data-placeholder': true
-            }
-          );
+        if (this.props.disableDrop) {
+          // Render item clone at the same position
+          if (this.isPlacing()) {
+            var placeholder = React.cloneElement(
+              this.state.draggedElement,
+              {
+                key: 'react-reorder-placeholder',
+                className: [placeholderElement.props.className || '', this.props.placeholderClassName].join(' '),
+                'data-placeholder': true
+              }
+            );
 
-          children.splice(this.state.placedIndex, 0, placeholder);
+            children.splice(this.state.draggedIndex, 0, placeholder);
+          }
+        } else {
+          if (this.isPlacing() && this.isPlacingTo() && placeholderElement) {
+            var placeholder = React.cloneElement(
+              placeholderElement,
+              {
+                key: 'react-reorder-placeholder',
+                className: [placeholderElement.props.className || '', this.props.placeholderClassName].join(' '),
+                'data-placeholder': true
+              }
+            );
+
+            children.splice(this.state.placedIndex, 0, placeholder);
+          }
         }
 
         return React.createElement(
@@ -797,7 +813,8 @@
       autoScroll: PropTypes.bool,
       autoScrollParents: PropTypes.bool,
       disabled: PropTypes.bool,
-      disableContextMenus: PropTypes.bool
+      disableContextMenus: PropTypes.bool,
+      disableDrop: PropTypes.bool
     };
 
     Reorder.defaultProps = {
@@ -818,7 +835,8 @@
       // This is very slow if nested > 8 levels deep in DOM, avoid using
       autoScrollParents: false,
       disabled: false,
-      disableContextMenus: true
+      disableContextMenus: true,
+      disableDrop: false
     };
 
     return Reorder;
